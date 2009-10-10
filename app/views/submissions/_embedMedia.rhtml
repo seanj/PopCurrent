@@ -1,0 +1,51 @@
+<% if bShowFullDescription %>
+	<% if @submission.url.downcase.include?('youtube.com') && @submission.url.downcase.include?('v=') %>
+		<object width="425" height="350"><param name="movie" value="http://www.youtube.com/v/<%= h(@submission.url.split('v=').last) %>"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/<%= h(@submission.url.split('v=').last.split('&').first) %>" type="application/x-shockwave-flash" wmode="transparent" width="425" height="350"></embed></object>
+	<% elsif @submission.url.downcase.include?('revver.com') && (@submission.url.downcase.include?('watch/') || @submission.url.downcase.include?('id=') || @submission.url.downcase.include?('broadcast') || @submission.url.downcase.include?('.mov'))%>
+		<% if @submission.url.downcase.include?('watch/') %>
+			<% revver_id = h(@submission.url.split('watch/').last.split('/').first) %>
+		<% elsif @submission.url.downcase.include?('broadcast') %>
+			<% revver_id = h(@submission.url.split('broadcast/').last.split('/').first)%>
+		<% elsif @submission.url.downcase.include?('.mov') %>
+			<% revver_id = h(@submission.url.split('/').last.split('.mov').first) %>
+		<% else %>
+			<% revver_id = h(@submission.url.split('id=').last.split('/').first) %>
+		<%end%>
+		<embed type="application/x-shockwave-flash" src="http://flash.revver.com/player/1.0/player.swf" pluginspage="http://www.macromedia.com/go/getflashplayer" scale="noScale" salign="TL" bgcolor="#ffffff" flashvars="width=480&height=392&mediaId=<%= revver_id %>&affiliateId=0&javascriptContext=true&skinURL=http://flash.revver.com/player/1.0/skins/Default_Raster.swf&skinImgURL=http://flash.revver.com/player/1.0/skins/night_skin.png&actionBarSkinURL=http://flash.revver.com/player/1.0/skins/DefaultNavBarSkin.swf&resizeVideo=True" wmode="transparent" height="392" width="480"></embed>
+	<% elsif @submission.url.downcase.include?('video.google.com') && @submission.url.downcase.include?('docid=') %>	
+		<embed style="width:400px; height:326px;" id="VideoPlayback" type="application/x-shockwave-flash" src="http://video.google.com/googleplayer.swf?docId=<%= h(@submission.url.split('docid=').last.split('&').first) %>" flashvars=""> </embed>			
+	<% elsif @submission.url.downcase.include?('vids.myspace.com') && @submission.url.downcase.include?('videoid=') %>
+		<embed src="http://lads.myspace.com/videos/vplayer.swf" flashvars="m=<%= h(@submission.url.split('videoid=').last) %>&type=video" type="application/x-shockwave-flash" width="430" height="346"></embed>
+	<% elsif @submission.url.downcase.include?('yfly.com') && @submission.url.downcase.include?('show/') %>
+		<embed type="application/x-shockwave-flash" src="http://www.yfly.com/swf/video_player/media_player.swf" flashvars="playlist_url=http://www.yfly.com/user/playlist/<%= h(@submission.url.split('show/').last.split('&').first) %>" width="505" height="283"></embed>
+	<% elsif @submission.url.downcase.include?('collegehumor.com') && @submission.url.downcase.include?('video:') %>
+		<embed src="http://www.collegehumor.com/moogaloop/moogaloop.swf?clip_id=<%= h(@submission.url.split('video:').last) %>&autoplay=true" quality='best' style="width:473px; height:345px;" type="application/x-shockwave-flash"></embed>
+	<% elsif @submission.url.downcase.include?('current.tv') && @submission.url.downcase.include?('watch/') %>
+		<embed src="http://www.current.tv/studio/vm2/vm2.swf?type=vcc&id=<%= h(@submission.url.split('watch/').last.split('?').first) %>" quality="high" flashvars="videoType=vcc&videoID=<%= h(@submission.url.split('watch/').last.split('?').first) %>" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" height="360" width="335"></embed>
+	<% elsif @submission.url.downcase.include?('metacafe.com') && @submission.url.downcase.include?('watch/')%>
+		<% if @submission.url[@submission.url.length-1] == 47 %>
+			<embed src="http://www.metacafe.com/fplayer/<%= h(@submission.url.split('watch/').last[0..@submission.url.split('watch/').last.length-2]) %>.swf" width="400" height="345" wmode="transparent" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"></embed>
+		<% else %>
+			<embed src="http://www.metacafe.com/fplayer/<%= h(@submission.url.split('watch/').last) %>.swf" width="400" height="345" wmode="transparent" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"></embed>
+		<% end %>
+	<% elsif @submission.url.downcase.include?('.mov') %>
+		<embed src="<%=@submission.url%>" height="392" width="480" type="video/quicktime" pluginpage="http://www.apple.com/quicktime/download/" autoplay="flase" controller="true"/>
+	<% elsif @submission.url.downcase.include?('.wmv') %>
+		<embed src="<%=@submission.url%>" height="392" width="480" type="application/x-mplayer2" pluginspage="http://www.microsoft.com/Windows/MediaPlayer/" name="MediaPlayer" autostart="flase" Showcontrols="true"/>
+	<% elsif @submission.url.downcase.include?('.mp3')%>
+		<embed src="/flash/player/player.swf" type="application/x-shockwave-flash" flashvars="bg=0x5993ff&amp;leftbg=0xcefc87&amp;lefticon=0x666666&amp;rightbg=0xcefc87&amp;rightbghover=0xfdbb8a&amp;righticon=0x666666&amp;righticonhover=0xffffff&amp;text=0x333333&amp;slider=0xcefc87&amp;track=0xffffff&amp;border=0x666666&amp;loader=0x666666&amp;autostart=no&amp;soundFile=<%=@submission.url%>" width="290" height="24" />
+	<% end %>
+<% else %>
+	<% if (@submission.url.downcase.include?('youtube.com') && @submission.url.downcase.include?('v=')) || 
+		(@submission.url.downcase.include?('revver.com') && (@submission.url.downcase.include?('watch/') || @submission.url.downcase.include?('id=') || @submission.url.downcase.include?('broadcast'))) ||
+		(@submission.url.downcase.include?('video.google.com') && @submission.url.downcase.include?('docid=')) ||
+		(@submission.url.downcase.include?('vids.myspace.com') && @submission.url.downcase.include?('videoid=')) ||
+		(@submission.url.downcase.include?('collegehumor.com') && @submission.url.downcase.include?('video:')) ||
+		(@submission.url.downcase.include?('current.tv') && @submission.url.downcase.include?('watch/')) ||
+		(@submission.url.downcase.include?('metacafe.com') && @submission.url.downcase.include?('watch/')) ||
+		(@submission.url.downcase.include?('.mov')) || (@submission.url.downcase.include?('.wmv')) ||
+		(@submission.url.downcase.include?('.mp3')) ||
+		(@submission.url.downcase.include?('yfly.com') && @submission.url.downcase.include?('show/')) %>
+		<a href="/entries/<%= @submission.urlname %>">[More]</a>
+	<% end %>
+<% end %>

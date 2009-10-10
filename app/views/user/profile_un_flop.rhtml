@@ -1,0 +1,16 @@
+<%
+if(current_user)
+	if(current_user == @user)
+		is_friend = true
+	else
+		is_friend = false
+	end
+	for friend in current_user.friends
+		is_friend = true if(friend.profile_id == @user.profile.id)
+	end
+else
+	is_friend = false
+end
+%>
+
+<%= render( :partial => "profile_popbox", :object => @user, :locals => {:is_friend => is_friend})%>

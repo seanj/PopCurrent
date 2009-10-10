@@ -1,0 +1,43 @@
+<strong>
+<span class="whitehover">	
+<% if session[:user] %>
+	Welcome, 
+	<%if (@session[:current_page] == $page_profile && @params[:userlogin] == session[:user].login)%>
+		<%= link_to(session[:user].login, {:controller => 'user', :action => :profile, :user => session[:user].login}, {:style => "color:#8dc63f;"})%>&nbsp;&nbsp;&nbsp; 
+	<%else%>
+		<%= link_to(session[:user].login, :controller => 'user', :action => :profile, :user => session[:user].login)%>&nbsp;&nbsp;&nbsp; 
+	<%end%>
+	
+	<%if (@session[:current_page] == $page_editprofile)%>
+		<a href="/user/edit_user/<%=session[:user].id%>" style="color:#8dc63f"><strong>Edit Your Profile</strong></a>&nbsp;&nbsp;&nbsp;
+	<%else%>	
+		<a href="/user/edit_user/<%=session[:user].id%>" ><strong>Edit Your Profile</strong></a>&nbsp;&nbsp;&nbsp;
+	<%end%>
+	
+	<%if (@session[:current_page] == $page_invite)%>
+		<%= link_to('Invite Your Friends!', {:controller => 'application', :action => 'invite_form'}, {:style => "color:#8dc63f;"}) %>&nbsp;&nbsp;&nbsp; 
+	<%else%>
+		<%= link_to('Invite Your Friends!', :controller => 'application', :action => 'invite_form') %>&nbsp;&nbsp;&nbsp; 
+	<%end%>
+	
+	<%= link_to('Logout', :controller => 'user', :action => 'logout') %> 
+<% else %>
+	<%if (@session[:current_page] == $page_signup)%>
+		<%= link_to('Sign Up', {:controller => 'user', :action => 'signup'},{:style => "color:#8dc63f;"}) %>&nbsp;&nbsp;&nbsp;
+	<%else%> 
+		<%= link_to('Sign Up', :controller => 'user', :action => 'signup') %>&nbsp;&nbsp;&nbsp;
+	<%end%>
+	<strong><%= link_to_remote('Login', :update => 'formbox', :url => {:controller => 'user', :action => 'login'})%></strong>&nbsp;&nbsp;&nbsp;
+	<%if (@session[:current_page] == $page_invite)%>
+		<%= link_to('Invite Your Friends!', {:controller => 'application', :action => 'invite_form'}, {:style => "color:#8dc63f;"}) %>&nbsp;&nbsp;&nbsp; 
+	<%else%>
+		<%= link_to('Invite Your Friends!', :controller => 'application', :action => 'invite_form') %>&nbsp;&nbsp;&nbsp; 
+	<%end%>
+	<%if (@session[:current_page] == $page_forgotpwd)%>
+    	<%= link_to('Forgot Password?', {:controller => 'user', :action => 'forgot_password'},{:style => "color:#8dc63f;"}) %> 
+	<%else%>
+    	<%= link_to('Forgot Password?', {:controller => 'user', :action => 'forgot_password'}) %> 
+	<%end%>
+<% end %>
+</span>
+</strong>

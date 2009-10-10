@@ -1,0 +1,7 @@
+port: 8000
+environment: production
+address: 127.0.0.1
+pid_file: /var/www/popcurrent/current/log/mongrel.pid
+log_file: /var/www/popcurrent/current/log/mongrel.log
+docroot: /var/www/popcurrent/current/public
+servers: 5

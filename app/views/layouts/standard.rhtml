@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8"> 
+	<title><%= page_title%></title>
+	<%if(@session[:current_page] == $page_hotnow)%>
+		<link rel="alternate" type="application/rss+xml" title="Hot Now!" href="<%= url_for(:only_path => false, :controller => 'submissions', :action => :rss, :type => 'hot')%>" />
+	<%elsif(@session[:current_page] == $page_newestentries) %>
+		<link rel="alternate" type="application/rss+xml" title="Newest Entries" href="<%= url_for(:only_path => false, :controller => 'submissions', :action => :rss, :type => 'new')%>" />
+	<%elsif(@session[:current_page] == $page_bestentries) %>
+		<link rel="alternate" type="application/rss+xml" title="Best Entries" href="<%= url_for(:only_path => false, :controller => 'submissions', :action => :rss, :type => 'best')%>" />
+	<%else%>
+		<link rel="alternate" type="application/rss+xml" title="Hot Now!" href="<%= url_for(:only_path => false, :controller => 'submissions', :action => :rss, :type => 'hot')%>" />
+	<%end%>
+	
+	<link rel="icon" href="<%=url_for(:controller => 'favicon.ico' )%>" type="image/x-icon" />
+	<link rel="shortcut icon" href="<%=url_for(:controller => 'favicon.ico' )%>" type="image/x-icon" />
+	<%= stylesheet_link_tag 'popcurrent' %>
+	<%= stylesheet_link_tag 'forms' %>
+	<link href="/themes/default.css" rel="stylesheet" type="text/css"></link>
+	<!--  Add this to have a specific theme-->
+	<link href="/themes/alphacube.css" rel="stylesheet" type="text/css"></link>
+
+	<%= javascript_include_tag "application", "prototype", "effects", "window" %>
+</head>
+
+<body>
+	<div id="formbox" style="display:none;height:0;"></div>
+	<div id="formaction" style="display:none;height:0;"></div>
+	<div class="window">
+		<div class="site">
+		  	<div class="hrbroundlistbox"><div class="hrbtop"><div></div></div></div>
+			<% if(@user)%>
+				<%= render_component(:controller => "application", :action => "header", :params => {:userlogin => @user.login}) %>
+			<%else%>
+				<%= render_component(:controller => "application", :action => "header") %>
+			<%end%>
+			<%= render_component(:controller => "advertisements", :action => "show", :params => {:placement => "Top"}) %>
+			
+			<div id="container">
+				<div id="left">
+					<%= render(:partial => "submissions/customizer2", :locals => { :items_per_page => @session[:items_per_page] }) %>
+					<div id="activitybox"><%= render_component(:controller => "application", :action => "activity")%></div>
+					<%= render(:partial => "application/sidebar") %>
+				</div>
+
+				<div id="content" class="contentleft">					
+					<%= @content_for_layout %>
+				</div>
+			</div>
+			<%= render_component(:controller => "advertisements", :action => "show", :params => {:placement => "Bottom"}) %>
+			<%=render(:partial => "application/footer") %>
+		</div>
+	</div>
+</body>
+</html>

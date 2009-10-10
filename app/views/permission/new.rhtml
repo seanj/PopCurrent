@@ -1,0 +1,9 @@
+<h2>New permission</h2>
+
+<%= start_form_tag :action => 'new' %>
+  <%= render_partial "form" %>
+  <%= submit_tag "Create" %>
+<%= end_form_tag %>
+
+<%= link_if_authorized 'Back', :action => 'list' %>
+

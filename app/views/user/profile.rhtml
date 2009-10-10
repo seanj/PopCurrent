@@ -1,0 +1,17 @@
+<% store_location() %>
+
+<%if (authorized?(:controller => "user", :action => "edit_roles") or @user.verified > 0)%>
+<div class="itemfirst" id="i<%=@user.id%>">
+	<%= render(:partial => "profile", :object => @user, :locals => {:bShowFull => true})%>
+</div>
+
+<h2>My Friends</h2>
+<%= render_component(:controller => "user", :action => "show_friends", :id => @user.id, :layout => nil) %>
+<br />
+<h2>My History</h2>
+<%= render_component(:controller => "submissions", :action => "show_history", :id => @user.id, :layout => nil, :params => {:subtype => "popped"}) %>
+
+<%else%>
+	This user is no longer participating on PopCurrent.<br /><br /> If you have marked this user as a friend, click the link below to remove them.<br /><br />
+	<%= link_to('Remove&nbsp;This&nbsp;Friend', :action => 'remove_friend', :id => @user, :desturl => h("/critics/" + @user.login)) %>
+<%end%>

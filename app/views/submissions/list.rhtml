@@ -1,0 +1,81 @@
+<% store_location() %>
+
+<h2>
+	<%if(@session[:current_page] == $page_hotnow)%>
+	  Hot Now!
+	<%elsif(@session[:current_page] == $page_newestentries)%>
+	  Newest Entries
+	<%elsif(@session[:current_page] == $page_bestentries)%>
+	  All Time Popular Entries
+	<%elsif(@session[:current_page] == $page_poppedbyfriends)%>
+	  Entries My Friends Have Popped <span style="font: italic 9pt sans-serif">(Last 48 hours)</span>
+	<%elsif(@session[:current_page] == $page_floppedbyfriends)%>
+	  Entries My Friends Have Flopped <span style="font: italic 9pt sans-serif">(Last 48 hours)</span>
+	<%elsif(@session[:current_page] == $page_submittedbyfriends)%>
+	  Entries My Friends Have Submitted <span style="font: italic 9pt sans-serif">(Last 48 hours)</span>
+	<%elsif(@session[:current_page] == $page_commentedbyfriends)%>
+	  Entries My Friends Have Commented On <span style="font: italic 9pt sans-serif">(Last 48 hours)</span>
+	<%elsif(@session[:current_page] == $page_tagresults)%>
+	  Entries Tagged With &quot;<%= h(@session[:current_tag]) %>&quot;
+	<%elsif(@session[:current_page] == $page_searchresults)%>
+	  Entries Containing &quot;<%= h(params[:query]) %>&quot;
+	<%else%>
+	  Entries
+	<%end%>
+</h2>
+
+<%if(@session[:current_page] == $page_hotnow)%>
+	<h4>
+		<strong>Welcome to popcurrent.com!</strong> You are currently viewing the <strong>Hot Now!</strong> list, which contains the most popular
+		recent entries to popcurrent.com voted up to this list by critics like you! Also check out the <strong>Newest Entries</strong> list
+		via the link at the left, and start voting up your favorites! 
+		<%if(!current_user)%>
+			<br /><br /><span style="font: italic 0.85em sans-serif;">Remember to <a href="/user/signup" style="color:#000000;">sign up for a free account</a> on popcurrent.com to vote, comment and submit new entries. It's free and it only takes a moment!</span>
+		<%end%>
+	</h4>
+<%elsif(@session[:current_page] == $page_newestentries)%>
+	<h4>
+		You are currently viewing the <strong>Newest Entries</strong> list, which contains all the most
+		recent entries to popcurrent.com. The entries with the highest vote totals are promoted from this list to the <strong>Hot Now!</strong> list,
+		so start voting up your favorites! 
+		<%if(!current_user)%>
+			<br /><br /><span style="font: italic 0.85em sans-serif;">Remember to <a href="/user/signup" style="color:#000000;">sign up for a free account</a> on popcurrent.com to vote, comment and submit new entries. It's free and it only takes a moment!</span>
+		<%end%>
+	</h4>
+<%elsif(@session[:current_page] == $page_bestentries)%>
+	<h4>
+		You are currently viewing the <strong>All Time Popular Entries</strong> list, which contains the most popular
+		entries ever made to popcurrent.com. 
+		<%if(!current_user)%>
+			<br /><br /><span style="font: italic 0.85em sans-serif;">Remember to <a href="/user/signup" style="color:#000000;">sign up for a free account</a> on popcurrent.com to vote, comment and submit new entries. It's free and it only takes a moment!</span>
+		<%end%>
+	</h4>
+<%end%>
+
+<%if(@submissions && @submissions.length > 0)%>
+
+	<%= render(:partial => "pagination", :object => @submission_pages)%>
+	<% counter = 0 %>
+	<% adcounter = 0 %>
+	<% for @submission in @submissions %>
+		<%if adcounter == 5 %>
+			<% adcounter = 0 %>
+			<%= render_component(:controller => "advertisements", :action => "show", :params => {:placement => "List Middle"}) %>
+		<%else%>
+			<% adcounter += 1 %>
+		<%end%>
+		<% if(counter == 0)%>
+			<div id="i<%=@submission.id%>" class="itemfirst" onmouseover="this.className = 'itemfirstselected';" onmouseout="this.className = 'itemfirst';">
+		<%else%>
+			<div id="i<%=@submission.id%>" class="item" onmouseover="this.className = 'itemselected';" onmouseout="this.className = 'item';">
+		<%end%>		
+		<%= render(:partial => "submission", :object => @submission, :locals => {:bShowFullDescription => false})%>
+		</div>
+		<% counter += 1 %>
+	<% end %>
+
+	<%= render(:partial => "pagination", :object => @submission_pages)%>
+
+<% else %>
+	<%= render(:partial => "application/buster") %>
+<% end %>

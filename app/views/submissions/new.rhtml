@@ -1,0 +1,13 @@
+<div class="fullForm">
+	<div class="rbroundlistbox" style="width:640px;overflow:hidden;margin: 0 auto 0 auto;text-align:center;">
+		<div class="rbtop">
+			<div></div></div>
+			<div class="rbcontent" style="background:#ebebeb;text-align:left;">
+				<%= form_tag({:action => 'create'}, {:name => 'submit_form', :id => 'submit_form', :class => 'verticalForm',:style => 'padding: 12px 20px 12px 20px;', :multipart => true}) %>
+			 		<%= render(:partial => 'form', :locals => {:bEdit => false}) %>
+				<%= end_form_tag %>
+				<%= set_default_focus('submission_category')%>
+			</div><!-- /rbcontent -->
+		<div class="rbbot"><div></div></div>
+	</div><!-- /rbroundbox -->
+</div>

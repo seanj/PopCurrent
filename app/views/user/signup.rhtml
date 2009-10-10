@@ -1,0 +1,37 @@
+<% store_location() %>
+
+<div class="fullForm">
+	<div class="rbroundlistbox" style="width:640px;overflow:hidden;margin: 0 auto 0 auto;text-align:center;">
+		<div class="rbtop">
+			<div></div></div>
+			<div class="rbcontent" style="background:#ebebeb;text-align:left;">
+				<%= start_form_tag ( {:action => 'signup'},{:id => "signup_form", :class => 'verticalForm', :style => 'padding: 12px 20px 12px 20px;'})%>
+
+				<label>
+					Hello from all of us at PopCurrent!  Signing up for an account on PopCurrent allows you to vote, comment and submit entries to our site.  
+					It's completely free and it only takes a few moments.
+					<div style="font:9pt sans-serif;color:#002f87;"><br />
+					After you fill out this form, you will receive an email to the address you specify in the <strong>Email Address</strong> field below.  You will need to click the link contained within the email to enable your account.
+			    </label>
+
+				<div id="errordiv" class="error">
+					<%= error_messages_for 'user' %>
+				</div>
+				<br />
+				<%= render_partial 'edit', :user => @user, :submit => false %>
+			    <%= render_partial 'password', :submit => false %>
+
+				<label style="font: italic 8pt sans-serif;">
+					Clicking this button means that you agree to our <%=link_to("Terms Of Service", :controller => "application", :action => "tos")%> and our <%=link_to("Privacy Policy", :controller => "application", :action => "privacy")%>.
+	    		</label>
+
+				<br/>
+				<div style="text-align:center;width:100%;">
+					<%= submit_tag('Signup Now!',{:style => "width:200px;"}) %>
+				</div>
+				<%= end_form_tag %>
+				<%= set_default_focus('user_firstname')%>
+			</div><!-- /rbcontent -->
+		<div class="rbbot"><div></div></div>
+	</div><!-- /rbroundbox -->
+</div>

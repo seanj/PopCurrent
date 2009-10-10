@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: Fixtures</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">Fixtures</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../files/vendor/plugins/engines/lib/engines/testing_extensions_rb.html">
+                vendor/plugins/engines/lib/engines/testing_extensions.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                YAML::Omap
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000019">create_fixtures</a>&nbsp;&nbsp;
+      <a href="#M000021">delete_existing_fixtures</a>&nbsp;&nbsp;
+      <a href="#M000022">insert_fixtures</a>&nbsp;&nbsp;
+      <a href="#M000018">instantiate_all_loaded_fixtures</a>&nbsp;&nbsp;
+      <a href="#M000017">instantiate_fixtures</a>&nbsp;&nbsp;
+      <a href="#M000020">new</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+    <div id="attribute-list">
+      <h3 class="section-bar">Attributes</h3>
+
+      <div class="name-list">
+        <table>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">connection</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">file_filter</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">fixture_group</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">fixtures_directory</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        </table>
+      </div>
+    </div>
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000019" class="method-detail">
+        <a name="M000019"></a>
+
+        <div class="method-heading">
+          <a href="#M000019" class="method-signature">
+          <span class="method-name">create_fixtures</span><span class="method-args">(fixtures_directory, *fixture_groups) {|: ActiveRecord::Base.connection| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000019-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000019-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/engines/lib/engines/testing_extensions.rb, line 103</span>
+103:   <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">create_fixtures</span>(<span class="ruby-identifier">fixtures_directory</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">fixture_groups</span>)
+104:     <span class="ruby-identifier">connection</span> = <span class="ruby-identifier">block_given?</span> <span class="ruby-value">? </span><span class="ruby-keyword kw">yield</span> <span class="ruby-operator">:</span> <span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">Base</span>.<span class="ruby-identifier">connection</span>
+105:     <span class="ruby-identifier">fixture_groups</span>.<span class="ruby-identifier">flatten!</span>
+106:     
+107:     <span class="ruby-comment cmt"># Backwards compatibility: Allow an array of table names to be passed in, but just use them</span>
+108:     <span class="ruby-comment cmt"># to create an array of FixtureGroup objects</span>
+109:     <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">fixture_groups</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-keyword kw">and</span> <span class="ruby-identifier">fixture_groups</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>)
+110:       <span class="ruby-identifier">fixture_groups</span> = <span class="ruby-constant">FixtureGroup</span>.<span class="ruby-identifier">array_from_names</span>(<span class="ruby-identifier">fixture_groups</span>)
+111:     <span class="ruby-keyword kw">end</span>
+112: 
+113:     <span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">Base</span>.<span class="ruby-identifier">silence</span> <span class="ruby-keyword kw">do</span>
+114:       <span class="ruby-identifier">fixtures_map</span> = {}
+115:       <span class="ruby-identifier">fixtures</span> = <span class="ruby-identifier">fixture_groups</span>.<span class="ruby-identifier">map</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">group</span><span class="ruby-operator">|</span>
+116:         <span class="ruby-identifier">fixtures_map</span>[<span class="ruby-identifier">group</span>.<span class="ruby-identifier">group_name</span>] = <span class="ruby-constant">Fixtures</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">connection</span>, <span class="ruby-identifier">fixtures_directory</span>, <span class="ruby-identifier">group</span>)
+117:       <span class="ruby-keyword kw">end</span> 
+118:       <span class="ruby-comment cmt"># Make sure all refs to all_loaded_fixtures use group_name as hash index, not table_name</span>
+119:       <span class="ruby-identifier">all_loaded_fixtures</span>.<span class="ruby-identifier">merge!</span> <span class="ruby-identifier">fixtures_map</span> 
+120: 
+121:       <span class="ruby-identifier">connection</span>.<span class="ruby-identifier">transaction</span> <span class="ruby-keyword kw">do</span>
+122:         <span class="ruby-identifier">fixtures</span>.<span class="ruby-identifier">reverse</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">fixture</span><span class="ruby-operator">|</span> <span class="ruby-identifier">fixture</span>.<span class="ruby-identifier">delete_existing_fixtures</span> }
+123:         <span class="ruby-identifier">fixtures</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">fixture</span><span class="ruby-operator">|</span> <span class="ruby-identifier">fixture</span>.<span class="ruby-identifier">insert_fixtures</span> }
+124:         
+125:         <span class="ruby-comment cmt"># Cap primary key sequences to max(pk).</span>
+126:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">connection</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">:reset_pk_sequence!</span>)
+127:           <span class="ruby-identifier">fixture_groups</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">fg</span><span class="ruby-operator">|</span>
+128:             <span class="ruby-identifier">connection</span>.<span class="ruby-identifier">reset_pk_sequence!</span>(<span class="ruby-identifier">fg</span>.<span class="ruby-identifier">table_name</span>)
+129:           <span class="ruby-keyword kw">end</span>
+130:         <span class="ruby-keyword kw">end</span>
+131:       <span class="ruby-keyword kw">end</span>
+132: 
+133:       <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">fixtures</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">fixtures</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">fixtures</span>.<span class="ruby-identifier">first</span>
+134:     <span class="ruby-keyword kw">end</span>
+135:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000018" class="method-detail">
+        <a name="M000018"></a>
+
+        <div class="method-heading">
+          <a href="#M000018" class="method-signature">
+          <span class="method-name">instantiate_all_loaded_fixtures</span><span class="method-args">(object, load_instances=true)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+this doesn&#8217;t really need to be overridden&#8230;
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000018-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000018-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/engines/lib/engines/testing_extensions.rb, line 97</span>
+ 97:   <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">instantiate_all_loaded_fixtures</span>(<span class="ruby-identifier">object</span>, <span class="ruby-identifier">load_instances</span>=<span class="ruby-keyword kw">true</span>)
+ 98:     <span class="ruby-identifier">all_loaded_fixtures</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">fixture_group_name</span>, <span class="ruby-identifier">fixtures</span><span class="ruby-operator">|</span>
+ 99:       <span class="ruby-constant">Fixtures</span>.<span class="ruby-identifier">instantiate_fixtures</span>(<span class="ruby-identifier">object</span>, <span class="ruby-identifier">fixture_group_name</span>, <span class="ruby-identifier">fixtures</span>, <span class="ruby-identifier">load_instances</span>)
+100:     <span class="ruby-keyword kw">end</span>
+101:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000017" class="method-detail">
+        <a name="M000017"></a>
+
+        <div class="method-heading">
+          <a href="#M000017" class="method-signature">
+          <span class="method-name">instantiate_fixtures</span><span class="method-args">(object, fixture_group_name, fixtures, load_instances=true)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000017-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000017-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/engines/lib/engines/testing_extensions.rb, line 77</span>
+77:   <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">instantiate_fixtures</span>(<span class="ruby-identifier">object</span>, <span class="ruby-identifier">fixture_group_name</span>, <span class="ruby-identifier">fixtures</span>, <span class="ruby-identifier">load_instances</span>=<span class="ruby-keyword kw">true</span>)
+78:     <span class="ruby-identifier">old_logger_level</span> = <span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">Base</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">level</span>
+79:     <span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">Base</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">level</span> = <span class="ruby-constant">Logger</span><span class="ruby-operator">::</span><span class="ruby-constant">ERROR</span>
+80: 
+81:     <span class="ruby-comment cmt"># table_name.to_s.gsub('.','_') replaced by 'fixture_group_name'</span>
+82:     <span class="ruby-identifier">object</span>.<span class="ruby-identifier">instance_variable_set</span> <span class="ruby-node">&quot;@#{fixture_group_name}&quot;</span>, <span class="ruby-identifier">fixtures</span>
+83:     <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">load_instances</span>
+84:       <span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">Base</span>.<span class="ruby-identifier">silence</span> <span class="ruby-keyword kw">do</span>
+85:         <span class="ruby-identifier">fixtures</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span>, <span class="ruby-identifier">fixture</span><span class="ruby-operator">|</span>
+86:           <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">model</span> = <span class="ruby-identifier">fixture</span>.<span class="ruby-identifier">find</span>
+87:             <span class="ruby-identifier">object</span>.<span class="ruby-identifier">instance_variable_set</span> <span class="ruby-node">&quot;@#{name}&quot;</span>, <span class="ruby-identifier">model</span>
+88:           <span class="ruby-keyword kw">end</span>
+89:         <span class="ruby-keyword kw">end</span>
+90:       <span class="ruby-keyword kw">end</span>
+91:     <span class="ruby-keyword kw">end</span>
+92: 
+93:     <span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">Base</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">level</span> = <span class="ruby-identifier">old_logger_level</span>
+94:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000020" class="method-detail">
+        <a name="M000020"></a>
+
+        <div class="method-heading">
+          <a href="#M000020" class="method-signature">
+          <span class="method-name">new</span><span class="method-args">(connection, fixtures_directory, fixture_group, file_filter = DEFAULT_FILTER_RE)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000020-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000020-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/engines/lib/engines/testing_extensions.rb, line 141</span>
+141:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">connection</span>, <span class="ruby-identifier">fixtures_directory</span>, <span class="ruby-identifier">fixture_group</span>, <span class="ruby-identifier">file_filter</span> = <span class="ruby-constant">DEFAULT_FILTER_RE</span>)
+142:     <span class="ruby-ivar">@connection</span>, <span class="ruby-ivar">@fixtures_directory</span> = <span class="ruby-identifier">connection</span>, <span class="ruby-identifier">fixtures_directory</span>
+143:     <span class="ruby-ivar">@fixture_group</span> = <span class="ruby-identifier">fixture_group</span>
+144:     <span class="ruby-ivar">@file_filter</span> = <span class="ruby-identifier">file_filter</span>
+145:     <span class="ruby-identifier">read_fixture_files</span>
+146:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000021" class="method-detail">
+        <a name="M000021"></a>
+
+        <div class="method-heading">
+          <a href="#M000021" class="method-signature">
+          <span class="method-name">delete_existing_fixtures</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000021-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000021-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/engines/lib/engines/testing_extensions.rb, line 148</span>
+148:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">delete_existing_fixtures</span>
+149:     <span class="ruby-ivar">@connection</span>.<span class="ruby-identifier">delete</span> <span class="ruby-node">&quot;DELETE FROM #{@fixture_group.table_name}&quot;</span>, <span class="ruby-value str">'Fixture Delete'</span>
+150:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000022" class="method-detail">
+        <a name="M000022"></a>
+
+        <div class="method-heading">
+          <a href="#M000022" class="method-signature">
+          <span class="method-name">insert_fixtures</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000022-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000022-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/engines/lib/engines/testing_extensions.rb, line 152</span>
+152:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">insert_fixtures</span>
+153:     <span class="ruby-identifier">values</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">fixture</span><span class="ruby-operator">|</span>
+154:       <span class="ruby-ivar">@connection</span>.<span class="ruby-identifier">execute</span> <span class="ruby-node">&quot;INSERT INTO #{@fixture_group.table_name} (#{fixture.key_list}) VALUES (#{fixture.value_list})&quot;</span>, <span class="ruby-value str">'Fixture Insert'</span>
+155:     <span class="ruby-keyword kw">end</span>
+156:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

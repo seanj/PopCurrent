@@ -1,0 +1,30 @@
+<span class="entrysubmission">
+	<%= form_remote_tag(:update => 'bar' + String(@submission.id),
+						:url => { :action => "blip_it", :id => @submission}, 
+						:html => { :id => 'bf' + String(@submission.id) }) %>
+		<img src="/images/pumpit.gif" width="16" height="16"/>&nbsp;&nbsp;
+		<strong>
+			<% if(bShowFullDescription == true) %>
+				<a href="#comments" id="<%= 'l' + String(@submission.id) %>"><%= pluralize(@submission.comments.size, 'Comment', 'Comments') %></a></strong>
+			<% else %>
+				<a href="/entries/<%= @submission.urlname %>" id="<%= 'l' + String(@submission.id) %>"><%= pluralize(@submission.comments.size, 'Comment', 'Comments') %></a></strong>
+			<% end %>
+		&nbsp;-&nbsp;
+		<a href="#" onclick="$('embed<%=@submission.id%>').style.display = 'none';Element.toggle('email<%=@submission.id%>', 'slide');return false;">Email</a>
+		&nbsp;-&nbsp;
+		<a href="http://del.icio.us/kier?url=<%=url_encode(url_for(:only_path => false, :controller => "submissions", :action => "urlname", :urlname => @submission.urlname ))%>;title=<%=h(@submission.title)%>;notes=<%=h(@submission.description)%>;v=4">Del.icio.us</a>
+		&nbsp;-&nbsp;
+		<a href="#" onclick="$('email<%=@submission.id%>').style.display = 'none';Element.toggle('embed<%=@submission.id%>', 'slide');return false;">Promote</a>
+		&nbsp;-&nbsp;
+		<%if @session[:user]%>
+			<% if !has_blipped %>
+				Report As:&nbsp;
+				<%= select_tag('bliptype'+String(@submission.id), options_for_select([['--Choose--', 0], ['Duplicate',1], ['Explicit', 2],['Bad Link', 3],['Inaccurate',4]], 'bliptype'+String(@submission.id)), :onchange => "$('bf" + String(@submission.id) + "').onsubmit();") %>
+			<% else %>
+				<b><i>** Reported **</b></i>
+			<% end %>
+		<% else %> 
+			<%= link_to_remote('Report&nbsp;This&nbsp;Entry', :update => 'formbox', :url => {:controller => 'user', :action => 'login'})%>
+		<% end %>
+	<%= end_form_tag %>
+</span>

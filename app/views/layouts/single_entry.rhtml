@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8"> 
+	
+	<title><%= page_title%></title>
+	<%= stylesheet_link_tag 'popcurrent' %>
+	<%= stylesheet_link_tag 'forms' %>
+	<link href="/themes/default.css" rel="stylesheet" type="text/css"></link>
+	<!--  Add this to have a specific theme-->
+	<link href="/themes/alphacube.css" rel="stylesheet" type="text/css"></link>
+
+	<%= javascript_include_tag "application", "prototype", "effects", "window" %>
+</head>
+
+<body>
+	<div id="formbox" style="display:none;height:0;"></div>
+	<div id="formaction" style="display:none;height:0;"></div>
+	<div class="window">
+		<div class="site">
+		  	<div class="hrbroundlistbox"><div class="hrbtop"><div></div></div></div>
+			<% if(@user)%>
+				<%= render_component(:controller => "application", :action => "header", :params => {:userlogin => @user.login}) %>
+			<%else%>
+				<%= render_component(:controller => "application", :action => "header") %>
+			<%end%>
+			<%= render_component(:controller => "advertisements", :action => "show", :params => {:placement => "Top"}) %>
+
+			<div id="container">
+				<div id="right">	
+					<%if(current_user == @user)%>
+						<div id="activitybox"><%= render_component(:controller => "application", :action => "activity")%></div>
+					<%end%>
+
+					<%if( @submission)%>
+						<%= render_component(:controller => "submissions", :action => "recommendations", :id => @submission.id, :layout => nil) %>
+					<%end%>
+				</div>
+
+				<div id="content" class="content">
+					<%= @content_for_layout %>
+				</div>
+			</div>
+			<%=render(:partial => "application/footer") %>
+		</div>
+	</div>
+</body>
+</html>

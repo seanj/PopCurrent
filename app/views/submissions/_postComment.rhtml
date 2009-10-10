@@ -1,0 +1,27 @@
+<div class="rbroundlistbox" style="width:99%;margin:0;overflow:hidden;">
+	<div class="rbtop">
+		<div></div></div>
+		<div class="rbcontent" style="background:#ebebeb;">
+			<div class="largeForm">
+				<%= start_form_tag({:action => 'postComment', :id => @submission}, {:class => 'verticalForm'}) %>
+				<%= hidden_field('comment', 'parent_id', {:value => '0'}) %>
+				<fieldset>
+					<label for="submission_comment_subject" class="first">
+						Subject:
+						<%= text_field('comment', 'subject', {:value => '', :maxlength => 255, :class => 'editbox', :style => "width:99%;", :id => "submission_comment_subject"})  %>
+					</label>
+					<label for="submission_comment_body">
+						<br />Comment:
+						<%= text_area('comment', 'body', {:rows => 4, :value => '', :class => 'editbox', :style => "width:99%;", :id => "submission_comment_body"})  %>
+					</label>
+			  		<br />
+					<div style="width:100%;text-align:center;">
+						<%= submit_tag("Post Comment",{:style => "width:200px;"}) %>
+					</div>
+				</fieldset>
+				<%= end_form_tag %>
+			</div>
+		</div><!-- /rbcontent -->
+	<div class="rbbot"><div></div></div>
+</div><!-- /rbroundbox -->
+

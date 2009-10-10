@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: LoginEngine::AuthenticatedUser</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">LoginEngine::AuthenticatedUser</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/vendor/plugins/login_engine/lib/login_engine/authenticated_user_rb.html">
+                vendor/plugins/login_engine/lib/login_engine/authenticated_user.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000009">change_password</a>&nbsp;&nbsp;
+      <a href="#M000011">crypt_password</a>&nbsp;&nbsp;
+      <a href="#M000012">falsify_new_password</a>&nbsp;&nbsp;
+      <a href="#M000007">generate_security_token</a>&nbsp;&nbsp;
+      <a href="#M000002">hashed</a>&nbsp;&nbsp;
+      <a href="#M000001">included</a>&nbsp;&nbsp;
+      <a href="#M000004">new</a>&nbsp;&nbsp;
+      <a href="#M000013">new_security_token</a>&nbsp;&nbsp;
+      <a href="#M000003">salted_password</a>&nbsp;&nbsp;
+      <a href="#M000008">set_delete_after</a>&nbsp;&nbsp;
+      <a href="#M000005">token_expired?</a>&nbsp;&nbsp;
+      <a href="#M000014">token_lifetime</a>&nbsp;&nbsp;
+      <a href="#M000006">update_expiry</a>&nbsp;&nbsp;
+      <a href="#M000010">validate_password?</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+    <div id="class-list">
+      <h3 class="section-bar">Classes and Modules</h3>
+
+      Module <a href="AuthenticatedUser/ClassMethods.html" class="link">LoginEngine::AuthenticatedUser::ClassMethods</a><br />
+
+    </div>
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000001" class="method-detail">
+        <a name="M000001"></a>
+
+        <div class="method-heading">
+          <a href="#M000001" class="method-signature">
+          <span class="method-name">included</span><span class="method-args">(base)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000001-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000001-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/login_engine/lib/login_engine/authenticated_user.rb, line 8</span>
+ 8:     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">included</span>(<span class="ruby-identifier">base</span>)
+ 9:       <span class="ruby-identifier">base</span>.<span class="ruby-identifier">class_eval</span> <span class="ruby-keyword kw">do</span>
+10: 
+11:         <span class="ruby-comment cmt"># use the table name given</span>
+12:         <span class="ruby-identifier">set_table_name</span> <span class="ruby-constant">LoginEngine</span>.<span class="ruby-identifier">config</span>(<span class="ruby-identifier">:user_table</span>)
+13: 
+14:         <span class="ruby-identifier">attr_accessor</span> <span class="ruby-identifier">:new_password</span>
+15:       
+16:         <span class="ruby-identifier">validates_presence_of</span> <span class="ruby-identifier">:login</span>
+17:         <span class="ruby-identifier">validates_length_of</span> <span class="ruby-identifier">:login</span>, <span class="ruby-identifier">:within</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">3</span><span class="ruby-operator">..</span><span class="ruby-value">40</span>
+18:         <span class="ruby-identifier">validates_uniqueness_of</span> <span class="ruby-identifier">:login</span>
+19:         <span class="ruby-identifier">validates_uniqueness_of</span> <span class="ruby-identifier">:email</span>
+20:         <span class="ruby-identifier">validates_format_of</span> <span class="ruby-identifier">:email</span>, <span class="ruby-identifier">:with</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-regexp re">/^[^@]+@.+$/</span>
+21: 
+22:         <span class="ruby-identifier">validates_presence_of</span> <span class="ruby-identifier">:password</span>, <span class="ruby-identifier">:if</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">:validate_password?</span>
+23:         <span class="ruby-identifier">validates_confirmation_of</span> <span class="ruby-identifier">:password</span>, <span class="ruby-identifier">:if</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">:validate_password?</span>
+24:         <span class="ruby-identifier">validates_length_of</span> <span class="ruby-identifier">:password</span>, { <span class="ruby-identifier">:minimum</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">5</span>, <span class="ruby-identifier">:if</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">:validate_password?</span> }
+25:         <span class="ruby-identifier">validates_length_of</span> <span class="ruby-identifier">:password</span>, { <span class="ruby-identifier">:maximum</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">40</span>, <span class="ruby-identifier">:if</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">:validate_password?</span> }
+26:   
+27:         <span class="ruby-identifier">protected</span> 
+28:       
+29:         <span class="ruby-identifier">attr_accessor</span> <span class="ruby-identifier">:password</span>, <span class="ruby-identifier">:password_confirmation</span>
+30:       
+31:         <span class="ruby-identifier">after_save</span> <span class="ruby-identifier">:falsify_new_password</span>
+32:         <span class="ruby-identifier">after_validation</span> <span class="ruby-identifier">:crypt_password</span>
+33: 
+34:       <span class="ruby-keyword kw">end</span>
+35:       <span class="ruby-identifier">base</span>.<span class="ruby-identifier">extend</span>(<span class="ruby-constant">ClassMethods</span>)
+36:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000004" class="method-detail">
+        <a name="M000004"></a>
+
+        <div class="method-heading">
+          <a href="#M000004" class="method-signature">
+          <span class="method-name">new</span><span class="method-args">(attributes = nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+hmmm, how does this interact with the developer&#8217;s own User model
+initialize? We would have to <b>insist</b> that the User.initialize method
+called &#8216;super&#8217;
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000004-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000004-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/login_engine/lib/login_engine/authenticated_user.rb, line 78</span>
+78:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">attributes</span> = <span class="ruby-keyword kw">nil</span>)
+79:       <span class="ruby-keyword kw">super</span>
+80:       <span class="ruby-ivar">@new_password</span> = <span class="ruby-keyword kw">false</span>
+81:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Protected Class methods</h3>
+
+      <div id="method-M000002" class="method-detail">
+        <a name="M000002"></a>
+
+        <div class="method-heading">
+          <a href="#M000002" class="method-signature">
+          <span class="method-name">hashed</span><span class="method-args">(str)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000002-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000002-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/login_engine/lib/login_engine/authenticated_user.rb, line 60</span>
+60:       <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">hashed</span>(<span class="ruby-identifier">str</span>)
+61:         <span class="ruby-comment cmt"># check if a salt has been set...</span>
+62:         <span class="ruby-keyword kw">if</span> <span class="ruby-constant">LoginEngine</span>.<span class="ruby-identifier">config</span>(<span class="ruby-identifier">:salt</span>) <span class="ruby-operator">==</span> <span class="ruby-keyword kw">nil</span>
+63:           <span class="ruby-identifier">raise</span> <span class="ruby-value str">&quot;You must define a :salt value in the configuration for the LoginEngine module.&quot;</span>
+64:         <span class="ruby-keyword kw">end</span>
+65:   
+66:         <span class="ruby-keyword kw">return</span> <span class="ruby-constant">Digest</span><span class="ruby-operator">::</span><span class="ruby-constant">SHA1</span>.<span class="ruby-identifier">hexdigest</span>(<span class="ruby-node">&quot;#{LoginEngine.config(:salt)}--#{str}--}&quot;</span>)[<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-value">39</span>]
+67:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000003" class="method-detail">
+        <a name="M000003"></a>
+
+        <div class="method-heading">
+          <a href="#M000003" class="method-signature">
+          <span class="method-name">salted_password</span><span class="method-args">(salt, hashed_password)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000003-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000003-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/login_engine/lib/login_engine/authenticated_user.rb, line 69</span>
+69:       <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">salted_password</span>(<span class="ruby-identifier">salt</span>, <span class="ruby-identifier">hashed_password</span>)
+70:         <span class="ruby-identifier">hashed</span>(<span class="ruby-identifier">salt</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">hashed_password</span>)
+71:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000009" class="method-detail">
+        <a name="M000009"></a>
+
+        <div class="method-heading">
+          <a href="#M000009" class="method-signature">
+          <span class="method-name">change_password</span><span class="method-args">(pass, confirm = nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000009-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000009-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/login_engine/lib/login_engine/authenticated_user.rb, line 113</span>
+113:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">change_password</span>(<span class="ruby-identifier">pass</span>, <span class="ruby-identifier">confirm</span> = <span class="ruby-keyword kw">nil</span>)
+114:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">password</span> = <span class="ruby-identifier">pass</span>
+115:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">password_confirmation</span> = <span class="ruby-identifier">confirm</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-value">? </span><span class="ruby-identifier">pass</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">confirm</span>
+116:       <span class="ruby-ivar">@new_password</span> = <span class="ruby-keyword kw">true</span>
+117:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000007" class="method-detail">
+        <a name="M000007"></a>
+
+        <div class="method-heading">
+          <a href="#M000007" class="method-signature">
+          <span class="method-name">generate_security_token</span><span class="method-args">(hours = nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000007-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000007-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/login_engine/lib/login_engine/authenticated_user.rb, line 94</span>
+ 94:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">generate_security_token</span>(<span class="ruby-identifier">hours</span> = <span class="ruby-keyword kw">nil</span>)
+ 95:       <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">hours</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword kw">or</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">security_token</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword kw">or</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">token_expiry</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword kw">or</span> 
+ 96:           (<span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>.<span class="ruby-identifier">to_i</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">token_lifetime</span> <span class="ruby-operator">/</span> <span class="ruby-value">2</span>) <span class="ruby-operator">&gt;=</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">token_expiry</span>.<span class="ruby-identifier">to_i</span>
+ 97:         <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">new_security_token</span>(<span class="ruby-identifier">hours</span>)
+ 98:       <span class="ruby-keyword kw">else</span>
+ 99:         <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">security_token</span>
+100:       <span class="ruby-keyword kw">end</span>
+101:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000008" class="method-detail">
+        <a name="M000008"></a>
+
+        <div class="method-heading">
+          <a href="#M000008" class="method-signature">
+          <span class="method-name">set_delete_after</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000008-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000008-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/login_engine/lib/login_engine/authenticated_user.rb, line 103</span>
+103:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">set_delete_after</span>
+104:       <span class="ruby-identifier">hours</span> = <span class="ruby-constant">LoginEngine</span>.<span class="ruby-identifier">config</span>(<span class="ruby-identifier">:delayed_delete_days</span>) <span class="ruby-operator">*</span> <span class="ruby-value">24</span>
+105:       <span class="ruby-identifier">write_attribute</span>(<span class="ruby-value str">'deleted'</span>, <span class="ruby-value">1</span>)
+106:       <span class="ruby-identifier">write_attribute</span>(<span class="ruby-value str">'delete_after'</span>, <span class="ruby-constant">Time</span>.<span class="ruby-identifier">at</span>(<span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>.<span class="ruby-identifier">to_i</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">hours</span> <span class="ruby-operator">*</span> <span class="ruby-value">60</span> <span class="ruby-operator">*</span> <span class="ruby-value">60</span>))
+107: 
+108:       <span class="ruby-comment cmt"># Generate and return a token here, so that it expires at</span>
+109:       <span class="ruby-comment cmt"># the same time that the account deletion takes effect.</span>
+110:       <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">generate_security_token</span>(<span class="ruby-identifier">hours</span>)
+111:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000005" class="method-detail">
+        <a name="M000005"></a>
+
+        <div class="method-heading">
+          <a href="#M000005" class="method-signature">
+          <span class="method-name">token_expired?</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000005-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000005-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/login_engine/lib/login_engine/authenticated_user.rb, line 83</span>
+83:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">token_expired?</span>
+84:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">security_token</span> <span class="ruby-keyword kw">and</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">token_expiry</span> <span class="ruby-keyword kw">and</span> (<span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span> <span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">token_expiry</span>)
+85:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000006" class="method-detail">
+        <a name="M000006"></a>
+
+        <div class="method-heading">
+          <a href="#M000006" class="method-signature">
+          <span class="method-name">update_expiry</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000006-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000006-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/login_engine/lib/login_engine/authenticated_user.rb, line 87</span>
+87:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">update_expiry</span>
+88:       <span class="ruby-identifier">write_attribute</span>(<span class="ruby-value str">'token_expiry'</span>, [<span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">token_expiry</span>, <span class="ruby-constant">Time</span>.<span class="ruby-identifier">at</span>(<span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>.<span class="ruby-identifier">to_i</span> <span class="ruby-operator">+</span> <span class="ruby-value">600</span> <span class="ruby-operator">*</span> <span class="ruby-value">1000</span>)].<span class="ruby-identifier">min</span>)
+89:       <span class="ruby-identifier">write_attribute</span>(<span class="ruby-value str">'authenticated_by_token'</span>, <span class="ruby-keyword kw">true</span>)
+90:       <span class="ruby-identifier">write_attribute</span>(<span class="ruby-value str">&quot;verified&quot;</span>, <span class="ruby-value">1</span>)
+91:       <span class="ruby-identifier">update_without_callbacks</span>
+92:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Protected Instance methods</h3>
+
+      <div id="method-M000011" class="method-detail">
+        <a name="M000011"></a>
+
+        <div class="method-heading">
+          <a href="#M000011" class="method-signature">
+          <span class="method-name">crypt_password</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000011-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000011-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/login_engine/lib/login_engine/authenticated_user.rb, line 126</span>
+126:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">crypt_password</span>
+127:       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@new_password</span>
+128:         <span class="ruby-identifier">write_attribute</span>(<span class="ruby-value str">&quot;salt&quot;</span>, <span class="ruby-constant">AuthenticatedUser</span>.<span class="ruby-identifier">hashed</span>(<span class="ruby-node">&quot;salt-#{Time.now}&quot;</span>))
+129:         <span class="ruby-identifier">write_attribute</span>(<span class="ruby-value str">&quot;salted_password&quot;</span>, <span class="ruby-constant">AuthenticatedUser</span>.<span class="ruby-identifier">salted_password</span>(<span class="ruby-identifier">salt</span>, <span class="ruby-constant">AuthenticatedUser</span>.<span class="ruby-identifier">hashed</span>(<span class="ruby-ivar">@password</span>)))
+130:       <span class="ruby-keyword kw">end</span>
+131:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000012" class="method-detail">
+        <a name="M000012"></a>
+
+        <div class="method-heading">
+          <a href="#M000012" class="method-signature">
+          <span class="method-name">falsify_new_password</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000012-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000012-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/login_engine/lib/login_engine/authenticated_user.rb, line 133</span>
+133:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">falsify_new_password</span>
+134:       <span class="ruby-ivar">@new_password</span> = <span class="ruby-keyword kw">false</span>
+135:       <span class="ruby-keyword kw">true</span>
+136:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000013" class="method-detail">
+        <a name="M000013"></a>
+
+        <div class="method-heading">
+          <a href="#M000013" class="method-signature">
+          <span class="method-name">new_security_token</span><span class="method-args">(hours = nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000013-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000013-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/login_engine/lib/login_engine/authenticated_user.rb, line 138</span>
+138:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">new_security_token</span>(<span class="ruby-identifier">hours</span> = <span class="ruby-keyword kw">nil</span>)
+139:       <span class="ruby-identifier">write_attribute</span>(<span class="ruby-value str">'security_token'</span>, <span class="ruby-constant">AuthenticatedUser</span>.<span class="ruby-identifier">hashed</span>(<span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">salted_password</span> <span class="ruby-operator">+</span> <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>.<span class="ruby-identifier">to_i</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">rand</span>.<span class="ruby-identifier">to_s</span>))
+140:       <span class="ruby-identifier">write_attribute</span>(<span class="ruby-value str">'token_expiry'</span>, <span class="ruby-constant">Time</span>.<span class="ruby-identifier">at</span>(<span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>.<span class="ruby-identifier">to_i</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">token_lifetime</span>(<span class="ruby-identifier">hours</span>)))
+141:       <span class="ruby-identifier">update_without_callbacks</span>
+142:       <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">security_token</span>
+143:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000014" class="method-detail">
+        <a name="M000014"></a>
+
+        <div class="method-heading">
+          <a href="#M000014" class="method-signature">
+          <span class="method-name">token_lifetime</span><span class="method-args">(hours = nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000014-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000014-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/login_engine/lib/login_engine/authenticated_user.rb, line 145</span>
+145:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">token_lifetime</span>(<span class="ruby-identifier">hours</span> = <span class="ruby-keyword kw">nil</span>)
+146:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">hours</span>.<span class="ruby-identifier">nil?</span>
+147:         <span class="ruby-constant">LoginEngine</span>.<span class="ruby-identifier">config</span>(<span class="ruby-identifier">:security_token_life_hours</span>) <span class="ruby-operator">*</span> <span class="ruby-value">60</span> <span class="ruby-operator">*</span> <span class="ruby-value">60</span>
+148:       <span class="ruby-keyword kw">else</span>
+149:         <span class="ruby-identifier">hours</span> <span class="ruby-operator">*</span> <span class="ruby-value">60</span> <span class="ruby-operator">*</span> <span class="ruby-value">60</span>
+150:       <span class="ruby-keyword kw">end</span>
+151:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000010" class="method-detail">
+        <a name="M000010"></a>
+
+        <div class="method-heading">
+          <a href="#M000010" class="method-signature">
+          <span class="method-name">validate_password?</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000010-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000010-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/login_engine/lib/login_engine/authenticated_user.rb, line 121</span>
+121:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">validate_password?</span>
+122:       <span class="ruby-ivar">@new_password</span>
+123:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,216 @@
+
+<div id="errordiv" class="error" style="display:none;">
+	<%=error_messages_for('submission', :header_tag => 'h2', :id => 'myid_name', :class => 'error') %>
+	<div class="error" style="text-align:center;width:100%;">
+		<p >Click the button below to fix your errors.  Any errors will be highlighted in red.</p>
+		<input type="button" value="Fix Errors >>" onClick="Element.show($('sub_step1'));Element.hide($('errordiv'));return false;" />
+	</div>
+</div>	
+
+<div id="sub_step1" style="display:none;">
+	<%if(bEdit == true)%>
+		<span style="font: bold 18pt sans-serif;color:#757575;letter-spacing:-.05em;"><span style="color:#5993ff;">Step 1 of 2</span> - Oops. Fix Your Link.</span>
+		<br />
+		<i>Simply change any mistakes or typos using the form below.<br /> 
+		You can fix your entry for up to 15 minutes after you have submitted.<br /></i><br />  
+	<%else%>
+		<span style="font: bold 18pt sans-serif;color:#757575;letter-spacing:-.05em;"><span style="color:#5993ff;">Step 1 of 3</span> - Submit Your Link!</span>
+	<%end%>
+	<label>
+		<strong>Do you have a link to some great media that you want to promote or share with us? Just follow these simple steps to submit your media link to PopCurrent. </strong><br /><br />
+	</label>
+	<label for="submission_category">
+		<strong>A.</strong> Select the category for your entry:
+		<% @categories = Category.find(:all).map {|c| [c.category_name, c.category_name] } %>
+		<% @categories = ['--Choose--'] + @categories %>
+		<%= select(:submission, :category, @categories)%>
+	</label>
+
+	<label for="submission_url">
+		<strong>B.</strong> Enter the full URL (hyperlink) to the media here:<br />
+		<% if @params[:url] %>
+		    Help
+			<%= text_field('submission', 'url', "maxlength" => 255, :value => @params[:url], :class => "editbox") %>
+		<% else %>
+			<%= text_field('submission', 'url', "maxlength" => 255, :class => "editbox") %>
+		<% end %>
+		<span style="font:normal .90em sans-serif"> Url must begin with "http://".</span><br />
+	</label>
+	<label>
+		<strong>C. Do you have other links to this media? (RSS, iTunes, Morpheus or BitTorrent)</strong><br />
+	</label>
+		<%if(bEdit == true)%>
+		<a href="#" id="options" onclick="new Effect.toggle('optionalLinks','blind');return false;" style="font: bold 9pt sans-serif;">If yes, click here to change these links.</a><span style="font: bold 9pt sans-serif;color:#80b439;">&nbsp;(Optional)</span>
+		<%else%>
+		<a href="#" id="options" onclick="new Effect.toggle('optionalLinks','blind');return false;" style="font: bold 9pt sans-serif;">If yes, click here to enter these links.</a><span style="font: bold 9pt sans-serif;color:#80b439;">&nbsp;(Optional)</span>
+		<%end%>
+	<div id="optionalLinks" style="display:none;">
+		<div style="padding-left:2em;">
+		<br />
+		You may have more than one link to this media. These links are
+		added to your entry as the small icons below your main link.<br /><br />    
+		<label for="submission_rss_url">
+			<img src="/images/rss.gif" width="16" height="16" />&nbsp;Do you have a link to an RSS XML file for this media?
+			<span style="font:normal .90em sans-serif"> If yes, enter it here:</span><br />
+			<% if @params[:rss] %>
+				Help
+				<%= text_field('submission', 'rss_url', "maxlength" => 255, :value => @params[:rss], :class => "editbox") %>
+			<% else %>
+				<%= text_field('submission', 'rss_url', "maxlength" => 255, :class => "editbox") %>
+			<% end %>
+			<span style="font:normal .90em sans-serif"> Url must begin with "http://".</span><br />
+		</label>
+		<label for="submission_itunes_url">
+			<img src="/images/itunes-icon.gif" width="16" height="16" />&nbsp;Do you Have an <a href="http://phobos.apple.com/WebObjects/MZSearch.woa/wa/itmsLinkMaker" target='_blank'>iTunes Music Store</a> link for this media? 
+			<span style="font:normal .90em sans-serif"> If yes, enter it here:</span><br />
+			<% if @params[:itunes] %>
+				<%= text_field('submission', 'itunes_url', "maxlength" => 255, :value => @params[:itunes], :class => "editbox") %>
+			<% else %>
+				<%= text_field('submission', 'itunes_url', "maxlength" => 255, :class => "editbox") %>
+			<% end %>
+			<span style="font:normal .90em sans-serif"> Url must begin with "http://phobos.apple.com".</span><br />
+		</label>
+		<label for="submission_magnet_url">
+			<img src="/images/morphicon.gif" width="16" height="16" />&nbsp;
+			Do you have a <a href="http://morpheus.com/">Morpheus</a> Magnet link for this media?  
+			<span style="font:normal .90em sans-serif"> If yes, enter it here:</span><br />
+			<% if @params[:magnet] %>
+				<%= text_field('submission', 'magnet_url', "maxlength" => 255, :value => @params[:magnet], :class => "editbox") %>
+			<% else %>
+				<%= text_field('submission', 'magnet_url', "maxlength" => 255, :class => "editbox") %>
+			<% end %>
+			<span style="font:normal .90em sans-serif"> Url must begin with "magnet:".</span><br />
+		</label>
+		<label for="submission_torrent_url">
+			<img src="/images/torrent.gif" width="16" height="16" />&nbsp;
+			Do you have a <a href="http://bittorrent.com">BitTorrent</a> link for this media?
+			<span style="font:normal .90em sans-serif"> If yes, enter it here:</span><br />
+			<% if @params[:torrent] %>
+				<%= text_field('submission', 'torrent_url', "maxlength" => 255, :value => @params[:torrent], :class => "editbox") %>
+			<% else %>
+				<%= text_field('submission', 'torrent_url', "maxlength" => 255, :class => "editbox") %>
+			<% end %>
+			<span style="font:normal .90em sans-serif"> Url must begin with "http://".</span><br />
+		</label>
+		</div>
+	</div>
+
+	<% if authorized?(:controller => "user", :action => "edit_roles") %>
+			<!--
+			<label for="submission_pfc">
+				<strong>D.</strong> <%= check_box('submission', 'pfc')%>Paid for consideration?<br />
+			</label-->
+	<% end %>
+	<br /><br />		
+	<div style="text-align:center;width:100%;">
+		<input type="button" value="Next Step >>" onClick="Element.hide($('sub_step1'));Element.show($('sub_step2'));return false;" />
+	</div>
+</div>
+<div id="sub_step2" style="display:none;">
+	<%if(bEdit == true)%>
+		<span style="font: bold 18pt sans-serif;color:#757575;letter-spacing:-.05em;"><span style="color:#5993ff;">Step 2 of 2</span> - Oops. Fix Your Description.</span>
+		<br />
+		<i>Simply change any mistakes or typos using the form below.<br /> 
+		You can fix your entry for up to 15 minutes after you have submitted.<br /></i><br />  
+	<%else%>
+		<span style="font: bold 18pt sans-serif;color:#757575;letter-spacing:-.05em;"><span style="color:#5993ff;">Step 2 of 3</span> - Describe and Tag It!</span>
+
+	<%end%>
+	<label for="submission_title" class="first">
+		<strong>Next, enter the following information to describe your entry.</strong><br /><br />
+		A. Enter a catchy title.<br />  
+		<span style="font:normal .90em sans-serif"> This will become the hyperlink text for the url you entered in the last step.</span><br />
+		<% if @params[:title] %>
+			<%= text_field('submission', 'title', "maxlength" => 255, :value => @params[:title], :class => "editbox") %>
+		<% else %>
+			<%= text_field('submission', 'title', "maxlength" => 255, :class => "editbox") %>
+		<% end %>
+	</label>
+	<label for="submission_description">
+		B. Enter a description.<br />  
+		<span style="font:normal .90em sans-serif"> You have 4000 characters, be creative and tell us why this media is worthy of the &quot;Hot Now&quot; page.</span><br />
+			<%= text_area('submission', 'description', {:rows => 5, :id => "sub_description"}) %>
+	</label>
+	<label for="submission_imageurl">
+		C. Choose an image. <span style="font: bold 9pt sans-serif;color:#80b439;">(Optional)</span><br />  
+		<span style="font:normal .90em sans-serif"> Select an image from your computer to display next to your link. (GIF, JPG or PNG only)</span><br />
+		<%= file_field("submission", "image_url") %>
+	</label>
+	<label for="submission_tags">
+		D. Enter your tags. <span style="font: bold 9pt sans-serif;color:#80b439;">(Optional)</span><br />  
+		<span style="font:normal .90em sans-serif"> Enter a few keywords to describe this media, separated by spaces or commas. Use quotes around multiple word tags.</span><br />
+		<%= text_field_tag('tags', '', :class => "editbox") %>
+	</label>
+	<%if(!bEdit)%>
+		<%= hidden_field('submission', 'created_at',{:value => Time.now})%>
+	<%end%>
+	<%= hidden_field('submission', 'updated_at',{:value => Time.now})%>
+	<%= hidden_field('submission', 'status')%>
+	<%= hidden_field('submission', 'deleted',{:value => Time.now})%>
+
+	<br />
+	<div style="text-align:center;width:100%;">
+		<input type="button" value="<< Previous Step" onClick="Element.hide($('sub_step2'));Element.show($('sub_step1'));return false;" />
+		<%if(bEdit == true)%>
+			<%= submit_tag 'Finished. Save My Changes!' %>
+		<%else%>
+			<input type="button" value="Next Step >>" onClick="Element.hide($('sub_step2'));Element.show($('sub_step3'));return false;" />
+		<%end%>
+	</div>
+</div>
+
+<div id="sub_step3" style="display:none;">
+		<%if(bEdit == true)%>
+		<%else%>
+			<span style="font: bold 18pt sans-serif;color:#757575;letter-spacing:-.05em;"><span style="color:#5993ff;">Step 3 of 3</span> - Get The Word Out!</span>
+		<%end%>
+		<label>
+			Now that you have taken the time to get your entry up on popcurrent, it is important that you get some votes
+			to make it onto the &quot;Hot Now&quot; page.  
+		</label>
+		<br />
+		
+		<%=render_partial "application/mailer"%>
+		
+		<label for="">
+			<strong>B.</strong> <%= check_box('pop', 'autopop', :checked => "checked")%>
+			Automatically pop my own entry.<br />
+			<span style="font:normal .90em sans-serif">
+			Yes, of course you can pop your own entry, we recommend it.  If for some strange reason you
+			don't want to pop your new entry, uncheck the box above.
+		</label>
+<!--
+		<label for="">
+			<strong>C.</strong> <%= check_box('', '', :checked => "checked")%>
+			Send me an email when my entry get promoted to the &quot;Hot Now&quot; page.<br />
+			<span style="font:normal .90em sans-serif">
+			If and when your entry makes it to the &quot;Hot Now&quot; page, we will send you an email
+			to notify you of the progress.
+		</label>
+
+		<label for="">
+			<strong>D.</strong> <%= check_box('', '', :checked => "checked")%>
+			Send me an email when someone comments on my entry.<br />
+			<span style="font:normal .90em sans-serif">
+			Each time someone comments on your entry, we will send you an email with a link to read the comments. 
+		</label>
+-->
+		<br />
+		<div style="text-align:center;width:100%;">
+			<input type="button" value="<< Previous Step" onClick="Element.hide($('sub_step3'));Element.show($('sub_step2'));return false;" />
+			<%= submit_tag 'Finish!' %>
+		</div>
+</div>
+
+<% if(flash[:success] == "failed") %>
+	<script type="text/javascript">
+		Element.hide($('sub_step1'));
+		Element.hide($('sub_step2'))
+		Element.hide($('sub_step3'))
+		Element.show($('errordiv'));		
+	</script>
+<%else%>
+	<script type="text/javascript">
+		Element.show($('sub_step1'));
+	</script>
+<% end %>

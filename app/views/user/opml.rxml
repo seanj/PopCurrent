@@ -1,0 +1,27 @@
+xml.instruct! :xml, :version=>"1.0",:encoding=>"UTF-8"
+
+xml.opml "version" => "2.0" do
+  xml.head do
+    xml.title("PopCurrent Friends Subscription List For Critic: " + @user.login)
+  end
+  xml.body do
+    xml.outline("text" =>  "PopCurrent Critic: " + @user.login, \
+     "htmlUrl" => url_for(:only_path => false, :controller => "user", :action => :profile, :user => @user.login), \
+     "language" => "unknown", \
+     "title"=> "PopCurrent Critic: " + @user.login, \
+     "type" => "rss", \
+     "version" => "RSS2", \
+     "xmlUrl" => url_for(:only_path => false, :controller => "user", :action => :rss, :user => @user.login))  
+    for @friend in @user.friends
+      xml.outline("text" =>  "PopCurrent Critic: " + @friend.profile.user.login, \
+       "htmlUrl" => url_for(:only_path => false, :controller => "user", :action => :profile, :user => @friend.profile.user.login), \
+       "language" => "unknown", \
+       "title"=> "PopCurrent Critic: " + @friend.profile.user.login, \
+       "type" => "rss", \
+       "version" => "RSS2", \
+       "xmlUrl" => url_for(:only_path => false, :controller => "user", :action => :rss, :user => @friend.profile.user.login))
+    end
+  end
+end
+      
+   

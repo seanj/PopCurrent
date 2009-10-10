@@ -1,0 +1,35 @@
+<h3>Customize</h3>
+<p>Check the categories that interest you, uncheck the ones that don't:</p>
+<% @get_page_action = get_current_page_action%>
+<%= form_remote_tag(:update => "content",
+                                        :url => { :action => @get_page_action },
+                                        :loading => "Element.show('busy');",
+                                        :complete => "Element.hide('busy');",:evalscripts => false) %>
+
+	<span id="busy" style="float:right;display:none;"><img src="/images/busy.gif"/></span>
+	<table>
+		<%@categories = get_all_categories
+		for @category in @categories%>
+			<% if @category.id % 2 == 1 %>
+				<tr>
+			<% end %>
+			<td class="entrydescription">
+			<%if(@session[:filter]['c' + String(@category.id)])%>
+		    	<%=check_box_tag('filter[c' + String(@category.id) + ']', @category.category_name, checked = true,  :onclick => "this.form.onsubmit();")%><%=h(@category.category_name)%>
+			<%else%>
+				<%=check_box_tag('filter[c' + String(@category.id) + ']', @category.category_name, checked = false,  :onclick => "this.form.onsubmit();")%><%=h(@category.category_name)%>
+			<%end%>
+			<% if @category.id % 2 == 1 %>
+				<% spaces = @category.category_name.length - 3 %>
+				<% for space in (spaces..3) %>
+					&nbsp;
+				<%end%>
+			<% end %>
+			</td>
+			<% if @category.id % 2 == 0 %>
+				</tr>
+			<% end %>
+		<% end %>
+	</table>
+<%= end_form_tag %>
+<br/>

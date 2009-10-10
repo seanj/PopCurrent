@@ -1,0 +1,69 @@
+<div class="error">
+<%= error_messages_for 'advertisement' %>
+</div>
+<div>
+	<%if(bEdit == true)%>
+			<span style="font: bold 18pt sans-serif;color:#757575;letter-spacing:-.05em;">Change Advertisement</span>
+	<%else%>
+			<span style="font: bold 18pt sans-serif;color:#757575;letter-spacing:-.05em;">Create New Advertisement</span>
+	<%end%>
+	<br />
+	<label for="advertisement_enabled" class="radio" >
+		<%if(bEdit == true)%>
+			<%= check_box('advertisement', 'enabled', "style" => 'display:inline;')%>
+		<%else%>
+			<%= check_box('advertisement', 'enabled', "checked" => 'checked', "style" => 'display:inline;')%>
+		<%end%>
+		Enable This Ad <i>(Uncheck to pull ad from rotation)</i>
+	</label>
+	<br/>
+
+	<label for="advertisement_desc">
+		Short Description of Ad (Internal Only)<br />
+		<%= text_field 'advertisement', 'desc', :class => "editbox"  %>
+	</label>
+	<br />
+
+	<label for="advertisement_codeblock">
+		Ad Code Block
+		<%= text_area ('advertisement', 'codeblock', {:rows => 8, :id => "advertisement_codeblock", :class => "editbox"})  %></p>
+	</label>
+	<br/>
+
+	<label for="advertisement_priority" style="display:inline;margin-left:30px;">
+		Priority
+		<%= select(:advertisement, :priority, [5,4,3,2,1], :class => "editbox")%>
+	</label>
+	
+	<label for="advertisement_placement" style="display:inline;margin-left:30px;">
+		Placement
+		<%= select(:advertisement, :placement, ['Top','Bottom','Side','Single Entry','List Middle','List Sidebar'], :class => "editbox")%>
+	</label>
+	<br /><br />
+	
+	<label for="advertisement_width" style="display:inline;margin-left:30px;">
+		Width&nbsp;<%= text_field ('advertisement', 'width', "maxlength" => 8, "style" => 'width:4em;display:inline;')%>&nbsp;
+	</label>
+	
+	<label for="advertisement_height" style="display:inline;margin-left:30px;">
+		Height&nbsp;<%= text_field ('advertisement', 'height', "maxlength" => 8, "style" => 'width:4em;display:inline;')%>&nbsp;
+	</label>
+	<br /><br />
+	
+	<label for="advertisement_start_at" style="display:inline;">
+		Start On &nbsp;&nbsp;
+		<%= datetime_select 'advertisement', 'start_at' %>
+	</label>
+	<br/>
+	
+	<label for="advertisement_expire_at" style="display:inline;">
+		Expire On
+		<%= datetime_select 'advertisement', 'expire_at'  %></p>
+	</label>
+	<br/>
+	<%if(bEdit == true)%>
+		<%= submit_tag 'Save Changes' %>
+	<%else%>
+		<%= submit_tag 'Create New Ad' %>
+	<%end%>
+</div>

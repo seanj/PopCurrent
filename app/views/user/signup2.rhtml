@@ -1,0 +1,6 @@
+<p>Thank you for signing up with popcurrent.com!</p>
+<p>You will be sent an email to authenticate your email address.<br />
+<span style="color:#FF3300;font: 12pt sans-serif;">You <b>must</b> click the link contained in the authentication email to activate your account.</span><br />
+ Once you do so, you will be able to login and use you popcurrent.com account.</p>
+
+<%= link_to_remote('Login Now!', :update => 'formbox', :url => {:controller => 'user', :action => 'login'})%>

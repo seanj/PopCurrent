@@ -1,0 +1,3 @@
+InviteMailer#sent
+
+Find me in app/views/invite_mailer/sent.rhtml

@@ -1,0 +1,13 @@
+<h1>PopCurrent MediaRiver</h1>
+
+<h4>This MediaRiver view is for users wishing to keep track of the latest <%= link_to("PopCurrent", :controller => "/")%> entries on their mobile devices.</h4>
+
+<%= render(:partial => "pagination", :object => @submission_pages)%>
+<% for @submission in @submissions %>
+	<p><b><%=@submission.category %></b> &gt; <%= link_to(h(@submission.title), :action => :urlname, :urlname => @submission.urlname) %> (<%=  pluralize(@submission.vote_total, 'pop', 'pops')%>) <%=truncate(h(@submission.description), 100)%> Submitted By <%= link_to(h(@submission.user.login), :controller => "user", :action => :profile, :user => @submission.user.login) %>, <%= calced_time_since_submission %></p>
+<% end %>
+<%= render(:partial => "pagination", :object => @submission_pages)%>
+
+<h4>The river concept comes from the great mind behind <a href="http://blogs.law.harvard.edu/tech/rss">RSS</a> and <a href="http://opml.org">OPML</a>, <a href="http://scripting.com">Dave Winer</a>.  Thanks Dave!</h4>
+	
+<%= render(:partial => "application/footer")%>

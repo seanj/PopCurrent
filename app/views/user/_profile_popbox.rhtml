@@ -1,0 +1,81 @@
+<%if(@user.profile)%>
+
+<%
+if(is_friend && current_user != @user)
+	topclass = "poptopgreen"
+	middleclass = "popmiddlegreen"
+	bottomclass = "popbottomgreen"
+else
+	topclass = "poptopblue"
+	middleclass = "popmiddleblue"
+	bottomclass = "popbottomblue"
+end
+%>
+<table cellspacing="0">
+	<% case profile_has_voted; when 0 %>
+		<tr><td class="<%=topclass%>">
+			<div id="userpop<%=@user.id%>">
+			<%if @session[:user]%>
+				<%= link_to_remote('Pop!', :update => 'total' + String(@user.id), 
+											  :url => {:action => 'profile_pop_it', :id => @user},
+											  :loading => "Element.hide('userpop" + String(@user.id) + "');Element.hide('userflop" + String(@user.id) + "');")%>
+											
+			<%else%>
+				<%= link_to_remote('Pop!', :update => 'formbox', :url => {:controller => 'user', :action => 'login'})%>
+			<% end %>
+			</div>
+		</td></tr>
+		<tr><td class="<%=middleclass%>" onclick="location.href='/critics/<%= @user.login %>';">
+			<%= @user.profile.vote_total %>
+		</td></tr>
+		<tr><td class="<%=bottomclass%>">
+			<div id="userflop<%=@user.id%>">
+			<%if @session[:user]%>
+				<% if @session[:user].profile && @session[:user].profile.vote_total >= 0 %>
+					<%= link_to_remote('Flop!', :update => 'total' + String(@user.id), 
+											  :url => {:action => 'profile_flop_it', :id => @user},
+											  :loading => "Element.hide('userpop" + String(@user.id) + "');Element.hide('userflop" + String(@user.id) + "');",
+											  :confirm => "Are you sure you want to flop this critic?")%>
+				<% end%>
+			<%else%>
+				<%= link_to_remote('Flop!', :update => 'formbox', :url => {:controller => 'user', :action => 'login'})%>
+			<% end %>
+			</div>
+		</td></tr>
+	<% when 1 %>
+		<tr><td class="<%=topclass%>">
+			<div id="userpop<%=@user.id%>" class="popped">
+				Popped!
+			</div>
+		</td></tr>
+		<tr><td class="<%=middleclass%>" onclick="location.href='/critics/<%= @user.login %>';">
+			<%= @user.profile.vote_total %>
+		</td></tr>
+		<tr><td class="<%=bottomclass%>">
+			<div id="userflop<%=@user.id%>">
+				<%= link_to_remote('Clear Pop', {:update => 'total' + String(@user.id), 
+									  :url => {:action => 'profile_un_pop', :id => @user},
+									  :loading => "Element.hide('userpop" + String(@user.id) + "');Element.hide('userflop" + String(@user.id) + "');"},
+									  {:style => "font: 8pt sans-serif;cursor: hand;"})%>
+			</div>
+		</td></tr>
+	<% when 2 %>
+		<tr><td class="<%=topclass%>">
+			<div id="userpop<%=@user.id%>">
+				<%= link_to_remote('Clear Flop', {:update => 'total' + String(@user.id), 
+									  :url => {:action => 'profile_un_flop', :id => @user},
+									  :loading => "Element.hide('userpop" + String(@user.id) + "');Element.hide('userflop" + String(@user.id) + "');"},
+									  {:style => "font: 8pt sans-serif;cursor: hand;"})%>
+			</div>
+		</td></tr>
+		<tr><td class="<%=middleclass%>" onclick="location.href='/critics/<%= @user.login %>';">
+			<%= @user.profile.vote_total %>
+		</td></tr>
+		<tr><td class="<%=bottomclass%>">
+			<div id="flop<%=@user.id%>" class="flopped">
+				Flopped!
+			</div>
+		</td></tr>
+	<% end %>
+</table>
+<% end %>

@@ -1,0 +1,26 @@
+<% store_location() %>
+<%if(@session[:current_page] == $page_usersearchresults)%>
+<h2>
+	Critics Containing &quot;<%= params[:query]%>&quot;
+</h2>
+<% end %>
+
+<%if (@all_users && @all_users.length >0)%>
+	<%= render(:partial => "pagination", :object => @user_pages)%>
+	<% counter = 0%>
+	<% for @user in @all_users %>
+  	  <%if (authorized?(:controller => "user", :action => "edit_roles") or @user.verified > 0)%>
+		<%if(counter == 0)%>
+			<div id="i<%=@user.id%>" class="itemfirst" onmouseover="this.className = 'itemfirstselected';" onmouseout="this.className = 'itemfirst';">
+		<%else%>
+			<div id="i<%=@user.id%>" class="item" onmouseover="this.className = 'itemselected';" onmouseout="this.className = 'item';">
+		<%end%>
+		<%= render(:partial => "profile", :object => @user, :locals => {:bShowFull => false})%>
+		<%counter += 1%>
+		</div>
+  	  <%end%>
+	<% end %>
+	<%= render(:partial => "pagination", :object => @user_pages)%>
+<% else %>
+	<%= render(:partial => "application/buster") %>
+<% end %>

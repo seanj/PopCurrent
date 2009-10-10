@@ -1,0 +1,61 @@
+<label for="emailaddresses">
+	<%if(@session[:current_page] == $page_invite)%>	
+		Send an email to invite your friends to discover popcurrent.com.
+	<%else%>
+		<%if(@session[:current_page] == $page_submit)%>A. <%end%>Send an email to people you know to invite them to vote for this entry.	
+	<%end%>
+	<%if(@session[:current_page] == $page_submit)%>
+	<span style="font: bold 9pt sans-serif;color:#80b439;">(Optional)</span>
+	<%end%>
+	<br /><span style="font:normal .90em sans-serif">Enter one or more email addresses, separated by commas, of the people you would like to invite. 
+	<br /><br />
+	<table cellspacing="2">
+		<tr>
+			<td style="width:60px;font: bold 9pt sans-serif;color: #002f87;" valign="top" align="right">
+				To:&nbsp;
+			</td>
+			<td style="width:90%;">
+				<%= text_area('email', 'emailaddresses', {:rows => 3, :id => "emailaddresses", :value => @addresses}) %>
+			</td>
+		</tr>
+	</table>
+	<div id="previewMessage" style="display:block">
+	<table cellspacing="2">
+		<tr>
+			<td style="width:60px;font: bold 9pt sans-serif;color: #002f87;" align="right">
+				Subject:&nbsp;
+			</td>
+			<td>
+				<div style="font: 9pt sans-serif;color:#000000;background-color:#dee6f5; border: 1px solid #757575;padding: 4px;">
+				<%if(@session[:current_page] == $page_invite)%>
+					<%=$invite_subject%>
+				<%else%>
+					<%=$pop_subject%>
+				<%end%>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:60px;font: bold 9pt sans-serif;color: #002f87;" valign="top" align="right">
+				Message:&nbsp;
+			</td>
+			<td>
+				<div style="font:9pt sans-serif;color:#000000;background: #dee6f5;border: 1px solid #757575;padding: 4px;">
+					<%if(@session[:current_page] == $page_invite)%>
+						<%=$invite_body%>
+					<%else%>
+						<%=$pop_body%>
+					<%end%><br /><br />
+					<div id="cust_message_invite>"></div>
+				</div>
+			</td>
+		</tr>
+	</table>
+	</div>
+</label>
+	<div id="emailMessage" style="display:block;">
+	<label for="emailmessage">
+		Enter a short custom message to the recipients of this email. <span style="font: bold 9pt sans-serif;color:#80b439;">(Optional)</span><br />  
+			<%= text_area('email', 'emailmessage', {:rows => 3, :id => "emailmessage", :onkeyup => "$('cust_message_invite').innerHTML = this.value;", :onkeydown => "if(this.value.length > 500)return false;", :value => @message}) %>
+	</label>
+</div><br />

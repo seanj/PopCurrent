@@ -1,0 +1,10 @@
+<%if(flash[:success] == 'toomanyflops')
+	flash[:success] = ''%>
+	<script type="text/javascript">alert("You can only flop 3 entries in a 24 hour period.");</script>
+<%end%>
+
+<% if(@params[:mini])%>
+	<%= render( :partial => "mini_popbox", :object => @submission)%>
+<% else %>
+	<%= render( :partial => "popbox", :object => @submission)%>
+<% end %>

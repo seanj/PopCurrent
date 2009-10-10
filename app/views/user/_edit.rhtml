@@ -1,0 +1,25 @@
+<% if(user.new_record?)%>
+	<label for="user_login">
+		User Name:
+		<%= text_field ('user', 'login',{:id => "user_login", :maxlength => 80, :class => "editbox"}) %>
+	</label>
+	<label for="user_email">
+		Email Address:
+		<%= text_field ('user', 'email',{:id => "user_email2", :maxlength => 60, :class => "editbox"}) %>
+	</label>
+<% end %>
+<label for="user_firstname">
+	First Name: <span style="font: bold 9pt sans-serif;color:#80b439;">(Optional)</span>
+	<%= text_field ('user', 'firstname',{:id => "user_firstname", :maxlength => 40, :class => "editbox"}) %>
+</label>
+<label for="user_lastname">
+	Last Name: <span style="font: bold 9pt sans-serif;color:#80b439;">(Optional)</span>
+	<%= text_field ('user', 'lastname',{:id => "user_lastname", :maxlength => 40, :class => "editbox"}) %>
+</label>
+
+
+
+<% if submit %>
+    <%= form_input :submit_button, ('Signup')%>
+<% end %>
+

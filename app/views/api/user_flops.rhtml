@@ -1,0 +1,6 @@
+document.write('Entries I Flopped On <a href="popcurrent.com">popcurrent.com</a><br/>')
+document.write('<ul>')
+	<% for @submission in @submissions %>
+		document.write('<li><%=link_to(h(@submission.title.gsub("'", "")), :controller => "submissions", :action => "urlname", :urlname => @submission.urlname )%></li>')
+	<%end%>
+document.write('</ul>')

@@ -1,0 +1,73 @@
+<h3>Popular Critics</h3>
+	
+<%random_users(9) %>
+
+
+
+<div id="minipics">
+	<ul>
+  		<% for @user in @random_users %>
+		<li>
+			<div class="rbroundpicbox">
+				<div class="rbtop">
+					<div></div></div>
+					<div class="rbcontent">
+						<a href="/critics/<%=h(@user.login)%>"><%=image_tag(url_for_file_column(@user.profile, "image_url", "normal"), :alt => '') rescue '<img src="/images/noimage_48.gif" />'%></a>
+					</div><!-- /rbcontent -->
+				<div class="rbbot"><div></div></div>
+			</div><!-- /rbroundbox -->
+		</li>
+		<% end %>
+	</ul>
+</div>
+<div style="clear:both;text-align:center;padding-top:4px;padding-bottom: 8px;"><%= link_to('<strong>View More Critics...</strong>', :controller => 'user', :action => 'list')%></div>
+
+<%= render_component(:controller => "advertisements", :action => "show", :params => {:placement => "List Sidebar"}) %>
+<br />
+<%@categories = get_all_categories%>
+<%for @category in @categories%>
+	<%new_by_category(3, @category.category_name)%>
+	
+	<%if(!@new_by_category.empty?)%>
+		<h3>What's New in <span style="color:#000000;"><%= @category.category_name%></span></h3>
+		<% for @submission in @new_by_category%>
+		<div class="rbroundlistbox">
+			<div class="rbtop">
+				<div></div></div>
+				<div class="rbcontent" style="background:#ebebeb;">
+					<table style="width:100%;">
+						<tr>
+							<td style="width:52px;">
+								<% if @submission.image_url%>
+								<a href="/entries/<%= @submission.urlname %>"><%= image_tag(url_for_file_column("submission", "image_url", "normal"), :alt => '') rescue ""%></a>
+								<% end %>
+							</td>
+							<td style="font: 9pt sans-serif;text-align:left;">
+								<a href="/entries/<%= @submission.urlname %>" style="font: 9pt sans-serif;text-align:left;">
+								<%if(@submission.title.index(" ") == nil)
+									if(@submission.title.length > 30)%>
+										<%= truncate(h(@submission.title),27) %>
+									<% else %>
+										<%= h(@submission.title)%>
+									<% end %>
+								<%else%>
+									<%if(@submission.title.length > 60)%>
+										<%= truncate(h(@submission.title),60) %>
+									<% else %>
+										<%= h(@submission.title)%>
+									<% end %>
+								<%end%>
+								</a>
+							</td>
+						</tr>
+				   </table>
+				</div><!-- /rbcontent -->
+			<div class="rbbot"><div></div></div>
+		</div><!-- /rbroundbox -->
+		<% end %>
+	<% end %>
+<% end %>
+<h3>&nbsp;RSS Feeds</h3>
+&nbsp;<img src="/images/rss.gif"/>&nbsp;&nbsp;&nbsp;<a href="/rss/hot">Hot Now!</a><br /> 
+&nbsp;<img src="/images/rss.gif"/>&nbsp;&nbsp;&nbsp;<a href="/rss/newest">Newest Entries</a><br />
+&nbsp;<img src="/images/rss.gif"/>&nbsp;&nbsp;&nbsp;<a href="/rss/best">Best Entries</a>

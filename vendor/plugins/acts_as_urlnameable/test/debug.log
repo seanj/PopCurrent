@@ -1,0 +1,10 @@
+# Logfile created on Thu May 18 08:58:44 EDT 2006 by logger.rb/1.5.2.7
+  [4;36;1mSQL (0.000000)[0m   [0;1mSQLite3::SQLException: no such table: articles: DROP TABLE articles[0m
+  [4;35;1mSQL (0.001287)[0m   [0mCREATE TABLE articles ("id" INTEGER PRIMARY KEY NOT NULL, "title" varchar(255), "body" text, "person_id" integer, "comments_enabled" boolean DEFAULT 't', "type" varchar(255)) [0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mSQLite3::SQLException: no such table: pages: DROP TABLE pages[0m
+  [4;35;1mSQL (0.001097)[0m   [0mCREATE TABLE pages ("id" INTEGER PRIMARY KEY NOT NULL, "title" varchar(255), "body" text, "section_id" integer) [0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mSQLite3::SQLException: no such table: sections: DROP TABLE sections[0m
+  [4;35;1mSQL (0.001248)[0m   [0mCREATE TABLE sections ("id" INTEGER PRIMARY KEY NOT NULL, "name" varchar(255)) [0m
+  [4;36;1mSQL (0.000000)[0m   [0;1mSQLite3::SQLException: no such table: people: DROP TABLE people[0m
+  [4;35;1mSQL (0.000978)[0m   [0mCREATE TABLE people ("id" INTEGER PRIMARY KEY NOT NULL, "full_name" varchar(255), "password" varchar(255)) [0m
+  [4;36;1mSQL (0.001267)[0m   [0;1mCREATE TABLE urlnames ("id" INTEGER PRIMARY KEY NOT NULL, "nameable_type" varchar(255), "nameable_id" integer, "name" varchar(255)) [0m

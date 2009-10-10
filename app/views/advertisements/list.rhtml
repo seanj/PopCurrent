@@ -1,0 +1,59 @@
+<% store_location() %>
+<div align="left">
+<h2>Advertisements</h2>
+<%= link_to 'New advertisement', :action => 'new' %>
+<br />
+<%if(@advertisements && @advertisements.length > 0)%>
+<%= render(:partial => "pagination", :object => @advertisement_pages)%>
+
+<% counter = 0 %>
+<% for @advertisement in @advertisements %>
+	<% if(counter == 0)%>
+		<div id="a<%=@advertisement.id%>" class="itemfirst" onmouseover="this.className = 'itemfirstselected';" onmouseout="this.className = 'itemfirst';" style="padding-left:0;">
+	<%else%>
+		<div id="a<%=@advertisement.id%>" class="item" onmouseover="this.className = 'itemselected';" onmouseout="this.className = 'item';" style="padding-left:0;">
+	<%end%>
+		<div class="entry">
+			<div class="entrytitle">
+				<%if(@advertisement.enabled != 1)%>
+					<span style="color:Red;">[Disabled]</span>
+				<%end%>
+				<%= link_to(h(@advertisement.desc), :action => "edit", :id => @advertisement) %>
+			</div>
+			<span class="entrysubmission">
+				<strong>Placement:</strong>
+				<span class="entrycategory"><%= h(@advertisement.placement)%></span>
+				&nbsp;&nbsp;&nbsp;
+				<strong>Priority:</strong>
+				<span class="addescription"><%= h(@advertisement.priority)%></span>
+				&nbsp;&nbsp;&nbsp;
+				<strong>Width:</strong>
+				<span class="addescription"><%= h(@advertisement.width)%></span>
+				&nbsp;&nbsp;&nbsp;
+				<strong>Height:</strong>
+				<span class="addescription"><%= h(@advertisement.height)%></span>
+				&nbsp;&nbsp;&nbsp;
+				<br />
+			</span>
+			<br />
+			<span class="entrysubmission">
+				<strong>Ad Start Rotation Date:</strong>
+				<span class="entrydescription"><%= h(@advertisement.start_at)%></span><br />
+				<strong>Ad Expiry Date:</strong>
+				<span class="entrydescription"><%= h(@advertisement.expire_at)%></span>
+			</span>
+			<br /><br />
+			<span class="entrysubmission">
+		    	<span class="entrydescription"><%= link_to 'Destroy', { :action => 'destroy', :id => @advertisement }, :confirm => 'Are you sure?', :post => true %></span>
+			</span>
+		</div>
+		<br />
+	</div>
+	<% counter += 1 %>
+<% end %>
+
+<%= render(:partial => "pagination", :object => @advertisement_pages)%>
+<% else %>
+	<%= render(:partial => "application/buster") %>
+<% end %>
+</div>

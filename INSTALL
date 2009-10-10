@@ -1,0 +1,22 @@
+PopCurrent  Copyright (C) 2000-2009  Ray Slakinski / Sean Jackson / Mark Jeffrey
+
+***Make sure you have ImageMagick installed **
+
+Install gems:
+
+gem install rmagick.
+gem install mysql
+
+Set up DB:
+mysqladmin -u root -p create popcurrent_development
+mysqladmin -u root -p create popcurrent_test
+mysqladmin -u root -p create popcurrent_production
+rake db:migrate:engines
+rake db:migrate
+rake bootstrap
+rake sync_permissions
+rake create_categories
+
+Add the following line to your crontab to remove stale sessions from your db:
+
+*/10 * * * * ruby /var/www/popcurrent/current/script/runner -e production "SessionCleaner.remove_stale_sessions"

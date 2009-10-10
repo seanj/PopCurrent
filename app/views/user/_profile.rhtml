@@ -1,0 +1,115 @@
+<%
+if(current_user)
+if(current_user == @user)
+	is_friend = true
+else
+	is_friend = false
+end
+for friend in current_user.friends
+	is_friend = true if(friend.profile_id == @user.profile.id)
+end
+else
+	is_friend = false
+end
+%>
+
+	<div class="popbox" id='total<%= @user.id %>'>
+		<%= render( :partial => "profile_popbox", :object => @user, :locals => {:is_friend => is_friend})%>
+	</div>
+	<div class="profile">
+		<div class="profileimage">
+			<%= image_tag(url_for_file_column(@user.profile, "image_url", "large"), :alt => '') rescue '<img src="/images/noimage_96.gif" />'%>
+		</div>
+		<div class="profilename">
+			<%if(current_user == @user)%>
+				<strong><%= h(@user.login)%></strong>
+			<%else%>
+				<%= h(@user.login)%>
+			<%end%>
+		</div>
+		<div class="profiledetails">
+			<%if(!@user.profile.nil?)%>
+				<% if(@user.profile.location != "")%><%= h(@user.profile.location) %><% end %>
+				<% if(@user.profile.country != "" && @user.profile.location != "")%>,<%end%>
+				<% if(@user.profile.country != "")%>&nbsp;<%= @user.profile.country%>&nbsp;&nbsp;&nbsp;<% end %>
+			<% end %>
+			<strong>Critic Since:</strong> <%= @user.created_at.strftime( "%B %d, %Y" )  %>
+		</div>
+		<%if(!@user.profile.nil?)%>
+			<span class="profiledescription">
+				<% if(bShowFull == true) %>
+					<%=simple_format(h(@user.profile.description))%>
+				<% else %>
+					<%if(@user.profile.description.length > 200)%>
+						<%=truncate(h(@user.profile.description), 200)%>
+						<a href="/critics/<%= @user.login %>">[More]</a>
+						<br/>
+					<%else%>
+						<%=h(@user.profile.description)%>
+						<br/>
+					<%end%>
+				<% end %>
+			</span>
+		<% end %>
+		
+		<% if(bShowFull == true && authorized?(:action => 'show'))%>
+			<a href="#" onclick="Effect.toggle($('userdetails'));return false;"><strong>Click for Administrator User Details</strong></a><br />
+			<div id="userdetails" class="profiledetails" style="display:none;">
+		  	<%if(@content_columns)%>	
+				<% for column in @content_columns%>
+		    			<b><%= column.human_name %>:</b> <%=h @user.send(column.name) %><br />
+		  		<% end %>
+	  		<% end %>
+			</div>
+		<% end %>
+		
+		<br />
+		<span class="profiledetails">
+			<% if(bShowFull == false) %>
+				<a href="/critics/<%= url_encode(@user.login) %>">View&nbsp;Profile</a>
+				<%if(@user.profile)%>
+					&nbsp;-&nbsp;
+				<% end %>
+			<% end %>
+			<% if authorized?(:action => "edit_user") || current_user == @user%>
+	    		<%= link_to('Edit&nbsp;My&nbsp;Profile', :action => 'edit_user', :id => @user) %>
+					<%if(current_user != @user && @user.profile)%>
+							&nbsp;-&nbsp;
+					<% end %>
+			<% end %>
+			<%if(!is_friend)%>
+				<%if(current_user)%>
+					<%if(@user.profile)%>
+						<%= link_to_remote("Add&nbsp;Critic&nbsp;as&nbsp;a&nbsp;Friend", 
+					   						{:update => "i" + String(@user.id), 
+											:url => {:action => :add_friend, :id => @user,:bShowFull => bShowFull}})%>
+					<%end%>
+				<%else%>
+					<%= link_to_remote("Add&nbsp;Critic&nbsp;as&nbsp;a&nbsp;Friend", :update => 'formbox', :url => {:controller => 'user', :action => 'login'})%>
+				<%end%>
+					
+			<%else%>
+ 			  <% if(current_user == @user)%>
+			  <%else%>
+				<%if(current_user)%>
+					<%if(@user.profile)%>
+						<%= link_to_remote("Remove&nbsp;Critic&nbsp;As&nbsp;Friend", 
+				   						{:update => "i" + String(@user.id), 
+										:url => {:action => :remove_friend, :id => @user,:bShowFull => bShowFull}})%>
+	  			  	<%end%>
+				<%else%>
+					<%= link_to_remote("Remove&nbsp;Critic&nbsp;As&nbsp;Friend", :update => 'formbox', :url => {:controller => 'user', :action => 'login'})%>
+				<%end%>
+			  <%end%>
+			<% end %>
+			<%if(@user.profile)%>
+				<%if(@user.profile.allow_email == 1)%>
+					<%if(bShowFull == false || !is_friend || authorized?(:action => "edit_user") || current_user == @user)%>
+						&nbsp;-&nbsp;
+		  			<% end %>
+					<a href="mailto:<%=@user.email%>">Send&nbsp;Critic&nbsp;An&nbsp;Email</a>
+				<% end %>
+			<% end %>
+		</span>
+	</div>
+	<br />

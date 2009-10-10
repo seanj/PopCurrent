@@ -1,0 +1,13 @@
+<br />
+<div id="footer">
+	<a href="http://groups.google.com/group/popcurrent-users" target="_blank">User Group</a>&nbsp;-&nbsp;
+	<%= link_to('Terms of Service', :controller => 'application', :action => 'tos')%>&nbsp;-&nbsp;
+	<%= link_to('Privacy Policy', :controller => 'application', :action => 'privacy')%>&nbsp;-&nbsp;
+    <%if((authorized?(:controller => "user", :action => "edit_roles")))%>
+		&nbsp;-&nbsp;
+		<%= link_to('Manage Ads', :controller => 'advertisements', :action => 'list')%>
+	<%end%>
+
+	<br /><span style="font: 8pt sans-serif;">Copyright&copy;2006 <strong>Ray Slakinski &amp; Sean Jackson</strong>. All rights reserved.</span>
+		<div class="hrbbot"><div></div></div></div>
+</div>

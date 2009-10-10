@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: RoleController</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">RoleController</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../files/vendor/plugins/user_engine/app/controllers/role_controller_rb.html">
+                vendor/plugins/user_engine/app/controllers/role_controller.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                ApplicationController
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+The <a href="RoleController.html">RoleController</a> allows <a
+href="Role.html">Role</a> objects to be manipulated via the web interface
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000017">destroy</a>&nbsp;&nbsp;
+      <a href="#M000016">edit</a>&nbsp;&nbsp;
+      <a href="#M000018">find_role</a>&nbsp;&nbsp;
+      <a href="#M000012">index</a>&nbsp;&nbsp;
+      <a href="#M000013">list</a>&nbsp;&nbsp;
+      <a href="#M000015">new</a>&nbsp;&nbsp;
+      <a href="#M000014">show</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000017" class="method-detail">
+        <a name="M000017"></a>
+
+        <div class="method-heading">
+          <a href="#M000017" class="method-signature">
+          <span class="method-name">destroy</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Destroy a given <a href="Role.html">Role</a> object
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000017-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000017-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/user_engine/app/controllers/role_controller.rb, line 133</span>
+133:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">destroy</span>
+134:     <span class="ruby-keyword kw">if</span> (<span class="ruby-ivar">@role</span> = <span class="ruby-identifier">find_role</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:id</span>]))
+135:       <span class="ruby-keyword kw">begin</span>
+136:         <span class="ruby-ivar">@role</span>.<span class="ruby-identifier">destroy</span>
+137:         <span class="ruby-identifier">flash</span>[<span class="ruby-identifier">:notice</span>] = <span class="ruby-node">&quot;Role '#{@role.name}' has been deleted.&quot;</span> 
+138:         <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">:action</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'list'</span>
+139:       <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">UserEngine</span><span class="ruby-operator">::</span><span class="ruby-constant">SystemProtectionError</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+140:         <span class="ruby-identifier">flash</span>[<span class="ruby-identifier">:message</span>] = <span class="ruby-node">&quot;Cannot destroy the system role '#{@role.name}'!&quot;</span>
+141:         <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">:action</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'list'</span>
+142:       <span class="ruby-keyword kw">end</span>
+143:     <span class="ruby-keyword kw">else</span>
+144:       <span class="ruby-identifier">redirect_back_or_default</span> <span class="ruby-identifier">:action</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'list'</span>
+145:     <span class="ruby-keyword kw">end</span>
+146:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000016" class="method-detail">
+        <a name="M000016"></a>
+
+        <div class="method-heading">
+          <a href="#M000016" class="method-signature">
+          <span class="method-name">edit</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Edit a <a href="Role.html">Role</a> object
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000016-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000016-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/user_engine/app/controllers/role_controller.rb, line 80</span>
+ 80:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">edit</span>
+ 81:     <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">request</span>.<span class="ruby-identifier">method</span>
+ 82:       <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:get</span>
+ 83:         <span class="ruby-keyword kw">if</span> (<span class="ruby-ivar">@role</span> = <span class="ruby-identifier">find_role</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:id</span>]))
+ 84:           <span class="ruby-comment cmt"># load up the controllers</span>
+ 85:           <span class="ruby-ivar">@all_permissions</span> = <span class="ruby-constant">Permission</span>.<span class="ruby-identifier">find_all</span>
+ 86:     
+ 87:           <span class="ruby-comment cmt"># split it up into controllers</span>
+ 88:           <span class="ruby-ivar">@all_actions</span> = {}
+ 89:           <span class="ruby-ivar">@all_permissions</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">permission</span><span class="ruby-operator">|</span>
+ 90:             <span class="ruby-ivar">@all_actions</span>[<span class="ruby-identifier">permission</span>.<span class="ruby-identifier">controller</span>] <span class="ruby-operator">||=</span> []
+ 91:             <span class="ruby-ivar">@all_actions</span>[<span class="ruby-identifier">permission</span>.<span class="ruby-identifier">controller</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">permission</span>
+ 92:           }
+ 93:         <span class="ruby-keyword kw">else</span>
+ 94:           <span class="ruby-identifier">redirect_back_or_default</span> <span class="ruby-identifier">:action</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'list'</span>
+ 95:         <span class="ruby-keyword kw">end</span>
+ 96:       <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:post</span>
+ 97:         <span class="ruby-keyword kw">if</span> (<span class="ruby-ivar">@role</span> = <span class="ruby-identifier">find_role</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:id</span>]))
+ 98:           <span class="ruby-comment cmt"># update the action permissions</span>
+ 99:           <span class="ruby-identifier">permission_keys</span> = <span class="ruby-identifier">params</span>.<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">k</span><span class="ruby-operator">|</span> <span class="ruby-identifier">k</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/^permissions_/</span> }
+100:           <span class="ruby-identifier">permissions</span> = <span class="ruby-identifier">permission_keys</span>.<span class="ruby-identifier">collect</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">k</span><span class="ruby-operator">|</span> <span class="ruby-identifier">params</span>[<span class="ruby-identifier">k</span>] }
+101:           
+102:           <span class="ruby-keyword kw">begin</span>
+103:             <span class="ruby-identifier">permissions</span>.<span class="ruby-identifier">collect!</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">perm_id</span><span class="ruby-operator">|</span> <span class="ruby-constant">Permission</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">perm_id</span>) }
+104:     
+105:             <span class="ruby-comment cmt"># just wipe them all and re-build</span>
+106:             <span class="ruby-ivar">@role</span>.<span class="ruby-identifier">permissions</span>.<span class="ruby-identifier">clear</span>
+107:     
+108:             <span class="ruby-identifier">permissions</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">perm</span><span class="ruby-operator">|</span>
+109:               <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@role</span>.<span class="ruby-identifier">permissions</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">perm</span>)
+110:                 <span class="ruby-ivar">@role</span>.<span class="ruby-identifier">permissions</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">perm</span>
+111:               <span class="ruby-keyword kw">end</span>
+112:             }
+113:             
+114:             <span class="ruby-comment cmt"># save the object    </span>
+115:             <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@role</span>.<span class="ruby-identifier">update_attributes</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:role</span>])
+116:               <span class="ruby-identifier">flash</span>[<span class="ruby-identifier">:notice</span>] = <span class="ruby-value str">'Role was successfully updated.'</span>
+117:               <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">:action</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'show'</span>, <span class="ruby-identifier">:id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@role</span>
+118:             <span class="ruby-keyword kw">else</span>
+119:               <span class="ruby-identifier">flash</span>[<span class="ruby-identifier">:message</span>] = <span class="ruby-value str">'The role could not be updated.'</span>
+120:               <span class="ruby-identifier">render</span> <span class="ruby-identifier">:action</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'edit'</span>
+121:             <span class="ruby-keyword kw">end</span>
+122:           <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">RecordNotFound</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+123:             <span class="ruby-identifier">flash</span>[<span class="ruby-identifier">:message</span>] = <span class="ruby-value str">'Permission not found!'</span>
+124:             <span class="ruby-identifier">render</span> <span class="ruby-identifier">:action</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'edit'</span>
+125:           <span class="ruby-keyword kw">end</span>
+126:         <span class="ruby-keyword kw">else</span>
+127:           <span class="ruby-identifier">redirect_back_or_default</span> <span class="ruby-identifier">:action</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'list'</span>
+128:         <span class="ruby-keyword kw">end</span>       
+129:     <span class="ruby-keyword kw">end</span>        
+130:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000012" class="method-detail">
+        <a name="M000012"></a>
+
+        <div class="method-heading">
+          <a href="#M000012" class="method-signature">
+          <span class="method-name">index</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Redirects to the list action
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000012-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000012-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/user_engine/app/controllers/role_controller.rb, line 35</span>
+35:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">index</span>
+36:     <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">:action</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'list'</span>
+37:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000013" class="method-detail">
+        <a name="M000013"></a>
+
+        <div class="method-heading">
+          <a href="#M000013" class="method-signature">
+          <span class="method-name">list</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Displays a paginated list of <a href="Role.html">Role</a> objects
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000013-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000013-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/user_engine/app/controllers/role_controller.rb, line 40</span>
+40:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">list</span>
+41:     <span class="ruby-ivar">@content_columns</span> = <span class="ruby-constant">Role</span>.<span class="ruby-identifier">content_columns</span>
+42:     <span class="ruby-ivar">@role_pages</span>, <span class="ruby-ivar">@roles</span> = <span class="ruby-identifier">paginate</span> <span class="ruby-identifier">:role</span>, <span class="ruby-identifier">:per_page</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">10</span>
+43:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000015" class="method-detail">
+        <a name="M000015"></a>
+
+        <div class="method-heading">
+          <a href="#M000015" class="method-signature">
+          <span class="method-name">new</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Creates a new <a href="Role.html">Role</a> object with the given
+parameters.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000015-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000015-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/user_engine/app/controllers/role_controller.rb, line 64</span>
+64:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">new</span>
+65:     <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">request</span>.<span class="ruby-identifier">method</span>
+66:       <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:get</span>
+67:         <span class="ruby-ivar">@role</span> = <span class="ruby-constant">Role</span>.<span class="ruby-identifier">new</span>
+68:       <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:post</span>
+69:         <span class="ruby-ivar">@role</span> = <span class="ruby-constant">Role</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:role</span>])
+70:         <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@role</span>.<span class="ruby-identifier">save</span>
+71:           <span class="ruby-identifier">flash</span>[<span class="ruby-identifier">:notice</span>] = <span class="ruby-value str">'Role was successfully created.'</span>
+72:           <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">:action</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'list'</span>
+73:         <span class="ruby-keyword kw">else</span>
+74:           <span class="ruby-identifier">render_action</span> <span class="ruby-value str">'new'</span>
+75:         <span class="ruby-keyword kw">end</span>      
+76:     <span class="ruby-keyword kw">end</span>
+77:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000014" class="method-detail">
+        <a name="M000014"></a>
+
+        <div class="method-heading">
+          <a href="#M000014" class="method-signature">
+          <span class="method-name">show</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Displays a single <a href="Role.html">Role</a> object by given id.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000014-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000014-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/user_engine/app/controllers/role_controller.rb, line 46</span>
+46:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">show</span>
+47:     <span class="ruby-keyword kw">if</span> (<span class="ruby-ivar">@role</span> = <span class="ruby-identifier">find_role</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:id</span>]))
+48:       <span class="ruby-ivar">@content_columns</span> = <span class="ruby-constant">Role</span>.<span class="ruby-identifier">content_columns</span>
+49:         
+50:       <span class="ruby-ivar">@all_permissions</span> = <span class="ruby-ivar">@role</span>.<span class="ruby-identifier">permissions</span>
+51: 
+52:       <span class="ruby-comment cmt"># split it up into controllers</span>
+53:       <span class="ruby-ivar">@all_actions</span> = {}
+54:       <span class="ruby-ivar">@all_permissions</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">permission</span><span class="ruby-operator">|</span>
+55:         <span class="ruby-ivar">@all_actions</span>[<span class="ruby-identifier">permission</span>.<span class="ruby-identifier">controller</span>] <span class="ruby-operator">||=</span> []
+56:         <span class="ruby-ivar">@all_actions</span>[<span class="ruby-identifier">permission</span>.<span class="ruby-identifier">controller</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">permission</span>
+57:       }
+58:     <span class="ruby-keyword kw">else</span>
+59:       <span class="ruby-identifier">redirect_back_or_default</span> <span class="ruby-identifier">:action</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'list'</span>
+60:     <span class="ruby-keyword kw">end</span>
+61:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Protected Instance methods</h3>
+
+      <div id="method-M000018" class="method-detail">
+        <a name="M000018"></a>
+
+        <div class="method-heading">
+          <a href="#M000018" class="method-signature">
+          <span class="method-name">find_role</span><span class="method-args">(id)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+A convenience method to find a <a href="Role.html">Role</a>, and add any
+errors to the flash if the <a href="Role.html">Role</a> is not found.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000018-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000018-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/user_engine/app/controllers/role_controller.rb, line 151</span>
+151:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">find_role</span>(<span class="ruby-identifier">id</span>)
+152:       <span class="ruby-keyword kw">begin</span>
+153:         <span class="ruby-constant">Role</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">id</span>)
+154:       <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">RecordNotFound</span>
+155:         <span class="ruby-identifier">flash</span>[<span class="ruby-identifier">:message</span>] = <span class="ruby-node">&quot;There is no role with ID ##{id}&quot;</span>
+156:         <span class="ruby-keyword kw">nil</span>
+157:       <span class="ruby-keyword kw">end</span>
+158:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

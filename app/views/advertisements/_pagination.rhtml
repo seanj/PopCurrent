@@ -1,0 +1,13 @@
+<% if(@advertisement_pages)%>
+<div class="pagination">
+	<% if @advertisement_pages.current.previous %>
+		<%= link_to h('<< Previous'), { :page => @advertisement_pages.current.previous }%>
+	<% end %>
+	<%= list_pagination_links_each(@advertisement_pages, :window_size => 2) do |n| 
+			"<a href='?page=#{n}'>#{n}</a>" 
+	end%>
+	<% if @advertisement_pages.current.next %>
+		<%= link_to h('Next >>'), { :page => @advertisement_pages.current.next } %> 
+	<% end%>
+</div>
+<%end%>

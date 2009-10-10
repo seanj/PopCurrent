@@ -1,0 +1,22 @@
+<%= form_remote_tag(:update => 'email' + String(@submission.id),
+					:url => { :action => "send_email", :id => @submission}, 
+					:html => { :id => 'email' + String(@submission.id), :class => 'verticalForm', :style => 'padding: 12px 20px 12px 20px;' }) %>
+
+
+<%= render(:partial => "application/mailer")%>
+
+<%if(flash[:warning])%>
+	<%= "<div style=\"font:bold 14pt sans-serif;color:red;letter-spacing: -0.05em;text-align:center;width:100%;\" id=\"#{:warning}\">#{flash[:warning]}</div>" %>					
+	<br />
+	<% flash[:warning] = nil%>
+<%end%>
+<%if(flash[:notice])%>
+	<%= "<div style=\"font:bold 14pt sans-serif;color:#757575;letter-spacing: -0.05em;text-align:center;width:100%;\" id=\"#{:notice}\">#{flash[:notice]}</div>" %>					
+	<br />
+	<% flash[:notice] = nil%>
+<%end%>
+
+<div style="text-align:center;width:100%;">
+	<%= submit_tag('Send',{:style => "width:120px;"}) %>
+</div>
+<%=end_form_tag%>

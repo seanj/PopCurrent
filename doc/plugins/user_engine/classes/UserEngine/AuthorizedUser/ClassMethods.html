@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: UserEngine::AuthorizedUser::ClassMethods</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">UserEngine::AuthorizedUser::ClassMethods</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../../files/vendor/plugins/user_engine/lib/user_engine/authorized_user_rb.html">
+                vendor/plugins/user_engine/lib/user_engine/authorized_user.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+This module defines methods to be attached to the User class itself.
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000012">guest_user_authorized?</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000012" class="method-detail">
+        <a name="M000012"></a>
+
+        <div class="method-heading">
+          <a href="#M000012" class="method-signature">
+          <span class="method-name">guest_user_authorized?</span><span class="method-args">(controller, action=&quot;index&quot;)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Check if the requested controller/action is available for guest users i.e.
+anyone who isn&#8217;t logged in. The &#8216;Guest&#8217; user is actually
+a Role object held my no user. The name of this Role object is defined in
+UserEngine.config(:guest_role_name), and defaults to &quot;Guest&quot;. To
+control which actions are available to site users who are <b>not</b> logged
+in, you should modify the permissions for this role.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000012-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000012-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/user_engine/lib/user_engine/authorized_user.rb, line 63</span>
+63:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">guest_user_authorized?</span>(<span class="ruby-identifier">controller</span>, <span class="ruby-identifier">action</span>=<span class="ruby-value str">&quot;index&quot;</span>)
+64:         <span class="ruby-identifier">query</span> = <span class="ruby-value str">&quot;SELECT DISTINCT \#{UserEngine.config(:permission_table)}.*\nFROM \#{UserEngine.config(:permission_table)}, \#{UserEngine.config(:role_table)},\n\#{UserEngine.config(:permission_role_table)}\nWHERE \#{UserEngine.config(:role_table)}.name = :role\nAND \#{UserEngine.config(:role_table)}.id = \#{UserEngine.config(:permission_role_table)}.role_id\nAND \#{UserEngine.config(:permission_role_table)}.permission_id = \#{UserEngine.config(:permission_table)}.id\nAND \#{UserEngine.config(:permission_table)}.controller = :controller\nAND \#{UserEngine.config(:permission_table)}.action = :action\n&quot;</span>
+65: 
+66:         <span class="ruby-identifier">result</span> = <span class="ruby-constant">Permission</span>.<span class="ruby-identifier">find_by_sql</span>([<span class="ruby-identifier">query</span>, {<span class="ruby-identifier">:role</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">UserEngine</span>.<span class="ruby-identifier">config</span>(<span class="ruby-identifier">:guest_role_name</span>), 
+67:                                                  <span class="ruby-identifier">:controller</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">controller</span>.<span class="ruby-identifier">to_s</span>, <span class="ruby-identifier">:action</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">action</span>.<span class="ruby-identifier">to_s</span>}])    
+68:   
+69:         <span class="ruby-keyword kw">return</span> (<span class="ruby-identifier">result</span> <span class="ruby-operator">!=</span> <span class="ruby-keyword kw">nil</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-operator">!</span><span class="ruby-identifier">result</span>.<span class="ruby-identifier">empty?</span>)       
+70:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

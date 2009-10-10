@@ -1,0 +1,60 @@
+<div class="header" id="header">
+  <div class="hrbroundlistbox">
+		<div class="hrbtop"><div>tester</div></div>
+  </div>
+
+  <div id="topnav">
+	<table cellspacing="0">
+  	  <tr>
+		<td class="nowrap">
+		  <div id="search">
+			<%= form_tag :action => 'search' %>
+				<%if(session[:current_page] == $page_critics || 
+					 session[:current_page] == $page_usersearchresults || 
+					 session[:current_page] == $page_profile)%>
+					Search Critics:
+				<% else %>
+					Search Entries:
+				<% end %>
+				<input type="text" name="query" value="<%= h @query %>" />
+				<%= submit_tag 'search' %>
+			<%= end_form_tag %>
+		  </div>
+		</td>
+		<td class="nowrap">
+		  <div id="memberlinks">
+			<% if session[:user] %>
+				Hello <%= link_to(session[:user].login, :controller => 'user', :action => :profile, :user => session[:user].login)%> &nbsp;&nbsp;|&nbsp;&nbsp; 
+				<a href="/user/edit_user/<%=session[:user].id%>" ><strong>Edit My Profile</strong></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+				<%= link_to('Logout', :controller => 'user', :action => 'logout') %> 
+			<% else %>
+				<%= link_to('Sign Up', :controller => 'user', :action => 'signup') %>&nbsp;&nbsp;|&nbsp;&nbsp;
+		        <%= link_to('Login', :controller => 'user', :action => 'login') %>&nbsp;&nbsp;|&nbsp;&nbsp;
+		        <%= link_to('Forgot Password', :controller => 'user', :action => 'forgot_password') %> 
+			<% end %>
+		  </div>
+		</td>
+		</tr>
+		</table>
+	</div>
+	
+	<div id="logo"><%= link_to(image_tag("/images/popcurrent2.jpg", :border=>0), :controller => 'submissions')%></div>
+
+	<div id="tabs">
+		<ul>
+			<%if (@session[:current_page] == $page_hotnow)%><li class="current"><%else%><li><%end%>
+			<%= link_to('Hot&nbsp;Now!', :controller => 'submissions')%></li>
+			<%if (@session[:current_page] == $page_newestentries)%><li class="current"><%else%><li><%end%>
+			<%= link_to('Newest&nbsp;Entries', :controller => 'submissions', :action => 'newest_list')%></li>
+			<%if (@session[:current_page] == $page_bestentries)%><li class="current"><%else%><li><%end%>
+			<%= link_to('Best&nbsp;Entries', :controller => 'submissions', :action => 'popular_list')%></li>
+			<%if (@session[:current_page] == $page_critics)%><li class="current"><%else%><li><%end%>
+	  		<%= link_to('Critics', :controller => 'user', :action => 'list')%></li>
+			<%if (@session[:current_page] == $page_submit)%><li class="current"><%else%><li><%end%>
+	  		<%= link_to('Submit&nbsp;New&nbsp;Entry', :controller => 'submissions', :action => 'new')%></li>
+			<%if (@session[:current_page] == $page_whatispopcurrent)%><li class="current"><%else%><li><%end%>
+	  		<%= link_to('What&nbsp;is&nbsp;PopCurrent?', :controller => 'application', :action => 'whatIsPopCurrent')%></li>
+		</ul>
+	</div>
+
+</div>

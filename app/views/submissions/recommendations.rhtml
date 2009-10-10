@@ -1,0 +1,45 @@
+<%if(@submissions.length > 3)%>
+<div style="clear:left;">
+  <h2>Recommendations</h2>
+	<p style="margin:8px 0 8px 4px"><i>Critics who popped this entry also popped these entries:</i></p>
+	<% for @submission in @submissions%>
+	<div class="rbroundlistbox">
+		<div class="rbtop">
+			<div></div></div>
+			<div class="rbcontent" style="background:#ebebeb;">
+				<table style="width:100%;">
+					<tr>
+						<td style="width:52px;">
+							<% if @submission.image_url%>
+							<a href="/entries/<%= @submission.urlname %>"><%= image_tag(url_for_file_column("submission", "image_url", "normal"), :alt => '') rescue ""%></a>
+							<% end %>
+						</td>
+						<td style="font: 9pt sans-serif;text-align:left;">
+							<a href="/entries/<%= @submission.urlname %>" style="font: 9pt sans-serif;text-align:left;">
+							<%if(@submission.title.index(" ") == nil)
+								if(@submission.title.length > 30)%>
+									<%= truncate(h(@submission.title),27) %>
+								<% else %>
+									<%= h(@submission.title)%>
+								<% end %>
+							<%else%>
+								<%if(@submission.title.length > 60)%>
+									<%= truncate(h(@submission.title),60) %>
+								<% else %>
+									<%= h(@submission.title)%>
+								<% end %>
+							<%end%>
+							</a>
+						</td>
+					</tr>
+			   </table>
+			</div><!-- /rbcontent -->
+		<div class="rbbot"><div></div></div>
+	</div><!-- /rbroundbox -->
+	<% end %>
+<br />
+</div>
+<%else%><div style="height:600px;">
+<%= render_component(:controller => "advertisements", :action => "show", :params => {:placement => "Side"}) %>
+</div>
+<% end %>

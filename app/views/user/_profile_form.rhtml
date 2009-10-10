@@ -1,0 +1,44 @@
+<label class="radio">
+	<%= check_box("profile","allow_email")%>Make my Email Address Public
+</label>	
+<br />
+<label for="profile_imageurl">
+	Choose your profile image. (Optional)<br />  
+	<span style="font:normal .85em sans-serif"> Select an image to display with your name, the image can be sexy, but keep it PG please. (GIF, JPG or PNG only)</span><br />
+	<table cellspacing="0">
+		<tr>
+			<td width="136" align="center" class="profiledetails">
+				<%= image_tag(url_for_file_column(@user.profile, "image_url", "large")) rescue '<img src="/images/noimage_96.gif" />'%>
+				Current&nbsp;Image
+			</td>
+			<td width="">
+				<%= file_field("profile", "image_url", :style => 'width:200px;') %>
+			</td>
+		</tr>
+	</table>
+</label>
+
+<label for="profile_description">
+	Describe yourself. (Optional)<br />  
+	<span style="font:normal .85em sans-serif"> You have 4000 characters to play with, be creative and tell us what makes you tick!</span><br />
+	<%= text_area('profile', 'description', {:rows => 8, :id => "profile_description"}) %>
+</label>
+
+<label for="profile_age">
+	Date of Birth: (Optional)<br />
+	<%= date_select ('profile', 'dateofbirth', :start_year => 1902, :end_year => Time.now.year, :order => [:month, :day, :year]) %>
+</label>
+
+<label for="profile_location">
+	Location: (Optional)
+	<%= text_field ('profile', 'location',{:id => "profile_location", :maxlength => 128}) %>
+</label>
+
+<label for="profile_country">
+	Country: (Optional)<br />
+	<%= country_select ('profile', 'country',['','United States','Canada','United Kingdom']) %>
+</label>
+<br />
+<% if submit %>
+    <%= form_input :submit_button, ('Edit My Profile')%>
+<% end %>

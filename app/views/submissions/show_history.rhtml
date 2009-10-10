@@ -1,0 +1,145 @@
+
+<div id="historybox">
+		<div class="subpage">
+			<%if (params[:subtype] == "popped")%>
+				<%= link_to_remote("Entries I've Popped", 
+						   			{:update => "historybox", :url => {:controller => 'submissions', :action => :show_history, :id => @user.id, :subtype => "popped" }},
+									{:class => "current"})%>
+
+				<%= link_to_remote("Entries I've Flopped", 
+					   				{:update => "historybox", :url => {:controller => 'submissions', :action => :show_history, :id => @user.id, :subtype => "flopped" }})%>
+
+				<%= link_to_remote("Entries I've Submitted", 
+			   						{:update => "historybox", :url => {:controller => 'submissions', :action => :show_history, :id => @user.id, :subtype => "submitted" }})%>
+			<%elsif (params[:subtype] == "flopped")%>
+				<%= link_to_remote("Entries I've Popped", 
+					   				{:update => "historybox", :url => {:controller => 'submissions', :action => :show_history, :id => @user.id, :subtype => "popped" }})%>
+
+				<%= link_to_remote("Entries I've Flopped", 
+				   					{:update => "historybox", :url => {:controller => 'submissions', :action => :show_history, :id => @user.id, :subtype => "flopped" }},
+									{:class => "current"})%>
+
+				<%= link_to_remote("Entries I've Submitted", 
+		   							{:update => "historybox", :url => {:controller => 'submissions', :action => :show_history, :id => @user.id, :subtype => "submitted" }})%>
+			<%elsif (params[:subtype] == "submitted")%>
+				<%= link_to_remote("Entries I've Popped", 
+	   								{:update => "historybox", :url => {:controller => 'submissions', :action => :show_history, :id => @user.id, :subtype => "popped" }})%>
+
+				<%= link_to_remote("Entries I've Flopped", 
+				   					{:update => "historybox", :url => {:controller => 'submissions', :action => :show_history, :id => @user.id, :subtype => "flopped" }})%>
+
+				<%= link_to_remote("Entries I've Submitted", 
+									{:update => "historybox", :url => {:controller => 'submissions', :action => :show_history, :id => @user.id, :subtype => "submitted" }},
+									{:class => "current"})%>
+			<%elsif (params[:subtype] == "friends")%>
+				<%= link_to_remote("Entries I've Popped", 
+    								{:update => "historybox", :url => {:controller => 'submissions', :action => :show_history, :id => @user.id, :subtype => "popped" }})%>
+
+				<%= link_to_remote("Entries I've Flopped", 
+				   					{:update => "historybox", :url => {:controller => 'submissions', :action => :show_history, :id => @user.id, :subtype => "flopped" }})%>
+
+				<%= link_to_remote("Entries I've Submitted", 
+									{:update => "historybox", :url => {:controller => 'submissions', :action => :show_history, :id => @user.id, :subtype => "submitted" }})%>
+
+			<% else %>
+				<%= link_to_remote("Entries I've Popped", 
+					   			{:update => "historybox", :url => {:controller => 'submissions', :action => :show_history, :id => @user.id, :subtype => "popped" }},
+								{:class => "current"})%>
+
+				<%= link_to_remote("Entries I've Flopped", 
+				   				{:update => "historybox", :url => {:controller => 'submissions', :action => :show_history, :id => @user.id, :subtype => "flopped" }})%>
+
+				<%= link_to_remote("Entries I've Submitted ()", 
+		   						{:update => "historybox", :url => {:controller => 'submissions', :action => :show_history, :id => @user.id, :subtype => "submitted" }})%>
+			<% end %>
+		</div>
+
+		<%if(@history_pages)%>
+			<div class="subpage">
+				<span>Page <%=@history_pages.current.number.to_s%> of <%=@history_pages.page_count%></span>
+				<% if @history_pages.current.previous %>
+					<%= link_to_remote(h('<< Previous'),  
+						{:update => "historybox", :url => {:controller => "submissions", :action => :show_history, :id => @user.id, :page => @history_pages.current.previous, :subtype => params[:subtype] }}) %> 
+				<% end %>
+				<% if @history_pages.current.next %>
+					<%= link_to_remote(h('Next >>'), 
+						{:update => "historybox", :url => {:controller => "submissions", :action => :show_history, :id => @user.id, :page => @history_pages.current.next, :subtype => params[:subtype] }}) %> 
+				<% end%>
+			</div>
+		<% end %>
+
+		<%if(@results)%>
+		<div class="minilist" id="minilist">
+			<ul>
+			  <% counter = 0
+			   for @result in @results 
+				if(@params[:subtype] == "popped" || @params[:subtype] == "flopped")
+					@submission = @result.submission
+				else
+					@submission = @result
+				end
+			  %>	
+				<%if(@submission)%>
+				<li>
+					<%if(counter == 0)
+						counter = 1%>
+					  
+						<div class="miniitemfirst">
+					<% else %>
+					  <div class="miniitem">
+					<% end %>
+						<div class="minipopbox" id='minitotal<%= @submission.id %>'>
+							<%= render( :partial => "/submissions/mini_popbox",  :object => @submission)%>
+						</div>
+						<div class="historyentry">
+							<% if @submission.image_url%>
+								<div class="historyentryimage" style="padding-right:10px;">
+									<a href="/entries/<%= @submission.urlname %>"><%= image_tag(url_for_file_column("submission", "image_url", "normal"), :alt => '') rescue ""%></a>
+								</div>
+							<% end %>
+							<div class="entrytitle">
+								<%if @submission.pfc == 1 %>
+									[Paid For Consideration]
+								<% end %>
+								<a href="/entries/<%= @submission.urlname %>" target='_blank'><%= @submission.title %></a>
+							</div>
+							<span class="entrysubmission">
+								<strong>Category:</strong>
+								<span class="entrycategory"><%=@submission.category%></span>
+								&nbsp;&nbsp;&nbsp;&nbsp;<strong>Submitted By:</strong>
+								<%= image_tag(url_for_file_column(@submission.user.profile, "image_url", "thumb"), :alt => '') rescue '<img src="/images/noimage_16.gif" />'%>
+								<a href="/critics/<%= @submission.user.login %>"><%= @submission.user.login %></a>&nbsp;&nbsp;&nbsp;<%= calced_time_since_submission %>
+								<br />
+							</span>
+							<br/>
+							<span class="entrydescription">
+								<%if(@submission.description.length > 200)%>
+									<%=truncate(h(@submission.description), 200)%>
+									<a href="/entries/<%= @submission.urlname %>">[More]</a>
+								<%else%>
+									<%=h(@submission.description)%>
+								<%end%>
+							</span>
+						</div>
+					</div>
+				</li>
+				<%end%>
+				<%end%>
+			</ul>
+		</div>
+		<% end %>
+		<%if(@history_pages)%>
+			<div class="subpage">
+				<span>Page <%=@history_pages.current.number.to_s%> of <%=@history_pages.page_count%></span>
+				<% if @history_pages.current.previous %>
+					<%= link_to_remote(h('<< Previous'),  
+						{:update => "historybox", :url => {:controller => "submissions", :action => :show_history, :id => @user.id, :page => @history_pages.current.previous, :subtype => params[:subtype] }}) %> 
+				<% end %>
+				<% if @history_pages.current.next %>
+					<%= link_to_remote(h('Next >>'), 
+						{:update => "historybox", :url => {:controller => "submissions", :action => :show_history, :id => @user.id, :page => @history_pages.current.next, :subtype => params[:subtype] }}) %> 
+				<% end%>
+			</div>
+		<% end %>
+</div>
+

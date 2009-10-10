@@ -1,0 +1,122 @@
+# Logfile created on Sat Dec 01 20:07:17 -0500 2007 by /
+  [4;36;1mSQL (0.000179)[0m   [0;1mSET NAMES 'utf8'[0m
+  [4;35;1mRole Columns (0.004330)[0m   [0mSHOW FIELDS FROM roles[0m
+  [4;36;1mSQL (0.000543)[0m   [0;1mSELECT count(*) AS count_all FROM roles [0m
+  [4;35;1mRole Load (0.000933)[0m   [0mSELECT * FROM roles WHERE (roles.`omnipotent` = 1 ) [0m
+  [4;36;1mSQL (0.032430)[0m   [0;1mSET NAMES 'utf8'[0m
+  [4;35;1mRole Columns (0.251497)[0m   [0mSHOW FIELDS FROM roles[0m
+  [4;36;1mSQL (0.000684)[0m   [0;1mSELECT count(*) AS count_all FROM roles [0m
+  [4;35;1mRole Load (0.002659)[0m   [0mSELECT * FROM roles WHERE (roles.`omnipotent` = 1 ) [0m
+  [4;36;1mSQL (0.001376)[0m   [0;1mSHOW TABLES[0m
+
+
+Processing SubmissionsController#index (for 127.0.0.1 at 2008-03-18 16:14:38) [GET]
+  Session ID: ec29c78c4bd02118eadd28e53c8df163
+  Parameters: {"action"=>"index", "controller"=>"submissions"}
+  [4;35;1mSQL (0.001046)[0m   [0mSHOW TABLES[0m
+  [4;36;1mSubmission Columns (0.057334)[0m   [0;1mSHOW FIELDS FROM submissions[0m
+  [4;35;1mSQL (0.000821)[0m   [0mSELECT avg(vote_total) AS avg_vote_total FROM submissions WHERE (vote_total > 0 and created_at > '2008-02-17 15:14:38') [0m
+  [4;36;1mProfile Columns (0.008445)[0m   [0;1mSHOW FIELDS FROM profiles[0m
+  [4;35;1mSQL (0.000537)[0m   [0mSELECT avg(vote_total) AS avg_vote_total FROM profiles WHERE (vote_total > 0) [0m
+  [4;36;1mSQL (0.000654)[0m   [0;1mSELECT count(*) AS count_all FROM submissions WHERE ((category <> 'all') AND (submissions.vote_total >= 0.0)) [0m
+  [4;35;1mSubmission Load (0.001617)[0m   [0mSELECT * FROM submissions WHERE ((category <> 'all') AND (submissions.vote_total >= 0.0)) ORDER BY submissions.created_at DESC LIMIT 0, 10[0m
+Rendering layoutfalseactionlist within layouts/standard
+Rendering submissions/list
+Rendered application/_buster (0.01663)
+Start rendering component ({:controller=>"application", :action=>"header"}): 
+
+
+Processing ApplicationController#header (for 127.0.0.1 at 2008-03-18 16:14:39) [GET]
+  Session ID: ec29c78c4bd02118eadd28e53c8df163
+  Parameters: {"action"=>"header", "id"=>nil, "controller"=>"application"}
+Rendering application/header
+Start rendering component ({:controller=>"application", :params=>{:userlogin=>nil}, :action=>"memberlinks"}): 
+
+
+Processing ApplicationController#memberlinks (for 127.0.0.1 at 2008-03-18 16:14:39) [GET]
+  Session ID: ec29c78c4bd02118eadd28e53c8df163
+  Parameters: {"action"=>"memberlinks", "id"=>nil, "controller"=>"application", "userlogin"=>nil}
+Rendering application/memberlinks
+Completed in 0.03654 (27 reqs/sec) | Rendering: 0.03633 (99%) | DB: 0.00000 (0%) | 200 OK [http://0.0.0.0/]
+
+
+End of component rendering
+  [4;36;1mCategory Load (0.039622)[0m   [0;1mSELECT * FROM categories [0m
+  [4;35;1mCategory Columns (0.003119)[0m   [0mSHOW FIELDS FROM categories[0m
+Completed in 0.10442 (9 reqs/sec) | Rendering: 0.06081 (58%) | DB: 0.04274 (40%) | 200 OK [http://0.0.0.0/]
+
+
+End of component rendering
+Start rendering component ({:controller=>"advertisements", :params=>{:placement=>"Top"}, :action=>"show"}): 
+
+
+Processing AdvertisementsController#show (for 127.0.0.1 at 2008-03-18 16:14:39) [GET]
+  Session ID: ec29c78c4bd02118eadd28e53c8df163
+  Parameters: {"action"=>"show", "id"=>nil, "controller"=>"advertisements", "placement"=>"Top"}
+  [4;36;1mAdvertisement Load (0.035837)[0m   [0;1mSELECT * FROM advertisements WHERE (placement ='Top' AND enabled = 1 AND (start_at < Now() AND expire_at > Now())) ORDER BY priority, rand() LIMIT 1[0m
+Rendering advertisements/show
+Completed in 0.05633 (17 reqs/sec) | Rendering: 0.01676 (29%) | DB: 0.03584 (63%) | 200 OK [http://0.0.0.0/]
+
+
+End of component rendering
+Rendered submissions/_customizer2 (0.01074)
+Start rendering component ({:controller=>"application", :action=>"activity"}): 
+
+
+Processing ApplicationController#activity (for 127.0.0.1 at 2008-03-18 16:14:39) [GET]
+  Session ID: ec29c78c4bd02118eadd28e53c8df163
+  Parameters: {"action"=>"activity", "id"=>nil, "controller"=>"application"}
+Rendering application/activity
+Completed in 0.00573 (174 reqs/sec) | Rendering: 0.00557 (97%) | DB: 0.00000 (0%) | 200 OK [http://0.0.0.0/]
+
+
+End of component rendering
+  [4;35;1mUser Load (0.005875)[0m   [0mSELECT us.* FROM users as us INNER JOIN profiles AS p ON us.id = p.user_id WHERE (p.image_url <> '' AND p.vote_total >= 0.0) ORDER BY rand() LIMIT 9[0m
+Start rendering component ({:controller=>"advertisements", :params=>{:placement=>"List Sidebar"}, :action=>"show"}): 
+
+
+Processing AdvertisementsController#show (for 127.0.0.1 at 2008-03-18 16:14:39) [GET]
+  Session ID: ec29c78c4bd02118eadd28e53c8df163
+  Parameters: {"action"=>"show", "id"=>nil, "controller"=>"advertisements", "placement"=>"List Sidebar"}
+  [4;36;1mAdvertisement Load (0.002355)[0m   [0;1mSELECT * FROM advertisements WHERE (placement ='List Sidebar' AND enabled = 1 AND (start_at < Now() AND expire_at > Now())) ORDER BY priority, rand() LIMIT 1[0m
+Rendering advertisements/show
+Completed in 0.00398 (251 reqs/sec) | Rendering: 0.00106 (26%) | DB: 0.00823 (206%) | 200 OK [http://0.0.0.0/]
+
+
+End of component rendering
+  [4;35;1mCategory Load (0.000708)[0m   [0mSELECT * FROM categories [0m
+  [4;36;1mSubmission Load (0.001271)[0m   [0;1mSELECT sub.id, sub.url, sub.title, sub.image_url, sub.user_id, p.user_id, p.vote_total FROM submissions as sub INNER JOIN profiles AS p ON sub.user_id = p.user_id WHERE (sub.image_url <> '' AND category = 'Talk Shows' AND created_at > '2008-03-11 16:14:39' AND p.vote_total > -1) ORDER BY rand() LIMIT 3[0m
+  [4;35;1mSubmission Load (0.000998)[0m   [0mSELECT sub.id, sub.url, sub.title, sub.image_url, sub.user_id, p.user_id, p.vote_total FROM submissions as sub INNER JOIN profiles AS p ON sub.user_id = p.user_id WHERE (sub.image_url <> '' AND category = 'Talk Shows' AND p.vote_total > -1) ORDER BY created_at DESC LIMIT 3[0m
+  [4;36;1mSubmission Load (0.000978)[0m   [0;1mSELECT sub.id, sub.url, sub.title, sub.image_url, sub.user_id, p.user_id, p.vote_total FROM submissions as sub INNER JOIN profiles AS p ON sub.user_id = p.user_id WHERE (sub.image_url <> '' AND category = 'Videos' AND created_at > '2008-03-11 16:14:39' AND p.vote_total > -1) ORDER BY rand() LIMIT 3[0m
+  [4;35;1mSubmission Load (0.001078)[0m   [0mSELECT sub.id, sub.url, sub.title, sub.image_url, sub.user_id, p.user_id, p.vote_total FROM submissions as sub INNER JOIN profiles AS p ON sub.user_id = p.user_id WHERE (sub.image_url <> '' AND category = 'Videos' AND p.vote_total > -1) ORDER BY created_at DESC LIMIT 3[0m
+  [4;36;1mSubmission Load (0.001022)[0m   [0;1mSELECT sub.id, sub.url, sub.title, sub.image_url, sub.user_id, p.user_id, p.vote_total FROM submissions as sub INNER JOIN profiles AS p ON sub.user_id = p.user_id WHERE (sub.image_url <> '' AND category = 'Music' AND created_at > '2008-03-11 16:14:39' AND p.vote_total > -1) ORDER BY rand() LIMIT 3[0m
+  [4;35;1mSubmission Load (0.000695)[0m   [0mSELECT sub.id, sub.url, sub.title, sub.image_url, sub.user_id, p.user_id, p.vote_total FROM submissions as sub INNER JOIN profiles AS p ON sub.user_id = p.user_id WHERE (sub.image_url <> '' AND category = 'Music' AND p.vote_total > -1) ORDER BY created_at DESC LIMIT 3[0m
+  [4;36;1mSubmission Load (0.000596)[0m   [0;1mSELECT sub.id, sub.url, sub.title, sub.image_url, sub.user_id, p.user_id, p.vote_total FROM submissions as sub INNER JOIN profiles AS p ON sub.user_id = p.user_id WHERE (sub.image_url <> '' AND category = 'Images' AND created_at > '2008-03-11 16:14:39' AND p.vote_total > -1) ORDER BY rand() LIMIT 3[0m
+  [4;35;1mSubmission Load (0.000609)[0m   [0mSELECT sub.id, sub.url, sub.title, sub.image_url, sub.user_id, p.user_id, p.vote_total FROM submissions as sub INNER JOIN profiles AS p ON sub.user_id = p.user_id WHERE (sub.image_url <> '' AND category = 'Images' AND p.vote_total > -1) ORDER BY created_at DESC LIMIT 3[0m
+  [4;36;1mSubmission Load (0.000632)[0m   [0;1mSELECT sub.id, sub.url, sub.title, sub.image_url, sub.user_id, p.user_id, p.vote_total FROM submissions as sub INNER JOIN profiles AS p ON sub.user_id = p.user_id WHERE (sub.image_url <> '' AND category = 'Games' AND created_at > '2008-03-11 16:14:39' AND p.vote_total > -1) ORDER BY rand() LIMIT 3[0m
+  [4;35;1mSubmission Load (0.000622)[0m   [0mSELECT sub.id, sub.url, sub.title, sub.image_url, sub.user_id, p.user_id, p.vote_total FROM submissions as sub INNER JOIN profiles AS p ON sub.user_id = p.user_id WHERE (sub.image_url <> '' AND category = 'Games' AND p.vote_total > -1) ORDER BY created_at DESC LIMIT 3[0m
+Rendered application/_sidebar (0.03052)
+Start rendering component ({:controller=>"advertisements", :params=>{:placement=>"Bottom"}, :action=>"show"}): 
+
+
+Processing AdvertisementsController#show (for 127.0.0.1 at 2008-03-18 16:14:39) [GET]
+  Session ID: ec29c78c4bd02118eadd28e53c8df163
+  Parameters: {"action"=>"show", "id"=>nil, "controller"=>"advertisements", "placement"=>"Bottom"}
+  [4;36;1mAdvertisement Load (0.001666)[0m   [0;1mSELECT * FROM advertisements WHERE (placement ='Bottom' AND enabled = 1 AND (start_at < Now() AND expire_at > Now())) ORDER BY priority, rand() LIMIT 1[0m
+Rendering advertisements/show
+Completed in 0.00252 (396 reqs/sec) | Rendering: 0.00055 (21%) | DB: 0.01087 (430%) | 200 OK [http://0.0.0.0/]
+
+
+End of component rendering
+checking guest authorisation for user/edit_roles
+  [4;35;1mPermission Load (0.087849)[0m   [0mSELECT DISTINCT permissions.* 
+FROM permissions, roles, 
+ permissions_roles
+WHERE roles.name = 'Guest'
+AND roles.id = permissions_roles.role_id
+AND permissions_roles.permission_id = permissions.id
+AND permissions.controller = 'user'
+AND permissions.action = 'edit_roles'
+[0m
+Rendered application/_footer (0.16992)
+Completed in 1.63545 (0 reqs/sec) | Rendering: 0.39546 (24%) | DB: 0.44695 (27%) | 200 OK [http://0.0.0.0/]

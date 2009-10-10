@@ -1,0 +1,8 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+first:
+  id: 1
+  url: 'http://1234.com/123.mp3'
+  rss_url: 'http://1234.com/123.mp3'
+  magnet_url: 'magnet:/1234.com/123.mp3'
+  title: 'first title'
+  description: 'my description 1'

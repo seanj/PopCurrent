@@ -1,0 +1,77 @@
+<table cellspacing="0">
+	<%case has_voted; when 0 %>
+		<tr><td class="poptopblue">
+			<div id="pop<%=@submission.id%>">
+			<%if @session[:user]%>
+				<%= link_to_remote('Pop!', :update => 'total' + String(@submission.id), 
+										  :url => {:action => 'pop_it', :id => @submission},
+										  :loading => "Element.hide('pop" + String(@submission.id) + "');Element.hide('flop" + String(@submission.id) + "');")%>
+			<%else%>
+				<%= link_to_remote('Pop!', :update => 'formbox', :url => {:controller => 'user', :action => 'login'})%>
+			<% end %>
+			</div>
+		</td></tr>
+		<tr><td class="popmiddleblue" onclick="location.href='/entries/<%= @submission.urlname %>';">
+			<%= @submission.vote_total %>
+		</td></tr>
+		<tr><td class="popbottomblue">
+			<div id="flop<%=@submission.id%>">
+			<%if @session[:user]%>
+				<% if @session[:user].profile.vote_total >= 0 %>
+					<%= link_to_remote('Flop!', :update => 'total' + String(@submission.id), 
+											  :url => {:action => 'flop_it', :id => @submission},
+											  :loading => "Element.hide('pop" + String(@submission.id) + "');Element.hide('flop" + String(@submission.id) + "');",
+											  :confirm => "Are you sure you want to flop this entry?")%>
+				<% end %>
+			<%else%>
+				<%= link_to_remote('Flop!', :update => 'formbox', :url => {:controller => 'user', :action => 'login'})%>
+			<% end %>
+			</div>
+		</td></tr>
+	<% when 1 %>
+		<tr><td class="poptopblue">
+			<div id="pop<%=@submission.id%>" class="popped">
+				Popped!
+			</div>
+		</td></tr>
+		<tr><td class="popmiddleblue"  onclick="location.href='/entries/<%= @submission.urlname %>';">
+			<%= @submission.vote_total %>
+		</td></tr>
+		<tr><td class="popbottomblue">
+			<div id="flop<%=@submission.id%>">
+				<%= link_to_remote('Clear Pop', {:update => 'total' + String(@submission.id), 
+									  :url => {:action => 'un_pop', :id => @submission},
+									  :loading => "Element.hide('pop" + String(@submission.id) + "');Element.hide('flop" + String(@submission.id) + "');"},
+									  {:style => "font: 8pt sans-serif;cursor: hand;"})%>
+			</div>
+		</td></tr>
+	<% when 2 %>
+		<tr><td class="poptopblue">
+			<div id="pop<%=@submission.id%>">
+				<%= link_to_remote('Clear Flop', {:update => 'total' + String(@submission.id), 
+									  :url => {:action => 'un_flop', :id => @submission},
+									  :loading => "Element.hide('pop" + String(@submission.id) + "');Element.hide('flop" + String(@submission.id) + "');"},
+									  {:style => "font: 8pt sans-serif;cursor: hand;"})%>
+			</div>
+		</td></tr>
+		<tr><td class="popmiddleblue"  onclick="location.href='/entries/<%= @submission.urlname %>';">
+			<%= @submission.vote_total %>
+		</td></tr>
+		<tr><td class="popbottomblue">
+			<div id="flop<%=@submission.id%>" class="flopped">
+				Flopped!
+			</div>
+		</td></tr>
+	<% end %>
+</table>
+<br />
+<table cellspacing="0" cellpadding="1" align="center" style="width: 90%; border:1px solid #D7D7D7;font: bold 8pt sans-serif;">
+	<tr>
+		<td style="background:#cefc87;font: 8pt sans-serif;text-align:center;">Pops</td>
+		<td style="background:#fdbb8a;font: 8pt sans-serif;text-align:center;">Flops</td>
+	</tr>
+	<tr>
+		<td style="font: bold 8pt sans-serif;text-align:center;"><%=@submission.sub_pops.count%></td>
+		<td style="font: bold 8pt sans-serif;text-align:center;"><%=@submission.sub_flops.count%></td>
+	</tr>
+</table>

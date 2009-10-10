@@ -1,0 +1,26 @@
+<h3>Explore<span id="busy" style="float:right;display:none;"><img src="/images/busy.gif"/></span></h3>
+<div id="navcontainer">
+	<ul id="subnavlist">
+		<li>
+			<%if (@session[:current_page] == $page_hotnow)%>
+				<%= link_to('Hot&nbsp;Now!', {:controller => 'submissions', :action => 'frontpage_list'}, {:id => "subcurrent"})%>
+			<%else%>
+				<%= link_to('Hot&nbsp;Now!', {:controller => 'submissions', :action => 'frontpage_list'})%>
+			<%end%>
+		</li>
+		<li>
+			<%if (@session[:current_page] == $page_newestentries)%>
+				<%= link_to('Newest&nbsp;Entries', {:controller => 'submissions', :action => 'newest_list'}, {:id => "subcurrent"})%>
+			<%else%>
+				<%= link_to('Newest&nbsp;Entries', {:controller => 'submissions', :action => 'newest_list'})%>
+			<%end%>
+		</li>
+		<li>
+			<%if (@session[:current_page] == $page_bestentries)%>
+				<%= link_to('All Time Popular&nbsp;Entries', {:controller => 'submissions', :action => 'popular_list'}, {:id => "subcurrent"})%>
+			<%else%>
+				<%= link_to('All Time Popular&nbsp;Entries', :controller => 'submissions', :action => 'popular_list')%>
+			<%end%>
+		</li>
+	</ul>
+</div>

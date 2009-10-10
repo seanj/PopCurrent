@@ -1,0 +1,21 @@
+xml.instruct! :xml, :version=>"1.0",:encoding=>"UTF-8"
+
+xml.opml "version" => "2.0" do
+  xml.head do
+    xml.title("PopCurrent OPML Media River Directory")
+  end
+  xml.body do
+    xml.outline(:text => "PopCurrent - Hot Now!",
+      :type => "link",
+      :url => url_for(:only_path => false, :controller => "/river/hot"))
+    xml.outline(:text => "PopCurrent - Newest",
+      :type => "link",
+      :url => url_for(:only_path => false, :controller => "/river/newest"))
+    xml.outline(:text => "PopCurrent - Best",
+      :type => "link",
+      :url => url_for(:only_path => false, :controller => "/river/best"))
+    xml.outline(:text => "PopCurrent - Worst",
+      :type => "link",
+      :url => url_for(:only_path => false, :controller => "/river/worst"))
+  end
+end

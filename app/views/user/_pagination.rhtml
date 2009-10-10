@@ -1,0 +1,18 @@
+<div class="pagination">
+	<% if @user_pages.current.previous %>
+		<%= link_to h('<< Previous'), { :page => @user_pages.current.previous, :query => params[:query] }%>
+	<% end %>
+	<% if params[:query] %>
+		<%= list_pagination_links_each(@user_pages, :window_size => 4) do |n|
+		
+			"<a href='?query=#{params[:query]}&page=#{n}'>#{n}</a>"
+		end %>
+	<% else %>
+		<%= list_pagination_links_each(@user_pages, :window_size => 4) do |n|
+			"<a href='?page=#{n}'>#{n}</a>"
+		end %>
+	<% end %>
+	<% if @user_pages.current.next %>
+		<%= link_to h('Next >>'), { :page => @user_pages.current.next, :query => params[:query] } %> 
+	<% end%>
+</div>

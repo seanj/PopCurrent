@@ -1,0 +1,29 @@
+<% store_location() %>
+
+<div class="fullForm">
+	<div class="rbroundlistbox" style="width:640px;overflow:hidden;margin: 0 auto 0 auto;text-align:center;">
+		<div class="rbtop">
+			<div></div></div>
+			<div class="rbcontent" style="background:#ebebeb;text-align:left;">
+				<%= start_form_tag ( {:action => 'invite_form'},{:name => "inviteform", :id => "inviteform", :class => 'verticalForm', :style => 'padding: 12px 20px 12px 20px;'})%>
+				<%if(flash[:warning])%>
+					<%= "<div style=\"font:bold 14pt sans-serif;color:red;letter-spacing: -0.05em;text-align:center;width:100%;\" id=\"#{:warning}\">#{flash[:warning]}</div>" %>					
+					<br />
+					<% flash[:warning] = nil%>
+				<%end%>
+				<%if(flash[:notice])%>
+					<%= "<div style=\"font:bold 14pt sans-serif;color:#757575;letter-spacing: -0.05em;text-align:center;width:100%;\" id=\"#{:notice}\">#{flash[:notice]}</div>" %>					
+					<br />
+					<% flash[:notice] = nil%>
+				<%end%>
+				<%= render(:partial => "mailer")%>
+				
+				<div style="text-align:center;width:100%;">
+					<%= submit_tag('Send',{:style => "width:120px;"}) %>
+				</div>
+				<%=end_form_tag%>
+				<%= set_default_focus('emailaddresses')%>
+			</div><!-- /rbcontent -->
+		<div class="rbbot"><div></div></div>
+	</div><!-- /rbroundbox -->
+</div>

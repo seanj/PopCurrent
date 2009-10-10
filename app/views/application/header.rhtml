@@ -1,0 +1,126 @@
+<div class="header" id="header">
+  
+  <div id="header-right"><%=image_tag("/images/header_right_black.jpg", :border=>0)%></div>
+
+  <div id="topnav">
+	<table cellspacing="6" cellpadding="0">
+		<tr>
+			<td class="nowrap"  style="vertical-align:top;text-align:right;padding-top: 6px;">
+		  		<div id="memberlinks" style="color: #FFFFFF;">
+					<%= render_component(:controller => "application", :action => "memberlinks", :params => {:userlogin => @params[:userlogin]}) %>
+		  		</div>
+			</td>
+	    </tr>
+	  	<tr>
+			<td class="nowrap" style="vertical-align:top;text-align:right;padding-top: 4px;">
+			  <div id="search" style=" color: #FFFFFF;font-weight:bold;">
+				<%= form_tag :action => 'search' %>
+					<%if(session[:current_page] == $page_critics || 
+						 session[:current_page] == $page_usersearchresults || 
+						 session[:current_page] == $page_profile)%>
+						Search Critics:
+					<% else %>
+						Search Media:
+					<% end %>
+					<input type="text" name="query" value="<%= h(@session[:current_query])%>" size="25"/>
+					<%= submit_tag 'Search' %>
+				<%= end_form_tag %>
+			  </div>
+			</td>
+		 </tr>
+	  </table>
+	</div>
+
+	<div id="logo"><%= link_to(image_tag("/images/popcurrent_logo_black.jpg", :border=>0), :controller => 'submissions')%></div>
+
+	
+		<% @get_page_action = get_current_page_action%>
+		<%@categories = get_all_categories%>
+
+		<span class="whitehover">
+			<div>	
+					<div id="tabs">				
+						<ul>
+							<%if (@session[:current_page] == $page_hotnow || 
+								  @session[:current_page] == $page_newestentries || 
+								  @session[:current_page] == $page_bestentries ||
+								  @session[:current_page] == $page_poppedbyfriends ||
+								  @session[:current_page] == $page_floppedbyfriends ||
+								  @session[:current_page] == $page_submittedbyfriends ||
+								  @session[:current_page] == $page_commentedbyfriends ||
+								  @session[:current_page] == $page_tagresults ||
+								  @session[:current_page] == $page_searchresults ||
+								  @session[:current_page] == $page_single_entry)%>
+							  		
+							      <%if(@session[:filter] == "all" || @session[:filter] == "All")%><li class="current"><%else%><li><%end%>		
+							  	  <%= link_to("All", {:controller => "submissions", :action => @get_page_action, :params => {:filter => "all"}})%></li>
+
+							  	  <%for @category in @categories%>
+							    	<%if(@session[:filter] == @category.category_name)%><li class="current"><%else%><li><%end%>
+									<%= link_to(@category.category_name, {:controller => "submissions", :action => @get_page_action, :params => {:filter => @category.category_name} })%></li>
+							  	  <%end%>
+							<%elsif (@session[:current_page] == $page_critics || 
+							         @session[:current_page] == $page_usersearchresults)%>	
+					  		  
+									<%if(@session[:critic_filter] == "popular")%><li class="current"><%else%><li><%end%>		
+					  		  		<%= link_to("Most Popular Critics", {:controller => "user",:action => "list", :params => {:critic_filter => "popular"}})%></li>
+
+					  		  		<%if(@session[:critic_filter] == "newest")%><li class="current"><%else%><li><%end%>		
+					  		  		<%= link_to("Newest Critics", {:controller => "user",:action => "list", :params => {:critic_filter => "newest"}})%></li>
+
+							<%elsif (@session[:current_page] == $page_submit)%>
+								<span class="header_text">Submit New Entry</span>
+							<%elsif (@session[:current_page] == $page_editprofile)%>
+								<span class="header_text">Edit Your Profile</span>
+							<%elsif (@session[:current_page] == $page_whatispopcurrent)%>
+								<span class="header_text">What is PopCurrent?</span>
+							<%elsif (@session[:current_page] == $page_invite)%>
+								<span class="header_text">Invite Your Friends!</span>
+							<%elsif (@session[:current_page] == $page_signup)%>
+								<span class="header_text">Sign Up For a Free Account!</span>
+							<%elsif (@session[:current_page] == $page_terms)%>
+								<span class="header_text">Terms of Service</span>
+							<%elsif (@session[:current_page] == $page_privacy)%>
+								<span class="header_text">Privacy Policy</span>
+							<%elsif (@session[:current_page] == $page_forgotpwd)%>
+								<span class="header_text">Forgot Password?</span>
+							<%end%>
+						</ul>
+			
+						<span id="tabbox">
+							<ul>
+								<li>
+									<%=image_tag("/images/tabs_split_black.jpg", {:border=>0})%>
+								</li>
+
+								<%if (@session[:current_page] == $page_hotnow || 
+									  @session[:current_page] == $page_newestentries || 
+									  @session[:current_page] == $page_bestentries ||
+									  @session[:current_page] == $page_poppedbyfriends ||
+									  @session[:current_page] == $page_floppedbyfriends ||
+									  @session[:current_page] == $page_submittedbyfriends ||
+									  @session[:current_page] == $page_commentedbyfriends ||
+									  @session[:current_page] == $page_tagresults ||
+									  @session[:current_page] == $page_searchresults ||
+									  @session[:current_page] == $page_single_entry)%>
+								<li class="current"><%else%><li><%end%>
+								<%= link_to('View Media', :controller => 'submissions', :action => 'frontpage_list')%></li>
+
+								<%if (@session[:current_page] == $page_critics || @session[:current_page] == $page_profile || @session[:current_page] == $page_usersearchresults)%><li class="current"><%else%><li><%end%>
+								<%= link_to('View Critics', :controller => 'user', :action => 'list', :params => {:critic_filter => @session[:critic_filter]})%></li>
+
+								<%if (@session[:current_page] == $page_submit)%><li class="current"><%else%><li><%end%>
+								<%if (current_user)%>
+									<%= link_to('Submit&nbsp;New&nbsp;Entry', :controller => 'submissions', :action => 'new')%></li>
+								<%else%>
+									<%= link_to_remote('Submit&nbsp;New&nbsp;Entry', :update => 'formbox', :url => {:controller => 'user', :action => 'login'})%></li>
+								<%end%>
+
+								<%if (@session[:current_page] == $page_whatispopcurrent)%><li class="current"><%else%><li><%end%>
+								<%= link_to('What&nbsp;is&nbsp;PopCurrent?', :controller => 'application', :action => 'whatIsPopCurrent')%>
+							</ul>
+						</span>
+					</div>
+			</div>
+		</span>
+</div>

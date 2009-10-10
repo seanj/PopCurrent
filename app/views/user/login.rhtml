@@ -1,0 +1,76 @@
+<%if(!@login)%>
+	<div class="smallForm" id="login" style="display:none;">
+		<%= image_tag("/images/popcurrent_small.jpg", :border=>0)%>
+		<div class="formError" id="loginError" style="position:relative;display:none;margin-top:10px;">Your user name or password are incorrect.  Please try again.</div>
+		<div class="rbroundlistbox" style="width:360px;margin:20px;overflow:hidden;">
+			<div class="rbtop">
+				<div></div></div>
+				<div class="rbcontent" style="background:#ebebeb;">
+					<div class="formHeader"><span style="font: bold 18pt sans-serif;color:#757575;letter-spacing:-.05em;">Please Login Here</span></div>
+					<%= start_form_tag({:action => 'login'},{:class => 'verticalForm', :style => 'padding: 14px;'})%>
+					<fieldset>
+						<label for="user_login" style="font: bold 12pt sans-serif;">
+							User Name:
+							<%= text_field('user', 'login',{:id => "user_login", :maxlength => 80, :class => 'editboxLargeBlue'}) %>
+						</label>
+						<label for="user_password" style="font: bold 12pt sans-serif;">
+							Password:
+							<%= password_field('user', 'password',{:id => "user_password", :maxlength => 40, :class => 'editboxLargeBlue'}) %>
+						 </label>
+						 <span class="radio"><input type="checkbox" name="save_login"><label>Remember My Information</label>
+						 <br /><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you are using a public computer, do not check this box.<br /></i></span>
+					</fieldset>
+					<%= end_form_tag %>
+
+				</div><!-- /rbcontent -->
+			<div class="rbbot"><div></div></div>
+		</div><!-- /rbroundbox -->
+
+		<p>
+			<ul class="standardlist" >
+				<li>
+					Don't have an account? <%= link_to 'Sign up for a free account now!', :action => 'signup' %><br /><br />
+				</li>
+				<li>
+					Lost your password? Click <%= link_to 'here', :action => 'forgot_password' %> to retrieve it.
+				</li>
+			</ul>
+		</p>
+	</div>
+	<script type="text/javascript">
+		dg = Dialog.confirm($('login').innerHTML, {windowParameters: {className:"alphacube", width:400}, 
+	                   okLabel: "Login", cancelLabel: "Cancel",
+	 	               ok:function(win){new Ajax.Updater('formaction', '/login', {asynchronous:true, evalScripts:true, parameters:Form.serialize(document.forms[0])});return false;},
+					   cancel:function(win){return false;}});
+
+		
+	    setTimeout("document.forms[0]['user_login'].focus();document.forms[0]['user_login'].select();dg.updateHeight();",1000);
+	</script>
+<%else%>
+	<%if(flash[:notice] == 'Login successful')%>
+		<script type="text/javascript">Dialog.closeInfo();</script>
+		<%= javascript_tag(remote_function(:update => "header", :url => {:controller => "application", :action => :header }, :evalScripts => true)) %>		
+		<%= javascript_tag(remote_function(:update => "content", :url => session["return-to"], :evalScripts => true)) %>		
+		<%= javascript_tag(remote_function(:update => "activitybox", :url => {:controller => "application", :action => :activity }, :evalScripts => true)) %>		
+	<%else%>
+		<script type="text/javascript">
+			document.forms[0]['user_login'].focus();
+			document.forms[0]['user_login'].select();
+        	new Effect.Shake(Windows.focusedWindow.getId());
+		</script>
+	<%end%>
+<%end%>
+
+<script type="text/javascript">
+	function kH(e) {
+		var pK = e ? e.which : window.event.keyCode;
+		if(pK == 13){
+			new Ajax.Updater('formaction', '/login', {asynchronous:true, evalScripts:true, parameters:Form.serialize(document.forms[0])});
+			return false;
+		}
+		return pK != 13;
+	}
+	
+	document.onkeypress = kH;
+	if (document.layers) document.captureEvents(Event.KEYPRESS);
+</script>

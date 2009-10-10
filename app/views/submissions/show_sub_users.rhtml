@@ -1,0 +1,68 @@
+
+<div id="userbox">
+		<div class="subpage">
+			<%if (params[:subtype] == "sub_pop")%>
+				<%= link_to_remote("Who Popped This? (" + String(@submission.sub_pops.count) + ")", 
+						   		{:update => "userbox", :url => {:action => :show_sub_users, :id => @submission.id, :subtype => "sub_pop" }},
+								{:class => "current"})%>
+			<%else%>
+				<%= link_to_remote("Who Popped This? (" + String(@submission.sub_pops.count) + ")", 
+				   				{:update => "userbox", :url => {:action => :show_sub_users, :id => @submission.id, :subtype => "sub_pop" }})%>
+			<%end%>
+
+			<%if(params[:subtype] == "sub_flop") and authorized?(:controller => "user", :action => "edit_roles")%>
+				<%= link_to_remote("Who Flopped This? (" + String(@submission.sub_flops.count) + ")", 
+						   			{:update => "userbox", :url => {:action => :show_sub_users, :id => @submission.id, :subtype => "sub_flop" }},
+									{:class => "current"})%>
+			<%elsif authorized?(:controller => "user", :action => "edit_roles")%>
+				<%= link_to_remote("Who Flopped This? (" + String(@submission.sub_flops.count) + ")", 
+					   				{:update => "userbox", :url => {:action => :show_sub_users, :id => @submission.id, :subtype => "sub_flop" }})%>
+			<%end%>
+			
+			<%if(params[:subtype] == "friends")%>
+				<%= link_to_remote("My Friends", 
+					   				{:update => "userbox", :url => {:action => :show_sub_users, :id => @submission.id, :subtype => "friends" }},
+									{:class => "current"})%>
+			<%else%>
+				<%= link_to_remote("My Friends", 
+					   				{:update => "userbox", :url => {:action => :show_sub_users, :id => @submission.id, :subtype => "friends" }})%>
+			<%end%>
+		</div>
+
+		<%if(@sub_users)%>
+			<ul>
+				<%for @sub_user in @sub_users%>
+				<li>
+					<%= image_tag(url_for_file_column(@sub_user.user.profile, "image_url", "thumb"), :alt => '') rescue '<img src="/images/noimage_16.gif" />'%>
+					<%if(@sub_user.user.login) %>
+						<a href='/critics/<%= @sub_user.user.login %>'><%= format_nobreak(truncate(h(@sub_user.user.login),25)) %></a>
+					<%else%>
+						Unknown
+					<%end%>
+				</li>
+				<%end%>
+			</ul>
+			<%if(@sub_user_pages)%>
+				<div class="subpage">
+					<span>Page <%=@sub_user_pages.current.number.to_s%> of <%=@sub_user_pages.page_count%></span>
+					<% if @sub_user_pages.current.previous %>
+						<%= link_to_remote(h('<< Previous'),  
+							{:update => "userbox", :url => {:action => :show_sub_users, :id => @submission.id, :page => @sub_user_pages.current.previous, :subtype => params[:subtype] }}) %> 
+					<% end %>
+					<% if @sub_user_pages.current.next %>
+						<%= link_to_remote(h('Next >>'), 
+							{:update => "userbox", :url => {:action => :show_sub_users, :id => @submission.id, :page => @sub_user_pages.current.next, :subtype => params[:subtype] }}) %> 
+					<% end%>
+				</div>
+			<% end %>
+		<%elsif (params[:subtype] == "friends") %>
+<<<<<<< .mine
+			<p>To see your friends that have popped or flopped this entry, please 
+			<%= link_to_remote('login', :update => 'formbox', :url => {:controller => 'user', :action => 'login'})%>&nbsp;
+ 			to your account.</p>
+=======
+			<p>To see your friends that have voted for this entry, please <a href="/login">login</a> to your account.</p>
+>>>>>>> .r533
+		<% end %>
+</div>
+

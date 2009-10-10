@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: Engines</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">Engines</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../files/vendor/plugins/engines/lib/engines_rb.html">
+                vendor/plugins/engines/lib/engines.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+Holds the Rails <a href="Engine.html">Engine</a> loading logic and default
+constants
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000062">active</a>&nbsp;&nbsp;
+      <a href="#M000057">add_engine_to_load_path</a>&nbsp;&nbsp;
+      <a href="#M000059">create_base_public_directory</a>&nbsp;&nbsp;
+      <a href="#M000051">create_logger</a>&nbsp;&nbsp;
+      <a href="#M000061">current</a>&nbsp;&nbsp;
+      <a href="#M000060">get</a>&nbsp;&nbsp;
+      <a href="#M000053">log</a>&nbsp;&nbsp;
+      <a href="#M000058">public_engine_dir</a>&nbsp;&nbsp;
+      <a href="#M000052">set_logger</a>&nbsp;&nbsp;
+      <a href="#M000054">start</a>&nbsp;&nbsp;
+      <a href="#M000055">start_all</a>&nbsp;&nbsp;
+      <a href="#M000056">start_engine</a>&nbsp;&nbsp;
+      <a href="#M000050">version</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+    <div id="class-list">
+      <h3 class="section-bar">Classes and Modules</h3>
+
+      Class <a href="Engines/LoggerWrapper.html" class="link">Engines::LoggerWrapper</a><br />
+
+    </div>
+
+    <div id="constants-list">
+      <h3 class="section-bar">Constants</h3>
+
+      <div class="name-list">
+        <table summary="Constants">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">LOGGER</td>
+          <td>=</td>
+          <td class="context-item-value">Engines::LoggerWrapper.new</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">ActiveEngines</td>
+          <td>=</td>
+          <td class="context-item-value">[]</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+An array of active engines. This should be accessed via the <a
+href="Engines.html#M000062">Engines.active</a> method.
+
+</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+
+    <div id="aliases-list">
+      <h3 class="section-bar">External Aliases</h3>
+
+      <div class="name-list">
+                        <table summary="aliases">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">log</td>
+          <td>-></td>
+          <td class="context-item-value">logger</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">get</td>
+          <td>-></td>
+          <td class="context-item-value">[]</td>
+        </tr>
+                        </table>
+      </div>
+    </div>
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000062" class="method-detail">
+        <a name="M000062"></a>
+
+        <div class="method-heading">
+          <a href="#M000062" class="method-signature">
+          <span class="method-name">active</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns an array of active engines
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000062-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000062-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/engines/lib/engines.rb, line 245</span>
+245:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">active</span>
+246:       <span class="ruby-constant">ActiveEngines</span>
+247:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000057" class="method-detail">
+        <a name="M000057"></a>
+
+        <div class="method-heading">
+          <a href="#M000057" class="method-signature">
+          <span class="method-name">add_engine_to_load_path</span><span class="method-args">(engine)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Adds all directories in the /app and /lib directories within the engine to
+the load path
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000057-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000057-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/engines/lib/engines.rb, line 159</span>
+159:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add_engine_to_load_path</span>(<span class="ruby-identifier">engine</span>)
+160:       
+161:       <span class="ruby-comment cmt"># remove the lib directory added by load_plugin, and place it in the corrent</span>
+162:       <span class="ruby-comment cmt"># location *after* the application/lib. This can be removed when </span>
+163:       <span class="ruby-comment cmt"># http://dev.rubyonrails.org/ticket/2910 is fixed.</span>
+164:       <span class="ruby-identifier">app_lib_index</span> = <span class="ruby-identifier">$LOAD_PATH</span>.<span class="ruby-identifier">index</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">RAILS_ROOT</span>, <span class="ruby-value str">&quot;lib&quot;</span>))
+165:       <span class="ruby-identifier">engine_lib</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">engine</span>.<span class="ruby-identifier">root</span>, <span class="ruby-value str">&quot;lib&quot;</span>)
+166:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">app_lib_index</span>
+167:         <span class="ruby-identifier">$LOAD_PATH</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">engine_lib</span>)
+168:         <span class="ruby-identifier">$LOAD_PATH</span>.<span class="ruby-identifier">insert</span>(<span class="ruby-identifier">app_lib_index</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>, <span class="ruby-identifier">engine_lib</span>)
+169:       <span class="ruby-keyword kw">end</span>
+170:       
+171:       <span class="ruby-comment cmt"># Add ALL paths under the engine root to the load path</span>
+172:       <span class="ruby-identifier">app_dirs</span> = <span class="ruby-constant">Dir</span>[<span class="ruby-identifier">engine</span>.<span class="ruby-identifier">root</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;/app/**/*&quot;</span>] <span class="ruby-comment cmt"># maybe only models?</span>
+173:       <span class="ruby-identifier">component_dir</span> = <span class="ruby-constant">Dir</span>[<span class="ruby-identifier">engine</span>.<span class="ruby-identifier">root</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;/components&quot;</span>]
+174:       <span class="ruby-identifier">lib_dirs</span> = <span class="ruby-constant">Dir</span>[<span class="ruby-identifier">engine</span>.<span class="ruby-identifier">root</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;/lib/**/*&quot;</span>]
+175:       <span class="ruby-identifier">load_paths</span> = (<span class="ruby-identifier">app_dirs</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">component_dir</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">lib_dirs</span>).<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">d</span><span class="ruby-operator">|</span> 
+176:         <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span>(<span class="ruby-identifier">d</span>)
+177:       }
+178: 
+179:       <span class="ruby-comment cmt"># Remove other engines from the $LOAD_PATH by matching against the engine.root values</span>
+180:       <span class="ruby-comment cmt"># in ActiveEngines. Store the removed engines in the order they came off.</span>
+181:       
+182:       <span class="ruby-identifier">old_plugin_paths</span> = []
+183:       <span class="ruby-comment cmt"># assumes that all engines are at the bottom of the $LOAD_PATH</span>
+184:       <span class="ruby-keyword kw">while</span> (<span class="ruby-constant">File</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-identifier">$LOAD_PATH</span>.<span class="ruby-identifier">last</span>).<span class="ruby-identifier">index</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-constant">Engines</span>.<span class="ruby-identifier">config</span>(<span class="ruby-identifier">:root</span>))) <span class="ruby-operator">==</span> <span class="ruby-value">0</span>) <span class="ruby-keyword kw">do</span>
+185:         <span class="ruby-identifier">old_plugin_paths</span>.<span class="ruby-identifier">unshift</span>(<span class="ruby-identifier">$LOAD_PATH</span>.<span class="ruby-identifier">pop</span>)
+186:       <span class="ruby-keyword kw">end</span>
+187: 
+188: 
+189:       <span class="ruby-comment cmt"># add these LAST on the load path.</span>
+190:       <span class="ruby-identifier">load_paths</span>.<span class="ruby-identifier">reverse</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">dir</span><span class="ruby-operator">|</span> 
+191:         <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span>(<span class="ruby-identifier">dir</span>)
+192:           <span class="ruby-constant">Engines</span>.<span class="ruby-identifier">log</span>.<span class="ruby-identifier">debug</span> <span class="ruby-node">&quot;adding #{File.expand_path(dir)} to the load path&quot;</span>
+193:           <span class="ruby-comment cmt">#$LOAD_PATH.push(File.expand_path(dir))</span>
+194:           <span class="ruby-identifier">$LOAD_PATH</span>.<span class="ruby-identifier">push</span> <span class="ruby-identifier">dir</span>
+195:         <span class="ruby-keyword kw">end</span>
+196:       }
+197:       
+198:       <span class="ruby-comment cmt"># Add the other engines back onto the bottom of the $LOAD_PATH. Put them back on in</span>
+199:       <span class="ruby-comment cmt"># the same order.</span>
+200:       <span class="ruby-identifier">$LOAD_PATH</span>.<span class="ruby-identifier">push</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">old_plugin_paths</span>)
+201:       <span class="ruby-identifier">$LOAD_PATH</span>.<span class="ruby-identifier">uniq!</span>
+202:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000059" class="method-detail">
+        <a name="M000059"></a>
+
+        <div class="method-heading">
+          <a href="#M000059" class="method-signature">
+          <span class="method-name">create_base_public_directory</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+create the /public/engine_files directory if it doesn&#8217;t exist
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000059-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000059-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/engines/lib/engines.rb, line 210</span>
+210:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_base_public_directory</span>
+211:       <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">public_engine_dir</span>)
+212:         <span class="ruby-comment cmt"># create the public/engines directory, with a warning message in it.</span>
+213:         <span class="ruby-constant">Engines</span>.<span class="ruby-identifier">log</span>.<span class="ruby-identifier">debug</span> <span class="ruby-node">&quot;Creating public engine files directory '#{public_engine_dir}'&quot;</span>
+214:         <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">mkdir</span>(<span class="ruby-identifier">public_engine_dir</span>)
+215:         <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">public_engine_dir</span>, <span class="ruby-value str">&quot;README&quot;</span>), <span class="ruby-value str">&quot;w&quot;</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
+216:           <span class="ruby-identifier">f</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;Files in this directory are automatically generated from your Rails Engines.\nThey are copied from the 'public' directories of each engine into this directory\neach time Rails starts (server, console... any time 'start_engine' is called).\nAny edits you make will NOT persist across the next server restart; instead you\nshould edit the files within the &lt;engine_name&gt;/public/ directory itself.\n&quot;</span>
+217:         <span class="ruby-keyword kw">end</span>
+218:       <span class="ruby-keyword kw">end</span>
+219:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000051" class="method-detail">
+        <a name="M000051"></a>
+
+        <div class="method-heading">
+          <a href="#M000051" class="method-signature">
+          <span class="method-name">create_logger</span><span class="method-args">(outputter=STDOUT, level=Logger::INFO)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Create a new Logger instance for <a href="Engines.html">Engines</a>, with
+the given outputter and level
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000051-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000051-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/engines/lib/engines.rb, line 47</span>
+47:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_logger</span>(<span class="ruby-identifier">outputter</span>=<span class="ruby-constant">STDOUT</span>, <span class="ruby-identifier">level</span>=<span class="ruby-constant">Logger</span><span class="ruby-operator">::</span><span class="ruby-constant">INFO</span>)
+48:       <span class="ruby-constant">LOGGER</span>.<span class="ruby-identifier">set_logger</span>(<span class="ruby-constant">Logger</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">outputter</span>, <span class="ruby-identifier">level</span>))
+49:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000061" class="method-detail">
+        <a name="M000061"></a>
+
+        <div class="method-heading">
+          <a href="#M000061" class="method-signature">
+          <span class="method-name">current</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns the <a href="Engine.html">Engine</a> object for the current engine,
+i.e. the engine in which the currently executing code lies.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000061-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000061-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/engines/lib/engines.rb, line 237</span>
+237:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">current</span>
+238:       <span class="ruby-identifier">current_file</span> = <span class="ruby-identifier">caller</span>[<span class="ruby-value">0</span>]
+239:       <span class="ruby-identifier">active</span>.<span class="ruby-identifier">find</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">engine</span><span class="ruby-operator">|</span>
+240:         <span class="ruby-constant">File</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-identifier">current_file</span>).<span class="ruby-identifier">index</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-identifier">engine</span>.<span class="ruby-identifier">root</span>)) <span class="ruby-operator">==</span> <span class="ruby-value">0</span>
+241:       <span class="ruby-keyword kw">end</span>
+242:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000060" class="method-detail">
+        <a name="M000060"></a>
+
+        <div class="method-heading">
+          <a href="#M000060" class="method-signature">
+          <span class="method-name">get</span><span class="method-args">(name)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns the <a href="Engine.html">Engine</a> object for the specified
+engine, e.g.:
+</p>
+<pre>
+   Engines.get(:login)
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000060-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000060-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/engines/lib/engines.rb, line 230</span>
+230:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">get</span>(<span class="ruby-identifier">name</span>)
+231:       <span class="ruby-identifier">active</span>.<span class="ruby-identifier">find</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">name</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">name</span> <span class="ruby-operator">==</span> <span class="ruby-node">&quot;#{name}_engine&quot;</span> }
+232:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000053" class="method-detail">
+        <a name="M000053"></a>
+
+        <div class="method-heading">
+          <a href="#M000053" class="method-signature">
+          <span class="method-name">log</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Retrieves the current Logger instance
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000053-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000053-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/engines/lib/engines.rb, line 55</span>
+55:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">log</span>
+56:       <span class="ruby-constant">Engines</span><span class="ruby-operator">::</span><span class="ruby-constant">LOGGER</span> <span class="ruby-comment cmt"># TODO: no need for Engines:: part</span>
+57:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000058" class="method-detail">
+        <a name="M000058"></a>
+
+        <div class="method-heading">
+          <a href="#M000058" class="method-signature">
+          <span class="method-name">public_engine_dir</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns the directory in which all engine public assets are mirrored.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000058-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000058-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/engines/lib/engines.rb, line 205</span>
+205:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">public_engine_dir</span>
+206:       <span class="ruby-constant">File</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">RAILS_ROOT</span>, <span class="ruby-value str">&quot;public&quot;</span>, <span class="ruby-constant">Engines</span>.<span class="ruby-identifier">config</span>(<span class="ruby-identifier">:public_dir</span>)))
+207:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000052" class="method-detail">
+        <a name="M000052"></a>
+
+        <div class="method-heading">
+          <a href="#M000052" class="method-signature">
+          <span class="method-name">set_logger</span><span class="method-args">(logger)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Sets the Logger instance that <a href="Engines.html">Engines</a> will use
+to send logging information to
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000052-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000052-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/engines/lib/engines.rb, line 51</span>
+51:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">set_logger</span>(<span class="ruby-identifier">logger</span>)
+52:       <span class="ruby-constant">Engines</span><span class="ruby-operator">::</span><span class="ruby-constant">LOGGER</span>.<span class="ruby-identifier">set_logger</span>(<span class="ruby-identifier">logger</span>) <span class="ruby-comment cmt"># TODO: no need for Engines:: part</span>
+53:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000054" class="method-detail">
+        <a name="M000054"></a>
+
+        <div class="method-heading">
+          <a href="#M000054" class="method-signature">
+          <span class="method-name">start</span><span class="method-args">(*args)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Initializes a Rails <a href="Engine.html">Engine</a> by loading the
+engine&#8217;s init.rb file and ensuring that any engine controllers are
+added to the load path. This will also copy any files in a directory named
+&#8216;public&#8217; into the public webserver directory. Example usage:
+</p>
+<pre>
+  Engines.start :login
+  Engines.start :login_engine  # equivalent
+</pre>
+<p>
+A list of engine names can be specified:
+</p>
+<pre>
+  Engines.start :login, :user, :wiki
+</pre>
+<p>
+The engines will be loaded in the order given. If no engine names are
+given, all engines will be started.
+</p>
+<p>
+Options can include:
+</p>
+<ul>
+<li>:copy_files =&gt; true | false
+
+</li>
+</ul>
+<p>
+Note that if a list of engines is given, the options will apply to ALL
+engines.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000054-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000054-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/engines/lib/engines.rb, line 91</span>
+ 91:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">start</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
+ 92:       
+ 93:       <span class="ruby-identifier">options</span> = (<span class="ruby-identifier">args</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">is_a?</span> <span class="ruby-constant">Hash</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">args</span>.<span class="ruby-identifier">pop</span> <span class="ruby-operator">:</span> {}
+ 94:       
+ 95:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">args</span>.<span class="ruby-identifier">empty?</span>
+ 96:         <span class="ruby-identifier">start_all</span>
+ 97:       <span class="ruby-keyword kw">else</span>
+ 98:         <span class="ruby-identifier">args</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">engine_name</span><span class="ruby-operator">|</span>
+ 99:           <span class="ruby-identifier">start_engine</span>(<span class="ruby-identifier">engine_name</span>, <span class="ruby-identifier">options</span>)
+100:         <span class="ruby-keyword kw">end</span>
+101:       <span class="ruby-keyword kw">end</span>
+102:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000055" class="method-detail">
+        <a name="M000055"></a>
+
+        <div class="method-heading">
+          <a href="#M000055" class="method-signature">
+          <span class="method-name">start_all</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Starts all available engines. Plugins are considered engines if they
+include an init_engine.rb file, or they are named &lt;something&gt;_engine.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000055-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000055-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/engines/lib/engines.rb, line 106</span>
+106:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">start_all</span>
+107:       <span class="ruby-identifier">plugins</span> = <span class="ruby-constant">Dir</span>[<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">config</span>(<span class="ruby-identifier">:root</span>), <span class="ruby-value str">&quot;*&quot;</span>)]
+108:       <span class="ruby-constant">Engines</span>.<span class="ruby-identifier">log</span>.<span class="ruby-identifier">debug</span> <span class="ruby-node">&quot;considering plugins: #{plugins.inspect}&quot;</span>
+109:       <span class="ruby-identifier">plugins</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">plugin</span><span class="ruby-operator">|</span>
+110:         <span class="ruby-identifier">engine_name</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-identifier">plugin</span>)
+111:         <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">plugin</span>, <span class="ruby-value str">&quot;init_engine.rb&quot;</span>)) <span class="ruby-operator">||</span> <span class="ruby-comment cmt"># if the directory contains an init_engine.rb file</span>
+112:           (<span class="ruby-identifier">engine_name</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/_engine$/</span>) <span class="ruby-operator">||</span> <span class="ruby-comment cmt"># or it engines in '_engines'</span>
+113:           (<span class="ruby-identifier">engine_name</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/_bundle$/</span>)    <span class="ruby-comment cmt"># or even ends in '_bundle'</span>
+114:           
+115:           <span class="ruby-identifier">start</span>(<span class="ruby-identifier">engine_name</span>) <span class="ruby-comment cmt"># start the engine...</span>
+116:         
+117:         <span class="ruby-keyword kw">end</span>
+118:       }
+119:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000056" class="method-detail">
+        <a name="M000056"></a>
+
+        <div class="method-heading">
+          <a href="#M000056" class="method-signature">
+          <span class="method-name">start_engine</span><span class="method-args">(engine_name, options={})</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000056-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000056-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/engines/lib/engines.rb, line 121</span>
+121:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">start_engine</span>(<span class="ruby-identifier">engine_name</span>, <span class="ruby-identifier">options</span>={})
+122:       
+123:       <span class="ruby-comment cmt"># Create a new Engine and put this engine at the front of the ActiveEngines list</span>
+124:       <span class="ruby-identifier">current_engine</span> = <span class="ruby-constant">Engine</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">engine_name</span>)
+125:       <span class="ruby-constant">Engines</span>.<span class="ruby-identifier">active</span>.<span class="ruby-identifier">unshift</span> <span class="ruby-identifier">current_engine</span>
+126:       <span class="ruby-constant">Engines</span>.<span class="ruby-identifier">log</span>.<span class="ruby-identifier">info</span> <span class="ruby-node">&quot;Starting engine '#{current_engine.name}' from '#{File.expand_path(current_engine.root)}'&quot;</span>
+127: 
+128:       <span class="ruby-comment cmt"># add the code directories of this engine to the load path</span>
+129:       <span class="ruby-identifier">add_engine_to_load_path</span>(<span class="ruby-identifier">current_engine</span>)
+130: 
+131:       <span class="ruby-comment cmt"># add the controller &amp; component path to the Dependency system</span>
+132:       <span class="ruby-identifier">engine_controllers</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">current_engine</span>.<span class="ruby-identifier">root</span>, <span class="ruby-value str">'app'</span>, <span class="ruby-value str">'controllers'</span>)
+133:       <span class="ruby-identifier">engine_components</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">current_engine</span>.<span class="ruby-identifier">root</span>, <span class="ruby-value str">'components'</span>)
+134: 
+135: 
+136:       <span class="ruby-comment cmt"># This mechanism is no longer required in Rails trunk</span>
+137:       <span class="ruby-keyword kw">if</span> <span class="ruby-constant">Rails</span><span class="ruby-operator">::</span><span class="ruby-constant">VERSION</span><span class="ruby-operator">::</span><span class="ruby-constant">STRING</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/^1.0/</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-constant">Engines</span>.<span class="ruby-identifier">config</span>(<span class="ruby-identifier">:edge</span>)
+138:         <span class="ruby-constant">Controllers</span>.<span class="ruby-identifier">add_path</span>(<span class="ruby-identifier">engine_controllers</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">engine_controllers</span>)
+139:         <span class="ruby-constant">Controllers</span>.<span class="ruby-identifier">add_path</span>(<span class="ruby-identifier">engine_components</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">engine_components</span>)
+140:       <span class="ruby-keyword kw">end</span>
+141:         
+142:       <span class="ruby-comment cmt"># copy the files unless indicated otherwise</span>
+143:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:copy_files</span>] <span class="ruby-operator">!=</span> <span class="ruby-keyword kw">false</span>
+144:         <span class="ruby-identifier">current_engine</span>.<span class="ruby-identifier">mirror_engine_files</span>
+145:       <span class="ruby-keyword kw">end</span>
+146: 
+147:       <span class="ruby-comment cmt"># load the engine's init.rb file</span>
+148:       <span class="ruby-identifier">startup_file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">current_engine</span>.<span class="ruby-identifier">root</span>, <span class="ruby-value str">&quot;init_engine.rb&quot;</span>)
+149:       <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">startup_file</span>)
+150:         <span class="ruby-identifier">eval</span>(<span class="ruby-constant">IO</span>.<span class="ruby-identifier">read</span>(<span class="ruby-identifier">startup_file</span>), <span class="ruby-identifier">binding</span>, <span class="ruby-identifier">startup_file</span>)
+151:         <span class="ruby-comment cmt"># possibly use require_dependency? Hmm.</span>
+152:       <span class="ruby-keyword kw">else</span>
+153:         <span class="ruby-constant">Engines</span>.<span class="ruby-identifier">log</span>.<span class="ruby-identifier">debug</span> <span class="ruby-node">&quot;No init_engines.rb file found for engine '#{current_engine.name}'...&quot;</span>
+154:       <span class="ruby-keyword kw">end</span>
+155:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000050" class="method-detail">
+        <a name="M000050"></a>
+
+        <div class="method-heading">
+          <a href="#M000050" class="method-signature">
+          <span class="method-name">version</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Return the version string for this plugin
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000050-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000050-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/engines/lib/engines.rb, line 18</span>
+18:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">version</span>
+19:       <span class="ruby-node">&quot;#{Version::Major}.#{Version::Minor}.#{Version::Release}&quot;</span>
+20:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

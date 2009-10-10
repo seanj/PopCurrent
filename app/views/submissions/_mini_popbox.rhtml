@@ -1,0 +1,52 @@
+<table cellspacing="0">
+	<% case has_voted; when 0 %>
+		<tr><td class="minipoptopblue">
+			<div id="minipop<%=@submission.id%>">
+			<%if @session[:user]%>
+				<%= link_to_remote('Pop!', :update => 'minitotal' + String(@submission.id), 
+										   :url => {:controller => 'submissions', :action => 'pop_it', :id => @submission, :mini => true},
+										  :loading => "Element.hide('minipop" + String(@submission.id) + "');Element.hide('miniflop" + String(@submission.id) + "');")%>
+			<%else%>
+				<%= link_to_remote('Pop!', :update => 'formbox', :url => {:controller => 'user', :action => 'login'})%>
+			<% end %>
+			</div>
+		</td></tr>
+		<tr><td class="minipopmiddleblue" onclick="location.href='/entries/<%= @submission.urlname %>';">
+			<%= @submission.vote_total %>
+		</td></tr>
+		<tr><td class="minipopbottomblue">
+			<div id="miniflop<%=@submission.id%>">
+			<%if @session[:user]%>
+				<% if @session[:user].profile.vote_total >= 0 %>
+					<%= link_to_remote('Flop!', :update => 'minitotal' + String(@submission.id), 
+											  :url => {:controller => 'submissions', :action => 'flop_it', :id => @submission, :mini => true},			
+											  :loading => "Element.hide('minipop" + String(@submission.id) + "');Element.hide('miniflop" + String(@submission.id) + "');",
+											  :confirm => "Are you sure you want to flop this entry?")%>
+				<% end %>
+			<%else%>
+				<%= link_to_remote('Flop!', :update => 'formbox', :url => {:controller => 'user', :action => 'login'})%>
+			<% end %>
+			</div>
+		</td></tr>
+	<% when 1 %>
+		<tr><td class="minipoptopblue">
+			Popped!
+		</td></tr>
+		<tr><td class="minipopmiddleblue" onclick="location.href='/entries/<%= @submission.urlname %>';">
+			<%= @submission.vote_total %>
+		</td></tr>
+		<tr><td class="minipopbottomblue">
+			&nbsp;
+		</td></tr>
+	<% when 2 %>
+		<tr><td class="minipoptopblue">
+			&nbsp;
+		</td></tr>
+		<tr><td class="minipopmiddleblue" onclick="location.href='/entries/<%= @submission.urlname %>';">
+			<%= @submission.vote_total %>
+		</td></tr>
+		<tr><td class="minipopbottomblue">
+			Flopped!
+		</td></tr>
+	<% end %>
+</table>

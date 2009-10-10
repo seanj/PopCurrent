@@ -1,0 +1,131 @@
+<div class="fullForm">
+<table cellspacing="0" align="center" style="width:780px">
+	<tr>
+		<td valign="top" style="width:100%;">
+			  <% if authorized?(:action => "edit_user") || current_user == @user %>
+				<div class="rbroundlistbox" style="width:620px;overflow:hidden;margin: 0 auto 0 auto;text-align:center;">
+					<div class="rbtop">
+						<div></div></div>
+						<div class="rbcontent" style="background:#ebebeb;text-align:left;">
+							<div class="error">
+								<%= error_messages_for 'user' %>
+							</div>
+
+							<%= start_form_tag({:action => 'edit_user', :id => @user},{:class => 'verticalForm',:multipart => true, :style => 'padding: 4px 12px 4px 12px;'})%>
+			        			<table cellspacing="0" style="width:96%;">
+									<tr>
+										<td style="width:50%;border-right: 6px solid #ebebeb;" valign="top">
+											<label for="profile_imageurl">
+												Choose your profile image. <span style="font: bold 9pt sans-serif;color:#80b439;">(Optional)</span><br />  
+												<span style="font:normal .85em sans-serif"> Select an image to display with your name. <br />(GIF, JPG or PNG only)</span>
+												<br /><span style="font:bold .85em sans-serif">Note: Images containing mature content will be deleted.</span>
+												<br />
+												<table cellspacing="0" style="width:100%">
+													<tr>
+														<td width="100%" align="center" class="profiledetails">
+															<br />
+															<%= file_field("profile", "image_url", :style => 'width:100%;') %>
+														</td>
+													<tr>
+													</tr>
+														<td width="100%" align="center">
+															<br />
+															<%= image_tag(url_for_file_column(@user.profile, "image_url", "large")) rescue '<img src="/images/noimage_96.gif" />'%>
+															<br /><span style="font: bold 8pt sans-serif">Current&nbsp;Image</span>
+														</td>
+													</tr>
+												</table>
+											</label>
+										</td>
+										<td style="width:50%;">
+											<%= render_partial('edit', :user => @user, :submit => false) %><br />
+											<label for="profile_age">
+												Date of Birth: <span style="font: bold 9pt sans-serif;color:#80b439;">(Optional)</span><br />
+												<%= date_select ('profile', 'dateofbirth', :start_year => 1902, :end_year => Time.now.year, :order => [:month, :day, :year], :class => "editbox") %>
+											</label>
+
+											<label for="profile_location">
+												Location: <span style="font: bold 9pt sans-serif;color:#80b439;">(Optional)</span>
+												<%= text_field ('profile', 'location',{:id => "profile_location", :maxlength => 128, :class => "editbox"}) %>
+											</label>
+
+											<label for="profile_country">
+												Country: <span style="font: bold 9pt sans-serif;color:#80b439;">(Optional)</span><br />
+												<%= country_select ('profile', 'country',['','United States','Canada','United Kingdom'], :class => "editbox") %>
+											</label>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="2">
+											<label for="profile_description">
+												Describe yourself. <span style="font: bold 9pt sans-serif;color:#80b439;">(Optional)</span><br />  
+												<span style="font:normal .85em sans-serif"> You have 4000 characters to play with, be creative and tell us what makes you tick!</span><br />
+												<%= text_area('profile', 'description', {:rows => 10, :id => "profile_description", :class => "editbox"}) %>
+											</label>
+										</td>
+									</tr>
+									<tr>
+										<td align="center">
+										    <%= form_input :submit_button, ('Save Changes To My Profile')%>
+										</td>
+									</tr>
+								</table>
+
+						    <%= end_form_tag %>
+						</div><!-- /rbcontent -->
+					<div class="rbbot"><div></div></div>
+				</div><!-- /rbroundbox -->
+			  <% end %>
+		</td>
+		<td valign="top">
+		  <% if authorized?(:action => "change_password_for_user") || current_user == @user %>
+			<div class="rbroundlistbox" style="width:260px;overflow:hidden;margin: 0 auto 0 auto;text-align:center;">
+				<div class="rbtop">
+					<div></div></div>
+					<div class="rbcontent" style="background:#ebebeb;text-align:left;">
+					    <%= start_form_tag({:action => 'change_password', :id => @user },{:class => 'verticalForm', :style => 'padding: 12px 20px 12px 20px;'}) %>
+							<label>
+								Need to change your password?
+					     	</label>
+							<%= hidden_field_tag("back_to", "edit") %>
+					      	<%= render_partial('password', :submit => true) %>
+						<%= end_form_tag %>
+					</div><!-- /rbcontent -->
+				<div class="rbbot"><div></div></div>
+			</div><!-- /rbroundbox -->
+		  <% end %>
+		  <br />
+		  <% if authorized?(:action => "edit_roles") %>
+			<div class="rbroundlistbox" style="width:260px;">
+				<div class="rbtop">
+					<div></div></div>
+					<div class="rbcontent" style="background:#ebebeb;text-align:left;">
+					    <%= start_form_tag ({:action => 'edit_roles', :id => @user},{:class => 'verticalForm', :style => 'font: 9pt sans-serif;padding: 12px 20px 12px 20px;'}) %>
+								<%= render_partial('roles', :submit => true, :user => @user) %>
+						<%= end_form_tag %>
+					</div><!-- /rbcontent -->
+				<div class="rbbot"><div></div></div>
+			</div><!-- /rbroundbox -->
+		  <% end %>
+		  <br />
+		  <% if authorized?(:action => "delete_user") %>
+			<div class="rbroundlistbox" style="width:260px;overflow:hidden;margin: 0 auto 0 auto;text-align:center;">
+				<div class="rbtop">
+					<div></div></div>
+					<div class="rbcontent" style="background:#ebebeb;text-align:left;">
+					  <%= start_form_tag({:action => 'verify', :id => @user},{:class => 'verticalForm', :style => 'padding: 12px 20px 12px 20px;'}) %>
+					      	<%= hidden_field('user', 'form', :value => 'verify') %>
+					      	<%= submit_tag('Set Account Verified') %>
+					  <%= end_form_tag %>
+					  <%= start_form_tag({:action => 'unverify', :id => @user},{:class => 'verticalForm', :style => 'padding: 12px 20px 12px 20px;'}) %>
+					      	<%= hidden_field('user', 'form', :value => 'unverify') %>
+					      	<%= submit_tag('Set Account Not Verified') %>
+					  <%= end_form_tag %>
+					</div><!-- /rbcontent -->
+				<div class="rbbot"><div></div></div>
+			</div><!-- /rbroundbox -->
+		  <% end %>
+		</td>
+	</tr>
+</table>	
+</div>

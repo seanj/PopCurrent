@@ -1,0 +1,723 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: README</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>README</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>vendor/plugins/engines/README
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Thu Apr 20 15:38:11 EDT 2006</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h1>Welcome</h1>
+<p>
+This document gives an overview of how the <a
+href="../../../../classes/Engines.html">Engines</a> mechanism works within
+a Rails environment. In most cases the code below is just an example. For
+more information or documentation, please go to <a
+href="http://rails-engines.org">rails-engines.org</a>.
+</p>
+<h2>Background</h2>
+<p>
+Rails <a href="../../../../classes/Engines.html">Engines</a> are a way of
+dropping in whole chunks of functionality into your existing application
+without affecting <b>any</b> of your existing code. The could also be
+described as mini-applications, or vertical application slices -
+top-to-bottom units which provide full MVC coverage for a certain, specific
+application function.
+</p>
+<p>
+As an example, the Login <a
+href="../../../../classes/Engine.html">Engine</a> provides a full user
+login subsystem, including:
+</p>
+<ul>
+<li>controllers to manage user accounts;
+
+</li>
+<li>helpers for you to interact with account information from other parts of
+your application;
+
+</li>
+<li>the model objects and schemas to create the required tables;
+
+</li>
+<li>stylesheets and javascript files to enhance the views;
+
+</li>
+<li>and any other library files required.
+
+</li>
+</ul>
+<p>
+Once the Rails Core team decides on a suitable method for packaging
+plugins, <a href="../../../../classes/Engines.html">Engines</a> can be
+distributed using the same mechanisms. If you are developing engines
+yourself for use across multiple projects, linking them as svn externals
+allows seamless updating of bugfixes across multiple applications.
+</p>
+<h1>Edge <a href="../../../../classes/Engines.html">Engines</a></h1>
+<p>
+If you are using Edge Rails (an SVN copy of Rails, rather than an
+&#8216;official&#8217; release), there are several MASSIVELY IMPORTANT
+issues that you need to bear in mind.
+</p>
+<p>
+Firstly, you are using an unstable version of Rails, so it is possible that
+things will break. We work hard to keep the <a
+href="../../../../classes/Engines.html">Engines</a> plugin up to speed with
+the changes in Rails at the bleeding edge, but sometimes significant parts
+of Rails change it WILL cause problems. This is the price of using the
+bleeding edge. Since edge is synonymous for unstable, the version of the <a
+href="../../../../classes/Engines.html">Engines</a> plugin which is
+compatible with Edge Rails is kept separate from the official release.
+Please ensure that you have used SVN to get your engines plugin from
+</p>
+<pre>
+  http://svn.rails-engines.org/engines/trunk
+</pre>
+<p>
+The normal &#8216;script/plugin install engines&#8217; will NOT get you
+this version.
+</p>
+<p>
+Secondly, you NEED to tell the engines plugin if you expect it to perform
+with Edge behaviour. This is done by adding the following lines at the
+*very top* of environment.rb (yes, the VERY TOP)
+</p>
+<pre>
+  module Engines
+    CONFIG = {:edge =&gt; true}
+  end
+</pre>
+<p>
+This will set the plugin to work with Edge Rails, rather than expecting an
+official release.
+</p>
+<p>
+If you are having problems, please try and contribute a bug report if you
+can so we can improve the plugin and keep up to speed with Rails&#8217;
+bleeding edge. Your input is *absolutely crucial* to this. If you&#8217;re
+not comfortable with tracking down bugs in Rails&#8217; and <a
+href="../../../../classes/Engines.html">Engines</a>&#8217; internal code,
+there is a test application available at
+</p>
+<pre>
+  http://svn.rails-engines.org/applications/engines_test
+</pre>
+<p>
+which contains an array of tests that might help you (and us) pinpoint
+where the issue is. Please download this application and consult the README
+for more information.
+</p>
+<p>
+Finally, please don&#8217;t forget about our website and mailing lists.
+More information here:
+</p>
+<pre>
+  http://rails-engines.org
+</pre>
+<h1>Using the <a href="../../../../classes/Engines.html">Engines</a> plugin itself</h1>
+<p>
+There are a number of features of the <a
+href="../../../../classes/Engines.html">Engines</a> plugin itself which may
+be useful to know:
+</p>
+<h3><a href="../../../../classes/Engines.html#M000053">Engines.log</a></h3>
+<p>
+The <a href="../../../../classes/Engines.html">Engines</a> plugin comes
+with its own logger, which is invaluable when debugging. To use it, simply
+call
+</p>
+<pre>
+  Engines.create_logger
+</pre>
+<p>
+Two optional arguments may be passed to this method:
+</p>
+<pre>
+  Engines.create_logger(&lt;io&gt;)
+</pre>
+<p>
+Would set the outputter to the logger to the given IO object &lt;io&gt;.
+For example, this could be STDERR or STDOUT (the default). The second
+argument is the logger level:
+</p>
+<pre>
+  Engines.create_logger(STDOUT, Logger::INFO)
+</pre>
+<p>
+The logger can be accessed using either of the following:
+</p>
+<pre>
+  Engines.log.[debug|info|whatever] &quot;message&quot;
+  Engines.logger.[debug|info|whatever] &quot;message&quot;
+</pre>
+<p>
+&#8230; essentially it&#8217;s a Logger object. It&#8217;s worth noting
+that if you *don&#8217;t* create a logger, calls to <a
+href="../../../../classes/Engines.html#M000053">Engines.log</a> will just
+be swallowed without a sound, making it very very easy to completely
+silence <a href="../../../../classes/Engine.html">Engine</a> logging.
+</p>
+<h3>Engines.config(:root)</h3>
+<p>
+By default, the <a href="../../../../classes/Engines.html">Engines</a>
+plugin expects to be starting <a
+href="../../../../classes/Engines.html">Engines</a> from within
+RAILS_ROOT/vendor/plugins. However, if you&#8217;d like to store your
+engines in a different directory, add the following line <b>before</b> any
+call to <a
+href="../../../../classes/Engines.html#M000054">Engines.start</a>
+</p>
+<pre>
+  Engines.config(:root, &quot;/path/to/your/directory&quot;, :force)
+</pre>
+<h3>Rake Tasks</h3>
+<p>
+The engines plugin comes with a number of handy rake tasks:
+</p>
+<pre>
+  # display version information about the engines subsystem
+  rake engines:info
+
+  # migrate engines' database schemas in a controlled way
+  rake db:migrate:engines
+
+  # generates full documentation for all engines
+  rake doc:engines
+</pre>
+<p>
+There are more, but you&#8217;ll have to discover them yourself&#8230;
+</p>
+<h2>More information</h2>
+<p>
+For more information about what you can do with the <a
+href="../../../../classes/Engines.html">Engines</a> plugin, you&#8217;ll
+need to generate the documentation (rake plugindoc), or go to <a
+href="http://rails-engines.org">rails-engines.org</a>. Good luck!
+</p>
+<h1>Quickstart</h1>
+<h3>Gentlemen, Start your <a href="../../../../classes/Engines.html">Engines</a>!</h3>
+<p>
+Here&#8217;s an <b>example</b> of how you might go about using Rails <a
+href="../../../../classes/Engines.html">Engines</a>. Please bear in mind
+that actual <a href="../../../../classes/Engines.html">Engines</a> may
+differ from this, but these are the steps you will <b>typically</b> have to
+take. Refer to individual <a
+href="../../../../classes/Engine.html">Engine</a> documentation for
+specific installation instructions. Anyway, on with the show:
+</p>
+<ol>
+<li>Install the Rails <a href="../../../../classes/Engines.html">Engines</a>
+plugin into your plugins directory. You&#8216;ll probably need to accept
+the SSL certificate here for the OpenSVN servers. For example:
+
+<pre>
+ $ script/plugin install engines
+
+ or
+
+    $ svn co http://svn.rails-engines.org/plugins/engines &lt;MY_RAILS_APP&gt;/vendor/plugins/engines
+</pre>
+</li>
+<li>Install your engine into the plugins directory in a similar way.
+
+</li>
+<li>Create the RDoc for the engines plugin and for your engines so you know
+what&#8217;s going on:
+
+<pre>
+  $ rake doc:plugins
+  $ rake doc:engines
+</pre>
+</li>
+<li>Initialize any database schema provided. The <a
+href="../../../../classes/Engine.html">Engine</a> may provide Rake tasks to
+do this for you. Beware that accepting an <a
+href="../../../../classes/Engine.html">Engine</a> schema might affect any
+existing database tables you have installed! You are STRONGLY recommended
+to inspect the <tt>db/schema.rb</tt> file to see exactly what running it
+might change.
+
+</li>
+<li>Add configuration to <tt>environment.rb</tt>: e.g.
+
+<pre>
+   # Add your application configuration here
+   module MyEngine
+     config :top_speed, &quot;MegaTurboFast&quot;
+   end
+
+   Engines.start :my_engine
+</pre>
+</li>
+<li>Run your server!
+
+<pre>
+   $ script/server
+</pre>
+</li>
+</ol>
+<h1>Building an <a href="../../../../classes/Engine.html">Engine</a></h1>
+<p>
+Here&#8217;s a sample rails application with a detailed listing of an
+example engines as a concrete example:
+</p>
+<pre>
+  RAILS_ROOT
+    |- app
+    |- lib
+    |- config
+    |- &lt;... other directories ...&gt;
+    |- vendor
+        |-plugins
+            |- engines               &lt;-- the engines plugin
+            |- some_other_plugin
+            |- my_engine             &lt;-- our example engine
+                  |- init_engine.rb
+                  |- app
+                  |     |- controllers
+                  |     |- model
+                  |     |- helpers
+                  |     |- views
+                  |- db
+                  |- tasks
+                  |- lib
+                  |- public
+                  |     |- javascripts
+                  |     |- stylesheets
+                  |- test
+</pre>
+<p>
+The internal structure of an engine mirrors the familiar core of a Rails
+application, with most of the engine within the <tt>app</tt> subdirectory.
+Within <tt>app</tt>, the controllers, views and model objects behave just
+as you might expect if there in the top-level <tt>app</tt> directory.
+</p>
+<p>
+When you call <tt><a
+href="../../../../classes/Engines.html#M000054">Engines.start</a>
+:my_engine</tt> in <tt>environment.rb</tt> a few important bits of black
+magic voodoo happen:
+</p>
+<ul>
+<li>the engine&#8217;s controllers, views and models are mixed in to your
+running Rails application;
+
+</li>
+<li>files in the <tt>lib</tt> directory of your engine (and subdirectories) are
+made available to the rest of your system
+
+</li>
+<li>any directory structure in the folder <tt>public/</tt> within your engine
+is made available to the webserver
+
+</li>
+<li>the file <tt>init_engine.rb</tt> is loaded from within the engine - just
+like a plugin. The reason why engines need an init_engine.rb rather than an
+init.rb is because Rails&#8217; default plugin system might try and load an
+engine before the <a href="../../../../classes/Engines.html">Engines</a>
+plugin has been loaded, resulting in all manner of badness. Instead,
+Rails&#8217; skips over any engine plugins, and the <a
+href="../../../../classes/Engines.html">Engines</a> plugin handles
+initializing your <a href="../../../../classes/Engines.html">Engines</a>
+plugins when you &#8216;start&#8217; each engine.
+
+</li>
+</ul>
+<p>
+From within <tt>init_engine.rb</tt> you should load any libraries from your
+<tt>lib</tt> directory that your engine might need to function. You can
+also perform any configuration required.
+</p>
+<h3>Loading all <a href="../../../../classes/Engines.html">Engines</a></h3>
+<p>
+Calling either <a
+href="../../../../classes/Engines.html#M000054">Engines.start</a> (with no
+arguments) or <a
+href="../../../../classes/Engines.html#M000055">Engines.start_all</a> will
+load all engines available. Please note that your plugin can only be
+<b>automatically</b> detected as an engine by the presence of an
+&#8216;init_engine.rb&#8217; file, or if the engine is in a directory named
+&lt;something&gt;_engine, or &lt;something&gt;_bundle. If neither of these
+conditions hold, then your engine will not be loaded by <a
+href="../../../../classes/Engines.html#M000054">Engines.start</a>() (with
+no arguments) or <a
+href="../../../../classes/Engines.html#M000055">Engines.start_all</a>().
+</p>
+<h1>Configuring <a href="../../../../classes/Engines.html">Engines</a></h1>
+<p>
+Often your engine will require a number of configuration parameters set,
+some of which should be alterable by the user to reflect their particular
+needs. For example, a Login System might need a unique Salt value set to
+encrypt user passwords. This value should be unique to each application.
+</p>
+<p>
+<a href="../../../../classes/Engines.html">Engines</a> provides a simple
+mechanism to handle this, and it&#8217;s already been hinted at above.
+Within any module, a new method is now available: <tt>config</tt>. This
+method creates a special <tt>CONFIG</tt> Hash object within the <a
+href="../../../../classes/Module.html">Module</a> it is called, and can be
+used to store your parameters. For a user to set these parameters, they
+should reopen the module (before the corresponding <a
+href="../../../../classes/Engines.html#M000054">Engines.start</a> call), as
+follows:
+</p>
+<pre>
+  module MyModule
+    config :some_option, &quot;really_important_value&quot;
+  end
+  Engines.start :my_engine
+</pre>
+<p>
+Because this config value has been set before the <a
+href="../../../../classes/Engine.html">Engine</a> is started, subsequent
+attempts to set this config value will be ignored and the user-specified
+value used instead. Of course, there are situations where you <b>really</b>
+want to set the config value, even if it already exists. In such cases the
+config call can be changed to:
+</p>
+<pre>
+  config :some_option, &quot;no_THIS_really_important_value&quot;, :force
+</pre>
+<p>
+The additional parameter will force the new value to be used. For more
+information, see <a
+href="../../../../classes/Module.html#M000016">Module#config</a>.
+</p>
+<h1>Tweaking <a href="../../../../classes/Engines.html">Engines</a></h1>
+<p>
+One of the best things about <a
+href="../../../../classes/Engines.html">Engines</a> is that if you
+don&#8217;t like the default behaviour of any component, you can override
+it without needing to overhaul the whole engine. This makes adding your
+customisations to engines almost painless, and allows for
+upgrading/updating engine code without affecting the specialisations you
+need for your particular application.
+</p>
+<h3>View Tweaks</h3>
+<p>
+These are the simplest - just drop your customised view (or partial) into
+you <tt>/app/views</tt> directory in the corresponding location for the
+engine, and your view will be used in preference to the engine view. For
+example, if we have a ItemController with an action &#8216;show&#8217;, it
+will (normally) expect to find its view as <tt>report/show.rhtml</tt> in
+the <tt>views</tt> directory. The view is found in the engine at
+<tt>/vendor/engines/my_engine/app/views/report/show.rhtml</tt>. However, if
+you create the file <tt>/app/views/report/show.rhtml</tt>, that file will
+be used instead! The same goes for partials.
+</p>
+<h3>Controller Tweaks</h3>
+<p>
+You can override controller behaviour by replacing individual controller
+methods with your custom behaviour. Lets say that our
+ItemController&#8217;s &#8216;show&#8217; method isn&#8217;t up to scratch,
+but the rest of it behaves just fine. To override the single method, create
+<tt>/app/controllers/item_controller.rb</tt>, just as if it were going to
+be a new controller in a regular Rails application. then, implement your
+show method as you would like it to happen.
+</p>
+<p>
+&#8230; and that&#8217;s it. Your custom code will be mixed in to the
+engine controller, replacing its old method with your custom code.
+</p>
+<h3>Model/Lib Tweaks</h3>
+<p>
+Alas, tweaking model objects isn&#8217;t quite so easy (yet). If you need
+to change the behaviour of model objects, you&#8217;ll need to copy the
+model file from the engine into <tt>/app/models</tt> and edit the methods
+yourself. Library code can be overridden in a similar way.
+</p>
+<h1>Public Files</h1>
+<p>
+If the <a href="../../../../classes/Engine.html">Engine</a> includes a
+<tt>public</tt> directory, its contents will be mirrored into
+<tt>RAILS_ROOT/public/engine_files/&amp;lt;engine_name&amp;gt;/</tt> so
+that these files can be served by your webserver to browsers and users over
+the internet.
+</p>
+<p>
+<a href="../../../../classes/Engines.html">Engines</a> also provides two
+convenience methods for loading stylesheets and javascript files in your
+layouts: <tt>engine_stylesheet</tt> and <tt>engine_javascript</tt>.
+</p>
+<h3><a href="../../../../classes/Engine.html">Engine</a> Stylesheets</h3>
+<pre>
+  &lt;%= engine_stylesheet &quot;my_engine&quot; %&gt;
+</pre>
+<p>
+will include
+<tt>RAILS_ROOT/public/&amp;lt;engine_files&amp;gt;/my_engine/stylesheets/my_engine.css</tt>
+in your layout. If you have more than one stylesheet, you can include them
+in the same call:
+</p>
+<pre>
+  &lt;%= engine_stylesheet &quot;my_engine&quot;, &quot;stylesheet_2&quot;, &quot;another_one&quot; %&gt;
+</pre>
+<p>
+will give you:
+</p>
+<pre>
+    &lt;link href=&quot;/engine_files/my_engine/stylesheets/my_engine.css&quot; media=&quot;screen&quot; rel=&quot;Stylesheet&quot; type=&quot;text/css&quot; /&gt;
+    &lt;link href=&quot;/engine_files/my_engine/stylesheets/stylesheet_2.css&quot; media=&quot;screen&quot; rel=&quot;Stylesheet&quot; type=&quot;text/css&quot; /&gt;
+    &lt;link href=&quot;/engine_files/my_engine/stylesheets/another_one.css&quot; media=&quot;screen&quot; rel=&quot;Stylesheet&quot; type=&quot;text/css&quot; /&gt;
+</pre>
+<p>
+in your rendered layout.
+</p>
+<h3><a href="../../../../classes/Engine.html">Engine</a> Javascripts</h3>
+<p>
+The <tt>engine_javascript</tt> command works in exactly the same way as
+above.
+</p>
+<h1>Databases and <a href="../../../../classes/Engines.html">Engines</a></h1>
+<p>
+<a href="../../../../classes/Engine.html">Engine</a> schema information can
+be handled using similar mechanisms to your normal application schemas.
+</p>
+<h2>CAVEAT EMPTOR!</h2>
+<p>
+I.E. Big Huge Warning In Flashing Lights.
+</p>
+<p>
+PLEASE, PLEASE, PLEASE bear in mind that if you are letting someone ELSE
+have a say in what tables you are using, you&#8217;re basically opening
+your application schema open to potential HAVOC. I cannot stress how
+serious this is. It is YOUR responsibility to ensure that you trust the
+schema and migration information, and that it&#8217;s not going to drop
+your whole database. You need to inspect these things. YOU do. If you run
+these voodoo commands and your database essplodes because you didn&#8217;t
+double double double check what was going on, your embarassment will be
+infinite. And your project will be skroo&#8217;d if the migration is
+irreversible.
+</p>
+<p>
+That said, if you are working in a team and you all trust each other, which
+is hopefully true, this can be quite useful.
+</p>
+<h2>Migrating <a href="../../../../classes/Engines.html">Engines</a></h2>
+<p>
+To migrate all engines to the latest version:
+</p>
+<pre>
+ rake db:migrate:engines
+</pre>
+<p>
+To migrate a single engine, for example the login engine:
+</p>
+<pre>
+ rake db:migrate:engines ENGINE=login  (or login_engine)
+</pre>
+<p>
+To migrate a single engine to a specific revision:
+</p>
+<pre>
+ rake db:migrate:engines ENGINE=login VERSION=4
+</pre>
+<p>
+This:
+</p>
+<pre>
+ rake db:migrate:engines VERSION=1
+</pre>
+<p>
+&#8230; will not work, because we felt it was too dangerous to allow ALL
+engines to be migrated to a specific version, since such versions might be
+incompatible.
+</p>
+<h1>Testing <a href="../../../../classes/Engines.html">Engines</a></h1>
+<p>
+The <a href="../../../../classes/Engines.html">Engines</a> plugin comes
+with mechanisms to help test <a
+href="../../../../classes/Engines.html">Engines</a> within a
+developer&#8217;s own application. The testing extensions enable developers
+to load fixtures into specific tables irrespective of the name of the
+fixtures file. This work is heavily based on patches made by Duane Johnson
+(canadaduane), viewable at <a
+href="http://dev.rubyonrails.org/ticket/1911">dev.rubyonrails.org/ticket/1911</a>
+</p>
+<p>
+<a href="../../../../classes/Engine.html">Engine</a> developers should
+supply fixture files in the &lt;engine&gt;/test/fixtures directory as
+normal. Within their tests, they should load the fixtures using the
+&#8216;fixture&#8217; command (rather than the normal
+&#8216;fixtures&#8217; command). For example:
+</p>
+<pre>
+  class UserTest &lt; Test::Unit::TestCase
+    fixture :users, :table_name =&gt; LoginEngine.config(:user_table), :class_name =&gt; &quot;User&quot;
+
+    ...
+</pre>
+<p>
+This will ensure that the fixtures/users.yml file will get loaded into the
+correct table, and will use the correct model object class.
+</p>
+<p>
+Your engine should provide a test_helper.rb file in &lt;engine&gt;/test,
+the contents of which should include the following:
+</p>
+<pre>
+  # Load the default rails test helper - this will load the environment.
+        require File.dirname(__FILE__) + '/../../../../test/test_helper'
+
+        # ensure that the Engines testing enhancements are loaded and will override Rails own
+        # code where needed. This line is very important!
+        require File.join(Engines.config(:root), &quot;engines&quot;, &quot;lib&quot;, &quot;testing_extensions&quot;)
+
+        # Load the schema - if migrations have been performed, this will be up to date.
+        load(File.dirname(__FILE__) + &quot;/../db/schema.rb&quot;)
+
+        # set up the fixtures location to use your engine's fixtures
+        Test::Unit::TestCase.fixture_path = File.dirname(__FILE__)  + &quot;/fixtures/&quot;
+        $LOAD_PATH.unshift(Test::Unit::TestCase.fixture_path)
+</pre>
+<h2>Loading <a href="../../../../classes/Fixtures.html">Fixtures</a></h2>
+<p>
+An additional helpful task for loading fixture data is also provided
+(thanks to Joe Van Dyk):
+</p>
+<pre>
+  rake db:fixtures:engines:load
+  rake db:fixtures:engines:load PLUGIN=login_engine
+</pre>
+<p>
+will load the engine fixture data into your development database.
+</p>
+<h3>Important Caveat</h3>
+<p>
+Unlike the new &#8216;fixture&#8217; directive described above, this task
+currently relies on you ensuring that the table name to load fixtures into
+is the same as the name of the fixtures file you are trying to load. If you
+are using defaults, this should be fine. If you have changed table names,
+you will need to rename your fixtures files (and possibly update your tests
+to reflect this too).
+</p>
+<p>
+You should also note that fixtures typically tend to depend on test
+configuration information (such as test salt values), so not all data will
+be usable in fixture form.
+</p>
+<h1>LICENCE</h1>
+<p>
+Copyright &#169; 2006, James Adam
+</p>
+<p>
+The MIT License
+</p>
+<p>
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the
+&quot;Software&quot;), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to the
+following conditions:
+</p>
+<p>
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+</p>
+<p>
+THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+USE OR OTHER DEALINGS IN THE SOFTWARE.
+</p>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

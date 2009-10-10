@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: UserController</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">UserController</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../files/vendor/plugins/user_engine/app/controllers/user_controller_rb.html">
+                vendor/plugins/user_engine/app/controllers/user_controller.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                ApplicationController
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+The <a href="UserEngine.html">UserEngine</a> <a
+href="UserController.html">UserController</a> overrides the <a
+href="UserController.html">UserController</a> from the LoginEngine to give
+user management methods (list, <a
+href="UserController.html#M000004">edit_user</a>, etc)
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000006">change_password_for_user</a>&nbsp;&nbsp;
+      <a href="#M000007">delete_user</a>&nbsp;&nbsp;
+      <a href="#M000005">edit_roles</a>&nbsp;&nbsp;
+      <a href="#M000004">edit_user</a>&nbsp;&nbsp;
+      <a href="#M000011">find_user</a>&nbsp;&nbsp;
+      <a href="#M000003">list</a>&nbsp;&nbsp;
+      <a href="#M000009">new</a>&nbsp;&nbsp;
+      <a href="#M000008">show</a>&nbsp;&nbsp;
+      <a href="#M000010">user_content_columns_to_display</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000006" class="method-detail">
+        <a name="M000006"></a>
+
+        <div class="method-heading">
+          <a href="#M000006" class="method-signature">
+          <span class="method-name">change_password_for_user</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Change the password of an arbitrary user
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000006-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000006-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/user_engine/app/controllers/user_controller.rb, line 88</span>
+88:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">change_password_for_user</span>
+89:     <span class="ruby-keyword kw">if</span> (<span class="ruby-ivar">@user</span> = <span class="ruby-identifier">find_user</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:id</span>]))
+90:       <span class="ruby-identifier">do_change_password_for</span>(<span class="ruby-ivar">@user</span>)
+91:       <span class="ruby-identifier">flash</span>[<span class="ruby-identifier">:notice</span>] = <span class="ruby-node">&quot;Password for user '#{@user.login}' has been updated.&quot;</span>
+92:     <span class="ruby-keyword kw">end</span>
+93:     <span class="ruby-identifier">redirect_back_or_default</span> <span class="ruby-identifier">:action</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'list'</span>
+94:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000007" class="method-detail">
+        <a name="M000007"></a>
+
+        <div class="method-heading">
+          <a href="#M000007" class="method-signature">
+          <span class="method-name">delete_user</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Delete an arbitrary user
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000007-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000007-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/user_engine/app/controllers/user_controller.rb, line 97</span>
+ 97:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">delete_user</span>
+ 98:     <span class="ruby-keyword kw">if</span> (<span class="ruby-ivar">@user</span> = <span class="ruby-identifier">find_user</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:id</span>]))
+ 99:       <span class="ruby-identifier">do_delete_user</span>(<span class="ruby-ivar">@user</span>)
+100:       <span class="ruby-identifier">flash</span>[<span class="ruby-identifier">:notice</span>] = <span class="ruby-node">&quot;User '#{@user.login}' has been deleted.&quot;</span>
+101:     <span class="ruby-keyword kw">end</span>
+102:     <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">:action</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'list'</span>
+103:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000005" class="method-detail">
+        <a name="M000005"></a>
+
+        <div class="method-heading">
+          <a href="#M000005" class="method-signature">
+          <span class="method-name">edit_roles</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Edit the roles for a given <a href="User.html">User</a> object. A user
+typically shouldn&#8217;t be allowed to edit their own roles, since they
+could assign themselves as Admins and then do anything. Therefore, keep
+this method locked down as much as possible.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000005-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000005-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/user_engine/app/controllers/user_controller.rb, line 64</span>
+64:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">edit_roles</span>
+65:     <span class="ruby-keyword kw">if</span> (<span class="ruby-ivar">@user</span> = <span class="ruby-identifier">find_user</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:id</span>]))
+66:       <span class="ruby-keyword kw">begin</span>
+67:         <span class="ruby-constant">User</span>.<span class="ruby-identifier">transaction</span>(<span class="ruby-ivar">@user</span>) <span class="ruby-keyword kw">do</span>
+68:         
+69:           <span class="ruby-identifier">roles</span> = <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:user</span>][<span class="ruby-identifier">:roles</span>].<span class="ruby-identifier">collect</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">role_id</span><span class="ruby-operator">|</span> <span class="ruby-constant">Role</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">role_id</span>) }
+70:           <span class="ruby-comment cmt"># add any new roles &amp; remove any missing roles</span>
+71:           <span class="ruby-identifier">roles</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">role</span><span class="ruby-operator">|</span> <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">roles</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">role</span> <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@user</span>.<span class="ruby-identifier">roles</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">role</span>) }
+72:           <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">roles</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">role</span><span class="ruby-operator">|</span> <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">roles</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">role</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">roles</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">role</span>) }
+73: 
+74:           <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">save</span>
+75:           <span class="ruby-identifier">flash</span>[<span class="ruby-identifier">:notice</span>] = <span class="ruby-node">&quot;Roles updated for user '#{@user.login}'.&quot;</span>
+76:         <span class="ruby-keyword kw">end</span>
+77:       <span class="ruby-keyword kw">rescue</span>
+78:         <span class="ruby-identifier">flash</span>[<span class="ruby-identifier">:warning</span>] = <span class="ruby-value str">'Roles could not be edited at this time. Please retry.'</span>
+79:       <span class="ruby-keyword kw">ensure</span>
+80:         <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">:back</span>
+81:       <span class="ruby-keyword kw">end</span>
+82:     <span class="ruby-keyword kw">else</span>
+83:       <span class="ruby-identifier">redirect_back_or_default</span> <span class="ruby-identifier">:action</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'list'</span>
+84:     <span class="ruby-keyword kw">end</span>
+85:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000004" class="method-detail">
+        <a name="M000004"></a>
+
+        <div class="method-heading">
+          <a href="#M000004" class="method-signature">
+          <span class="method-name">edit_user</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Edit the details of any user. The <a href="Role.html">Role</a> which can
+perform this will almost certainly also need the following permissions:
+user/change_password, user/edit, user/edit_roles, user/delete
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000004-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000004-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/user_engine/app/controllers/user_controller.rb, line 42</span>
+42:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">edit_user</span>
+43:     <span class="ruby-keyword kw">if</span> (<span class="ruby-ivar">@user</span> = <span class="ruby-identifier">find_user</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:id</span>]))
+44:       <span class="ruby-ivar">@all_roles</span> = <span class="ruby-constant">Role</span>.<span class="ruby-identifier">find_all</span>.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span> <span class="ruby-identifier">r</span>.<span class="ruby-identifier">name</span> <span class="ruby-operator">!=</span> <span class="ruby-constant">UserEngine</span>.<span class="ruby-identifier">config</span>(<span class="ruby-identifier">:guest_role_name</span>) }
+45:       <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">request</span>.<span class="ruby-identifier">method</span>
+46:         <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:get</span>
+47:         <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:post</span>
+48:           <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">attributes</span> = <span class="ruby-identifier">params</span>[<span class="ruby-identifier">:user</span>].<span class="ruby-identifier">delete_if</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>,<span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-keyword kw">not</span> <span class="ruby-constant">LoginEngine</span>.<span class="ruby-identifier">config</span>(<span class="ruby-identifier">:changeable_fields</span>).<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">k</span>) }
+49:           <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">save</span>
+50:             <span class="ruby-identifier">flash</span>.<span class="ruby-identifier">now</span>[<span class="ruby-identifier">:notice</span>] = <span class="ruby-node">&quot;Details for user '#{@user.login}' have been updated&quot;</span>
+51:           <span class="ruby-keyword kw">else</span>
+52:             <span class="ruby-identifier">flash</span>.<span class="ruby-identifier">now</span>[<span class="ruby-identifier">:warning</span>] = <span class="ruby-value str">&quot;Details could not be updated!&quot;</span>
+53:           <span class="ruby-keyword kw">end</span>
+54:       <span class="ruby-keyword kw">end</span>
+55:     <span class="ruby-keyword kw">else</span>
+56:       <span class="ruby-identifier">redirect_back_or_default</span> <span class="ruby-identifier">:action</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'list'</span>
+57:     <span class="ruby-keyword kw">end</span>
+58:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000003" class="method-detail">
+        <a name="M000003"></a>
+
+        <div class="method-heading">
+          <a href="#M000003" class="method-signature">
+          <span class="method-name">list</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Displays a paginated list of Users
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000003-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000003-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/user_engine/app/controllers/user_controller.rb, line 35</span>
+35:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">list</span>
+36:     <span class="ruby-ivar">@content_columns</span> = <span class="ruby-identifier">user_content_columns_to_display</span>    
+37:     <span class="ruby-ivar">@user_pages</span>, <span class="ruby-ivar">@all_users</span> = <span class="ruby-identifier">paginate</span> <span class="ruby-identifier">:user</span>, <span class="ruby-identifier">:per_page</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">10</span>        
+38:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000009" class="method-detail">
+        <a name="M000009"></a>
+
+        <div class="method-heading">
+          <a href="#M000009" class="method-signature">
+          <span class="method-name">new</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Create a new <a href="User.html">User</a>, skipping any verification by
+email.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000009-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000009-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/user_engine/app/controllers/user_controller.rb, line 116</span>
+116:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">new</span>
+117:     <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">request</span>.<span class="ruby-identifier">method</span>
+118:       <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:get</span>
+119:         <span class="ruby-ivar">@user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">new</span>
+120:         <span class="ruby-identifier">render</span>
+121:         <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">true</span>
+122:       <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:post</span>
+123:         <span class="ruby-ivar">@user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:user</span>])
+124:         <span class="ruby-keyword kw">begin</span>
+125:           <span class="ruby-constant">User</span>.<span class="ruby-identifier">transaction</span>(<span class="ruby-ivar">@user</span>) <span class="ruby-keyword kw">do</span>
+126:             <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">new_password</span> = <span class="ruby-keyword kw">true</span>
+127:             <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">verified</span> = <span class="ruby-value">1</span> <span class="ruby-comment cmt"># skip verification, because we are ADMIN!</span>
+128:             <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">save</span>
+129:               <span class="ruby-identifier">flash</span>[<span class="ruby-identifier">:notice</span>] = <span class="ruby-value str">'User creation successful.'</span>
+130:               <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">:action</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'list'</span>
+131:             <span class="ruby-keyword kw">end</span>
+132:           <span class="ruby-keyword kw">end</span>
+133:         <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+134:           <span class="ruby-identifier">flash</span>.<span class="ruby-identifier">now</span>[<span class="ruby-identifier">:notice</span>] = <span class="ruby-keyword kw">nil</span>
+135:           <span class="ruby-identifier">flash</span>.<span class="ruby-identifier">now</span>[<span class="ruby-identifier">:warning</span>] = <span class="ruby-value str">'Error creating account: confirmation email not sent'</span>
+136:           <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">error</span> <span class="ruby-identifier">e</span>
+137:         <span class="ruby-keyword kw">end</span>
+138:     <span class="ruby-keyword kw">end</span>
+139:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000008" class="method-detail">
+        <a name="M000008"></a>
+
+        <div class="method-heading">
+          <a href="#M000008" class="method-signature">
+          <span class="method-name">show</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Display the details for a given user
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000008-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000008-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/user_engine/app/controllers/user_controller.rb, line 107</span>
+107:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">show</span>    
+108:     <span class="ruby-keyword kw">if</span> (<span class="ruby-ivar">@user</span> = <span class="ruby-identifier">find_user</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:id</span>]))
+109:       <span class="ruby-ivar">@content_columns</span> = <span class="ruby-identifier">user_content_columns_to_display</span>
+110:     <span class="ruby-keyword kw">else</span>
+111:       <span class="ruby-identifier">redirect_back_or_default</span> <span class="ruby-identifier">:action</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'list'</span>
+112:     <span class="ruby-keyword kw">end</span>
+113:   <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Protected Instance methods</h3>
+
+      <div id="method-M000011" class="method-detail">
+        <a name="M000011"></a>
+
+        <div class="method-heading">
+          <a href="#M000011" class="method-signature">
+          <span class="method-name">find_user</span><span class="method-args">(id)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+A convenience method to find a <a href="User.html">User</a>, and add any
+errors to the flash if the <a href="User.html">User</a> is not found.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000011-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000011-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/user_engine/app/controllers/user_controller.rb, line 154</span>
+154:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">find_user</span>(<span class="ruby-identifier">id</span>)
+155:       <span class="ruby-keyword kw">begin</span>
+156:         <span class="ruby-constant">User</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">id</span>)
+157:       <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">RecordNotFound</span>
+158:         <span class="ruby-identifier">flash</span>[<span class="ruby-identifier">:message</span>] = <span class="ruby-node">&quot;There is no user with ID ##{id}&quot;</span>
+159:         <span class="ruby-keyword kw">nil</span>
+160:       <span class="ruby-keyword kw">end</span>
+161:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000010" class="method-detail">
+        <a name="M000010"></a>
+
+        <div class="method-heading">
+          <a href="#M000010" class="method-signature">
+          <span class="method-name">user_content_columns_to_display</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+A convenience method we can use to control the columns of the <a
+href="User.html">User</a> object that we might ever to see, and hide all
+other ones.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000010-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000010-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/user_engine/app/controllers/user_controller.rb, line 145</span>
+145:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">user_content_columns_to_display</span>
+146:       <span class="ruby-comment cmt"># we don't want people to see the passwords (even though they)</span>
+147:       <span class="ruby-comment cmt"># are hashed up...</span>
+148:       <span class="ruby-identifier">desired_columns</span> = [<span class="ruby-value str">&quot;salted_password&quot;</span>, <span class="ruby-value str">&quot;salt&quot;</span>, <span class="ruby-value str">&quot;security_token&quot;</span>, <span class="ruby-value str">&quot;token_expiry&quot;</span>]
+149:       <span class="ruby-constant">User</span>.<span class="ruby-identifier">content_columns</span>.<span class="ruby-identifier">delete_if</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-identifier">desired_columns</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">c</span>.<span class="ruby-identifier">name</span>) }
+150:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

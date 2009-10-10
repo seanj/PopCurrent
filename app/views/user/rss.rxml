@@ -1,0 +1,33 @@
+xml.instruct! :xml, :version=>"1.0",:encoding=>"UTF-8"
+
+xml.rss "version" => "2.0" do
+ xml.channel do
+    xml.title("PopCurrent: " + params[:user] + " (" + params[:type] + ")")
+    xml.link(url_for(:only_path => false, :controller => "/"))
+    xml.description("PopCurrent - You Be The Critic")
+    xml.ttl("60")
+    xml.copyright("Copyright (C)2006 popcurrent.com. All rights reserved.")
+
+    for @submission in @submissions
+      xml.item do
+        xml.title(h(@submission.title))
+        xml.link(url_for(:only_path => false, :controller => 'submissions', :action => 'urlname', :urlname =>  @submission.urlname))
+        if @submission.image_url
+          xml.description do
+            xml.cdata! '<a href="' + url_for(:only_path => false, :controller => 'submissions', :action => 'urlname', :urlname =>  @submission.urlname) + '"><%= image_tag(url_for_file_column("submission", "image_url", "large"), :alt => '') rescue ""%></a>' + simple_format(h(@submission.description))
+          end
+        else
+          xml.description do
+             xml.cdata! simple_format(h(@submission.description))
+           end
+        end
+        xml.guid(url_for(:only_path => false, :controller => 'submissions', :action => 'urlname', :urlname =>  @submission.urlname))
+        xml.pubDate(CGI.rfc1123_date(@submission.created_at))
+        xml.category(h(@submission.category))
+        xml.source(:url => h(@submission.url))
+        xml.author(h(@submission.user.login))
+        xml.comments(url_for(:only_path => false, :controller => 'submissions', :action => 'urlname', :urlname =>  @submission.urlname))
+      end
+    end
+  end
+end

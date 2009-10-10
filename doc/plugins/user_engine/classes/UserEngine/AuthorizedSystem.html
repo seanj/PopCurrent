@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: UserEngine::AuthorizedSystem</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">UserEngine::AuthorizedSystem</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/vendor/plugins/user_engine/lib/user_engine/authorized_system_rb.html">
+                vendor/plugins/user_engine/lib/user_engine/authorized_system.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+This module will be automatically included into the ApplicationController
+when the <a href="../UserEngine.html">UserEngine</a> is included. It
+defines methods to be used as filters for authorization.
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000006">action_method_names</a>&nbsp;&nbsp;
+      <a href="#M000007">authorize_action</a>&nbsp;&nbsp;
+      <a href="#M000005">included</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+    <div id="class-list">
+      <h3 class="section-bar">Classes and Modules</h3>
+
+      Module <a href="AuthorizedSystem/ClassMethods.html" class="link">UserEngine::AuthorizedSystem::ClassMethods</a><br />
+
+    </div>
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000005" class="method-detail">
+        <a name="M000005"></a>
+
+        <div class="method-heading">
+          <a href="#M000005" class="method-signature">
+          <span class="method-name">included</span><span class="method-args">(base)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000005-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000005-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/user_engine/lib/user_engine/authorized_system.rb, line 32</span>
+32:     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">included</span>(<span class="ruby-identifier">base</span>)
+33: 
+34:       <span class="ruby-identifier">base</span>.<span class="ruby-identifier">extend</span>(<span class="ruby-constant">ClassMethods</span>)
+35: 
+36:       <span class="ruby-identifier">base</span>.<span class="ruby-identifier">class_eval</span> <span class="ruby-keyword kw">do</span>        
+37:         <span class="ruby-comment cmt"># We don't want these actions to be exposed to the Permission</span>
+38:         <span class="ruby-comment cmt"># system synchronisation, so we hide them for all controllers.</span>
+39:         <span class="ruby-identifier">hide_action</span> <span class="ruby-identifier">:require_without_load_path_reloading</span>, <span class="ruby-identifier">:process_test</span>
+40:         <span class="ruby-identifier">hide_action</span> <span class="ruby-identifier">:action_method_names</span>, <span class="ruby-identifier">:wsdl</span>, <span class="ruby-identifier">:deepcopy</span>
+41:         <span class="ruby-identifier">hide_action</span> <span class="ruby-identifier">:readable?</span>, <span class="ruby-identifier">:writable?</span>, <span class="ruby-identifier">:r?</span>, <span class="ruby-identifier">:w?</span>, <span class="ruby-identifier">:authorize_action</span>
+42:         <span class="ruby-identifier">hide_action</span> <span class="ruby-identifier">:store_location</span>, <span class="ruby-identifier">:redirect_back_or_default</span>
+43:         
+44:         <span class="ruby-comment cmt"># methods from the UserEngine module itself</span>
+45:         <span class="ruby-identifier">hide_action</span> <span class="ruby-identifier">:link_if_authorized</span>, <span class="ruby-identifier">:authorized?</span>, <span class="ruby-identifier">:user_name_if_logged_in</span>
+46:       <span class="ruby-keyword kw">end</span>
+47:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000006" class="method-detail">
+        <a name="M000006"></a>
+
+        <div class="method-heading">
+          <a href="#M000006" class="method-signature">
+          <span class="method-name">action_method_names</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns an array of all action names for this controller (Actually returns
+the result of ApplicationController#action_methods, which is private)
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000006-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000006-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/user_engine/lib/user_engine/authorized_system.rb, line 61</span>
+61:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">action_method_names</span>
+62:       <span class="ruby-identifier">action_methods</span>
+63:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Protected Instance methods</h3>
+
+      <div id="method-M000007" class="method-detail">
+        <a name="M000007"></a>
+
+        <div class="method-heading">
+          <a href="#M000007" class="method-signature">
+          <span class="method-name">authorize_action</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+This method will return true if:
+</p>
+<ul>
+<li>The Guest Role is authorized to perform the current action
+
+</li>
+<li>The currently logged in user is omnipotent
+
+</li>
+<li>The currently logged in user has permission to perform the current action.
+
+</li>
+</ul>
+<p>
+In all other cases, it will return false. This method is a replacement for
+the <tt>login_required</tt> method provided by the LoginEngine. If the
+Guest role does not have permission for the current action, the user will
+be redirected to the login page (and redirected back to this action upon
+successful authentication). Users can also authenticate directly via a
+security token (see LoginEngine for details).
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000007-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000007-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/user_engine/lib/user_engine/authorized_system.rb, line 81</span>
+ 81:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">authorize_action</span>
+ 82:         <span class="ruby-identifier">required_permission</span> = <span class="ruby-value str">&quot;%s/%s&quot;</span> <span class="ruby-operator">%</span> [ <span class="ruby-identifier">params</span>[<span class="ruby-value str">&quot;controller&quot;</span>], <span class="ruby-identifier">params</span>[<span class="ruby-value str">&quot;action&quot;</span>] ]
+ 83:         <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span> <span class="ruby-node">&quot;required_perm is #{required_permission}&quot;</span>
+ 84: 
+ 85:         <span class="ruby-identifier">controller</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value str">&quot;controller&quot;</span>]
+ 86:         <span class="ruby-identifier">action</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value str">&quot;action&quot;</span>]
+ 87: 
+ 88:         <span class="ruby-comment cmt"># EVERYONE should be able to get to the root. This might never come up, but</span>
+ 89:         <span class="ruby-comment cmt"># better to be safe than sorry. This condition could just as easily be</span>
+ 90:         <span class="ruby-comment cmt"># appended to the Guest check below, but it's clearer up here.</span>
+ 91:         <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">controller</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">nil</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">action</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">nil</span>)
+ 92:           <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">true</span>
+ 93:         <span class="ruby-keyword kw">end</span>
+ 94: 
+ 95:         <span class="ruby-comment cmt"># if the controller wasn't nil, but the action was, then we want to </span>
+ 96:         <span class="ruby-comment cmt"># set the action to &quot;index&quot; so we can check authentication properly</span>
+ 97:         <span class="ruby-identifier">action</span> <span class="ruby-operator">||=</span> <span class="ruby-value str">&quot;index&quot;</span>
+ 98: 
+ 99:         <span class="ruby-comment cmt"># If someone is or can be logged in...</span>
+100:         <span class="ruby-comment cmt"># calling 'user?' from the LoginEngine will ensure that a User is</span>
+101:         <span class="ruby-comment cmt"># loaded into the session if possible. It could either be there already</span>
+102:         <span class="ruby-comment cmt"># or via a user_id and security key</span>
+103:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">user?</span>
+104:           <span class="ruby-comment cmt"># ... then if that logged user is NOT authorised...</span>
+105: 
+106:           <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">authorized?</span>(<span class="ruby-identifier">controller</span>, <span class="ruby-identifier">action</span>)
+107:             <span class="ruby-comment cmt"># YOU... SHALL... NOT... PASS!</span>
+108: 
+109:             <span class="ruby-identifier">flash</span>[<span class="ruby-identifier">:message</span>] = <span class="ruby-node">&quot;Permission warning: You are not authorized for the action '#{required_permission}'.&quot;</span> 
+110:           
+111:             <span class="ruby-comment cmt"># Here we are distinguishing between unauthorized actions and actions which do</span>
+112:             <span class="ruby-comment cmt"># not exist. It *might* be better to employ a 'steath' technique and simple</span>
+113:             <span class="ruby-comment cmt"># claim that all nonsense actions are unauthorized too... but that can make it</span>
+114:             <span class="ruby-comment cmt"># difficult to debug.</span>
+115:             <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span><span class="ruby-constant">UserEngine</span>.<span class="ruby-identifier">config</span>(<span class="ruby-identifier">:stealth</span>)
+116:               <span class="ruby-keyword kw">if</span> <span class="ruby-constant">Permission</span>.<span class="ruby-identifier">find_by_controller_and_action</span>(<span class="ruby-identifier">controller</span>, <span class="ruby-identifier">action</span>)
+117: 
+118:                 <span class="ruby-comment cmt"># This is a real action, but the user is not allowed to perform it.</span>
+119:                 <span class="ruby-identifier">allowed_roles</span> = <span class="ruby-constant">Permission</span>.<span class="ruby-identifier">find_by_controller_and_action</span>(<span class="ruby-identifier">controller</span>, <span class="ruby-identifier">action</span>).<span class="ruby-identifier">roles</span>.<span class="ruby-identifier">collect</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span> <span class="ruby-identifier">r</span>.<span class="ruby-identifier">name</span>}.<span class="ruby-identifier">join</span>(<span class="ruby-value str">', '</span>)
+120:                 <span class="ruby-identifier">your_roles</span> = <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">roles</span>.<span class="ruby-identifier">collect</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span> <span class="ruby-identifier">r</span>.<span class="ruby-identifier">name</span>}.<span class="ruby-identifier">join</span>(<span class="ruby-value str">', '</span>)
+121:                 <span class="ruby-identifier">flash</span>[<span class="ruby-identifier">:message</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot; Allowed Roles: #{allowed_roles}. User '#{current_user.login}' has only the following: #{your_roles}.&quot;</span>
+122:             
+123:               <span class="ruby-keyword kw">else</span> <span class="ruby-comment cmt"># This wasn't even a real action.</span>
+124:               <span class="ruby-keyword kw">end</span>
+125:             <span class="ruby-keyword kw">end</span>
+126: 
+127:             <span class="ruby-comment cmt"># Otherwise, just send them back to where they were. If they clicked a link, </span>
+128:             <span class="ruby-comment cmt"># we'll have the HTTP_REFERER information. Otherwise we'll use our 'prev_uri'</span>
+129:             <span class="ruby-comment cmt"># information. If we have nothing, set it to be the root.</span>
+130:             <span class="ruby-identifier">return_uri</span> = <span class="ruby-identifier">request</span>.<span class="ruby-identifier">env</span>[<span class="ruby-value str">'HTTP_REFERER'</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">session</span>[<span class="ruby-value str">'prev_uri'</span>] <span class="ruby-operator">||</span> <span class="ruby-value str">&quot;/&quot;</span>
+131:             <span class="ruby-comment cmt"># The user wasn't allowed to perform this action. Try and redirect them somewhere</span>
+132:             <span class="ruby-comment cmt"># If they are no longer allowed to see the page they came here from, </span>
+133:             <span class="ruby-comment cmt"># go back to square one. We need to match the URI against the required permission.</span>
+134:             <span class="ruby-identifier">return_uri</span> = <span class="ruby-value str">&quot;/&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">return_uri</span> <span class="ruby-operator">=~</span> <span class="ruby-node">/\S*\:\/\/\S*\/#{required_permission}\S*/</span>
+135: 
+136:             <span class="ruby-comment cmt"># redirect &amp; return false to indicate that controller action processing should NOT continue.</span>
+137:             <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">return_uri</span>
+138:             <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">false</span>
+139:           <span class="ruby-keyword kw">end</span>
+140:         <span class="ruby-keyword kw">else</span>
+141:           
+142:           <span class="ruby-comment cmt"># noone is or can be logged in...</span>
+143:           <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">User</span>.<span class="ruby-identifier">guest_user_authorized?</span>(<span class="ruby-identifier">controller</span>, <span class="ruby-identifier">action</span>)          
+144:             <span class="ruby-identifier">flash</span>[<span class="ruby-identifier">:message</span>] = <span class="ruby-value str">&quot;You need to log in.&quot;</span> 
+145:             <span class="ruby-identifier">store_location</span>
+146:             <span class="ruby-identifier">redirect_to</span> <span class="ruby-constant">UserEngine</span>.<span class="ruby-identifier">config</span>(<span class="ruby-identifier">:login_page</span>)
+147:             <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">false</span>
+148:           <span class="ruby-keyword kw">end</span>
+149:         <span class="ruby-keyword kw">end</span>          
+150: 
+151:         <span class="ruby-comment cmt"># If we get here, the user is either a guest and this action is permitted</span>
+152:         <span class="ruby-comment cmt"># for guest users, or the user is logged in and the action is permitted by</span>
+153:         <span class="ruby-comment cmt"># one or more of their associated roles. Let them pass..</span>
+154: 
+155:         <span class="ruby-ivar">@session</span>[<span class="ruby-value str">&quot;prev_uri&quot;</span>] = <span class="ruby-ivar">@request</span>.<span class="ruby-identifier">request_uri</span>
+156:         <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">true</span>        
+157:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

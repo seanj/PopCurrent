@@ -1,0 +1,48 @@
+<%if(params[:size] == "small")%>
+	document.write('<table cellspacing="0" style="width:80px;">')
+	document.write('<tr><td style="text-align:center; color:#5993ff; font: 8pt sans_serif;">')
+	document.write('Pops So Far:')
+	document.write('</td></tr>')
+	document.write('</table>')
+	document.write('<table cellspacing="0" style="width:80px;"><tr><td align="center">')
+	document.write('<table cellspacing="0" style="width:60px;">')
+	document.write('<tr><td background="<%=url_for(:only_path => false, :controller => 'images/mini_popbox_bluetop.jpg')%>" style="height:19px;padding:0;margin:0;">')
+	document.write('</td></tr>')
+	document.write('<tr><td background="<%=url_for(:only_path => false, :controller => 'images/mini_popbox_middle.jpg')%>" style="height:10px;padding:0;margin:0;text-align:center;">')
+	document.write('<a href="<%=url_for(:only_path => false, :controller => 'entries/' + @submission.urlname)%>" style="text-decoration:none;font: bold 10pt sans_serif;color:white;" target="_blank"><%= @submission.vote_total %></a>')
+	document.write('</td></tr>')
+	document.write('<tr><td background="<%=url_for(:only_path => false, :controller => 'images/mini_popbox_bluebottom.jpg')%>" style="height:19px;padding:0;margin:0;">')		
+	document.write('</td></tr>')
+	document.write('</table>')
+	document.write('</td></tr>')
+	document.write('</table>')
+	document.write('<table cellspacing="0" style="width:80px;">')
+	document.write('<tr><td style="text-align:center;">')
+		<% if params[:action] == "podcastpromo"%>
+			document.write('<a href="<%=url_for(:only_path => false, :controller => 'entries/' + @submission.urlname)%>" target="_blank"  style="color:#5993ff; font: 8pt sans_serif;">Pop Latest Podcast! At popcurrent.com</a>')
+		<%else%>
+			document.write('<a href="<%=url_for(:only_path => false, :controller => 'entries/' + @submission.urlname)%>" target="_blank"  style="color:#5993ff; font: 8pt sans_serif;">Pop This! At popcurrent.com</a>')
+		<%end%>
+	document.write('</td></tr>')	
+	document.write('</table>')
+<%else%>
+	document.write('<table cellspacing="0" style="width:100px;">')
+	document.write('<tr><td style="text-align:center; color:#5993ff; font: 9pt sans_serif;">')
+	document.write('Pops So Far:')
+	document.write('</td></tr>')
+	document.write('<tr><td background="<%=url_for(:only_path => false, :controller => 'images/popbox_bluetop.gif')%>" style="height:21px;padding:0;margin:0;">')
+	document.write('</td></tr>')
+	document.write('<tr><td background="<%=url_for(:only_path => false, :controller => 'images/popbox_bluemiddle.gif')%>" style="height:26px;padding:0;margin:0;text-align:center;">')
+	document.write('<a href="<%=url_for(:only_path => false, :controller => 'entries/' + @submission.urlname)%>" style="text-decoration:none;font: bold 12pt sans_serif;color:white;" target="_blank"><%= @submission.vote_total %></a>')
+	document.write('</td></tr>')
+	document.write('<tr><td background="<%=url_for(:only_path => false, :controller => 'images/popbox_bluebottom.gif')%>" style="height:22px;padding:0;margin:0;">')		
+	document.write('</td></tr>')
+	document.write('<tr><td style="text-align:center;">')
+		<% if params[:action] == "podcastpromo"%>
+			document.write('<a href="<%=url_for(:only_path => false, :controller => 'entries/' + @submission.urlname)%>" target="_blank"  style="color:#5993ff; font: 9pt sans_serif;">Pop Latest Podcast! At popcurrent.com</a>')
+		<%else%>
+			document.write('<a href="<%=url_for(:only_path => false, :controller => 'entries/' + @submission.urlname)%>" target="_blank"  style="color:#5993ff; font: 9pt sans_serif;">Pop This! At popcurrent.com</a>')
+		<%end%>
+	document.write('</td></tr>')	
+	document.write('</table>')
+<%end%>

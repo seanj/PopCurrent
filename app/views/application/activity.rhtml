@@ -1,0 +1,61 @@
+<%if(current_user)%>
+	<h3> Friends' Recent Activity*</h3>
+	
+	<div class="activity" >
+		<table cellspacing="0">
+			<tr>
+				<td width="100%">
+				  <%pop_count = get_activity_popped_count
+				  if(pop_count == 0)%>
+					Popped:
+				  <%else%>
+					<%=link_to("Popped:", :controller => "submissions", :action => "popped_by_friends_list")%>
+				  <%end%>
+				</td>
+				<td>
+				  <strong>&nbsp;(<%=pop_count%>)</strong>
+				</td>
+			</tr>
+			<tr>
+				<td>
+				  <%flop_count = get_activity_flopped_count
+				  if(flop_count == 0)%>
+					Flopped: 
+				  <%else%>
+				  	<%=link_to("Flopped:", :controller => "submissions", :action => "flopped_by_friends_list")%>
+				  <%end%>
+				</td>
+				<td>
+				  <strong>&nbsp;(<%=flop_count%>)</strong>
+				</td>
+			</tr>
+			<tr>
+				<td>
+				  <%submitted_count = get_activity_submitted_count
+				  if(submitted_count == 0)%>
+					Submitted: 
+				  <%else%>
+					<%=link_to("Submitted:", :controller => "submissions", :action => "submitted_by_friends_list")%>
+				  <% end %>
+				</td>
+				<td>
+				  <strong>&nbsp;(<%=submitted_count%>)</strong>
+				</td>
+			</tr>
+			<tr>
+				<td>
+				  <%comments_count = get_activity_comments_count
+				  if(comments_count == 0)%>
+					Comments: 
+				  <%else%>
+					<%=link_to("Comments:", :controller => "submissions", :action => "comments_by_friends_list")%>
+				  <% end %>
+				</td>
+				<td>
+				  <strong>&nbsp;(<%=comments_count%>)</strong>
+				</td>
+			</tr>
+		</table>
+		<span style="font: 9px italic sans-serif;">* Within Last 48 Hours</span>
+	</div><br />
+<%end%>

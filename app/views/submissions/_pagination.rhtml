@@ -1,0 +1,20 @@
+<% if(@submission_pages)%>
+<div class="pagination">
+	<% if @submission_pages.current.previous %>
+		<%= link_to h('<< Previous'), { :page => @submission_pages.current.previous, :tag => params[:tag], :query => params[:query] }%>
+	<% end %>
+	<% if params[:query] %>
+		<%= list_pagination_links_each(@submission_pages, :window_size => 4) do |n|
+		
+			"<a href='?query=#{params[:query]}&page=#{n}'>#{n}</a>"
+		end %>
+	<% else %>
+		<%= list_pagination_links_each(@submission_pages, :window_size => 4) do |n|
+			"<a href='?page=#{n}'>#{n}</a>"
+		end %>
+	<% end %>
+	<% if @submission_pages.current.next %>
+		<%= link_to h('Next >>'), { :page => @submission_pages.current.next, :tag => params[:tag], :query => params[:query] } %> 
+	<% end%>
+</div>
+<%end%>

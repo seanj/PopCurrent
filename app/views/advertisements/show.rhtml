@@ -1,0 +1,21 @@
+<%if(@advertisement)%>
+	<%if(@placement == "Top")%>
+		<div class="ads_top" style="width:<%=@advertisement.width%>;height:<%=@advertisement.height%>;">
+		<br />
+	<%elsif(@placement == "Bottom")%>
+		<div class="ads_bottom" style="width:<%=@advertisement.width%>;height:<%=@advertisement.height%>;">
+		<br />
+	<%elsif(@placement == "Side")%>
+		<div class="ads_side" style="width:<%=@advertisement.width%>;height:<%=@advertisement.height%>;">
+	<%elsif(@placement == "Single Entry")%>
+		<div style="width:<%=@advertisement.width%>;height:<%=@advertisement.height%>;">
+	<%elsif(@placement == "List Middle")%>
+		<div class="ad_item">
+	<%elsif(@placement == "List Sidebar")%>
+		<div style="width:<%=@advertisement.width%>;height:<%=@advertisement.height%>;">
+	<%elsif(@placement == "List Header")%>
+		<div style="width:<%=@advertisement.width%>;height:<%=@advertisement.height%>;float:left;">
+	<%end%>
+		<%=@advertisement.codeblock%>
+	</div>
+<%end%>

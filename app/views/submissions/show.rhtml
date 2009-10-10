@@ -1,0 +1,102 @@
+<% store_location() %>
+
+<%if flash[:success] == "success"%>
+<div class="itemfirst" style="padding-left: 20px">
+	<span class="entrycategory">Congratulations. Your entry has been submitted successfully.</span>
+	<p>
+		<strong>So what now?</strong>
+	</p>
+	<p>
+		Your entry will now appear in the 'Newest Entries' section.  If it gets enough Pops, it will also appear on the &quot;Hot Now!&quot; of popcurrent.com. 
+	</p><br />
+	<span class="entrycategory">I want to get on the &quot;Hot Now!&quot; list, how do I promote my entry on my website to get more Pops?</span>
+	<p>
+		<table cellspacing="8" width="100%" class="entrydescription">
+			<tr>
+				<td width= "65%">
+					<strong>1. Promote your entry on your MySpace page.</strong> 
+					&nbsp;Cut and paste this HTML snippet into your MySpace profile. <i>(This is a permalink back to your entry.)</i> 
+				</td>
+				<td>
+					<form name="profileForm<%=@submission.id%>" id="profileForm<%=@submission.id%>">
+						<input name="entry_url" type="text" value='<a href="http://popcurrent.com/entries/<%=@submission.urlname%>"/><img src="http://popcurrent.com/images/large-button_green.jpg" alt="Pop It At popcurrent.com"/></a>' onClick="javascript:document.profileForm<%=@submission.id%>.entry_url.focus();document.profileForm<%=@submission.id%>.entry_url.select();" readonly="true">
+					</form>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<strong>2. Send a MySpace Bulletin.</strong> 
+					&nbsp;Cut and paste this HTML snippet into a bulletin to tell your fans and friends to Pop your entry. 
+				</td>
+				<td>
+					<form name="bulletinForm<%=@submission.id%>" id="bulletinForm<%=@submission.id%>">
+						<input name="entry_url" type="text" value='If you like this then please <a href="http://popcurrent.com/entries/<%=@submission.urlname %>">Pop it at popcurrent.com!</a>' onClick="javascript:document.bulletinForm<%=@submission.id%>.entry_url.focus();document.bulletinForm<%=@submission.id%>.entry_url.select();" readonly="true">
+					</form>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<strong>3. Put a PopBox directly on your website.</strong> 
+					&nbsp;Cut and paste this javascript snippet into your site's HTML code. <br />
+					<span style="font: 8pt san-serif;color:#80b439;">Note: This does not work on MySpace pages. (Javascript is not allowed.)
+				</td>
+				<td>
+					<form name="embedForm<%=@submission.id%>" id="embedForm<%=@submission.id%>">
+						<br />Large:
+						<input name="entry_embed" type="text" value='<script language="JavaScript" src="<%=url_for(:only_path => false, :controller => 'api', :action => 'entrypromo', :urlname =>  @submission.urlname)%>" type="text/javascript"></script>' onClick="javascript:document.embedForm<%=@submission.id%>.entry_embed.focus();document.embedForm<%=@submission.id%>.entry_embed.select();" readonly="true">					</form>
+					</form>
+				</td>
+				<td>
+					<form name="embedFormSmall<%=@submission.id%>" id="embedFormSmall<%=@submission.id%>">
+						<br />Small:
+						<input name="entry_embed_small" type="text" value='<script language="JavaScript" src="<%=url_for(:only_path => false, :controller => 'api', :action => 'entrypromo', :urlname =>  @submission.urlname, :size => "small")%>" type="text/javascript"></script>' onClick="javascript:document.embedFormSmall<%=@submission.id%>.entry_embed_small.focus();document.embedFormSmall<%=@submission.id%>.entry_embed_small.select();" readonly="true">					</form>
+					</form>
+				</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td style="vertical-align:top;">
+					Preview of Large Size:<br /><br />
+					<script language="JavaScript" src="<%=url_for(:only_path => false, :controller => 'api', :action => 'entrypromo', :urlname =>  @submission.urlname)%>" type="text/javascript"></script>
+				</td>
+				<td style="vertical-align:top;">
+					Preview of Small Size:<br /><br />
+					<script language="JavaScript" src="<%=url_for(:only_path => false, :controller => 'api', :action => 'entrypromo', :urlname =>  @submission.urlname, :size => "small")%>" type="text/javascript"></script>
+				</td>
+			</tr>
+		</table>
+	</p>
+	<div style="width:100%;font: bold 14pt sans-serif; text-align: center;"><a href="<%=@submission.urlname%>">Take me to my Entry!</a></div>
+</div>
+<%else%>
+<div class="itemfirst" style="padding-top:12px;">
+	<%= render(:partial => "submission", :object => @submission, :locals => {:bShowFullDescription => true})%>
+</div>
+<br />
+<div class="subusers">
+	<h2>Critics Statistics</h2>
+	<%= render_component(:controller => "submissions", :action => "show_sub_users", :id => @submission.id, :params => {:subtype => "sub_pop"}) %>
+</div>
+<br />
+<div  style="clear:left;">
+<%= render_component(:controller => "advertisements", :action => "show", :params => {:placement => "Single Entry"}) %>
+</div>
+<a href="comments"></a>
+<br />
+<% if @submission.comments.size > 0 %>
+	<h2>
+	<%= pluralize(@submission.comments.size, 'Comment', 'Comments') %>
+	</h2>
+<% end %>
+<%= render(:partial => "comments", :object => @submission) %>
+<br />
+<% if session[:user] %>
+	<h2>Post a Comment</h2>
+	<%= render(:partial => "postComment", :object => @submission)%>
+<% else %>
+	<h2>Post a Comment</h2><br />
+	&nbsp;If you wish to post a comment, please 
+	<%= link_to_remote('login', :update => 'formbox', :url => {:controller => 'user', :action => 'login'})%>&nbsp;
+	or <a href="/user/signup">signup</a> for a new account.
+<% end %>
+<%end%>

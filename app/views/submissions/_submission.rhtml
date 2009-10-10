@@ -1,0 +1,196 @@
+	<div class="popbox" id='total<%= @submission.id %>'>
+		<%= render( :partial => "popbox", :object => @submission)%>
+	</div>
+	<% if @submission.image_url%>
+		<div class="entryimage" <%if(@submission.description.length > 100)%>style="height:100px;<% end %>">
+			<a href="/entries/<%= @submission.urlname %>"><%= image_tag(url_for_file_column("submission", "image_url", "large"), :alt => '') rescue ""%></a>
+		</div>
+	  <div class="entry" style="margin-left: 120px;">
+	<% else %>
+		<div class="entry" style="margin-left: 10px;">
+	<% end %>
+	  <div class="entrytitle">
+			<%if @submission.pfc == 1 %>
+				[Paid For Consideration]
+			<% end %>
+			<a href="<%= h(@submission.url) %>" target='_blank'><%= h(@submission.title) %></a>
+		</div>
+		<span class="entrysubmission" style="font: italic 9pt sans-serif;">
+			<%if authorized?(:controller => "user", :action => "edit_roles")%>
+				<%= link_to('Edit', :action => 'edit', :id => @submission) %>&nbsp;&nbsp;|&nbsp;&nbsp;
+				<%= link_to('Destroy', { :action => 'destroy', :id => @submission }, :confirm => 'Are you sure?', :post => true) %><br />
+			<% else %>
+				<%if(@session[:user])%>
+					<%if(@session[:user].id == @submission.user_id && @submission.created_at > (Time.now - 15.minutes))%>
+						<%= link_to('Did you make a mistake? Click to fix it!', :action => 'edit', :id => @submission) %><br />
+					<% end %>
+				<% end %>
+			<% end %>
+		</span >
+		<span class="entrysubmission" style="padding-top: 4px;">
+			<% if @submission.rss_url.length > 0 %>
+				<a href="<%= h(@submission.rss_url) %>"><img src="/images/rss.gif"></a>&nbsp;<a href="<%= h(@submission.rss_url) %>"><span style="font: 8pt sans-serif;">RSS Feed</span></a>&nbsp;
+			<% end %>
+			<% if @submission.itunes_url.length > 0 %>
+				<a href="http://click.linksynergy.com/fs-bin/stat?id=Zo/Ub3G5TeM&offerid=78941&type=3&subid=0&tmpid=1826&RD_PARM1=<%= url_encode(@submission.itunes_url) %>"><img src="/images/itunes-icon.gif"></a>&nbsp;<a href="http://click.linksynergy.com/fs-bin/stat?id=Zo/Ub3G5TeM&offerid=78941&type=3&subid=0&tmpid=1826&RD_PARM1=<%= url_encode(@submission.itunes_url) %>"><span style="font: 8pt sans-serif;">Find in iTunes</span></a>&nbsp;
+			<% end %>
+			<% if @submission.magnet_url.length > 0 %>
+				<a href="<%= h(@submission.magnet_url) %>"><img src="/images/morphicon.gif"></a>&nbsp;<a href="<%= h(@submission.magnet_url) %>">Morpheus Magnet Link</a>&nbsp;
+			<% end %>
+			<% if @submission.torrent_url.length > 0 %>
+				<a href="<%= h(@submission.torrent_url) %>"><img src="/images/torrent.gif"></a>&nbsp;<a href="<%= h(@submission.torrent_url) %>"><span style="font: 8pt sans-serif;">Download Torrent</span></a>&nbsp;
+			<% end %>
+			<% if @submission.url.length > 0 %>
+				<%if(@submission.url.downcase[".mp3"] == ".mp3" || 
+					@submission.url.downcase[".mpg"] == ".mpg" ||
+					@submission.url.downcase[".mpeg"] == ".mpeg" ||
+					@submission.url.downcase[".wmv"] == ".wmv" ||
+					@submission.url.downcase[".mov"] == ".mov" ||
+					@submission.url.downcase[".mp4"] == ".mp4")%>
+					<a href="http://edn.redswoosh.net/<%= h(@submission.url) %>"><img src="/images/redswoosh.gif"></a>&nbsp;<a href="http://edn.redswoosh.net/<%= h(@submission.url) %>"><span style="font: 8pt sans-serif;">Download with RedSwoosh</span></a>&nbsp;
+				<% end %>
+			<% end %>
+		</span>
+		<span class="entrysubmission">
+			<strong>Category:</strong>
+			<span class="entrycategory"><%=@submission.category%></span>
+			<%if(@submission.user)%>
+			&nbsp;&nbsp;&nbsp;&nbsp;<strong>Submitted By:</strong>
+			<%= image_tag(url_for_file_column(@submission.user.profile, "image_url", "thumb"), :alt => '') rescue '<img src="/images/noimage_16.gif" />'%>
+			<span><a href="/critics/<%= url_encode(@submission.user.login) %>"><%= h(@submission.user.login) %></a></span>&nbsp;&nbsp;<%= calced_time_since_submission %>
+			<%end%>
+		</span>
+	  <div id="entry<%=@submission.id%>" style="display:block;">	
+			<% if(bShowFullDescription == true) %>
+				<span class="entrydescription">
+					<%=simple_format(h(@submission.description))%>
+					<%= render( :partial => "embedMedia", :object => @submission, :locals => {:bShowFullDescription => bShowFullDescription}) %>
+				</span>
+			<% else %>
+				<span class="entrydescription" style="margin: 6px 0 6px 2px;">
+				<%if(@submission.description.length > 200)%>
+					<%=truncate(h(@submission.description), 200)%>
+					<a href="/entries/<%= @submission.urlname %>">[More]</a>
+				<%else%>
+					<%=h(@submission.description)%>
+					<%= render( :partial => "embedMedia", :object => @submission, :locals => {:bShowFullDescription => bShowFullDescription}) %>
+				<%end%>
+				</span>
+			<% end %>
+		</span>
+		<% if(bShowFullDescription == true) %>
+			<% if @submission.tags.count > 0%>
+				<span class="entrysubmission" style="margin: 6px 0 6px 0;">
+					<strong>Tags:</strong>
+					<% for @tag in @submission.tags %>
+						<a href="/tag/<%= @tag.name.downcase %>" rel="tag"><%= @tag.name.downcase %></a>
+					<% end %>
+				</span>
+			<% end %>
+		<% else %>
+			<% if @submission.tags.count > 0%>
+				<span class="entrysubmission" style="margin: 6px 0 6px 0;">
+					<strong>Tags:</strong>
+					<% for @tag in @submission.tags[0..14] %>
+						<a href="/tag/<%= @tag.name.downcase %>" rel="tag"><%= @tag.name.downcase %></a>
+					<% end %>
+				</span>
+			<% end %>
+		<% end %>
+
+	 </div> 
+	<div id="embed<%=@submission.id%>" style="display:none;width:95%;border:1px solid #757575;padding: 4px;background:#FFFFFF;">
+		<div class="embedbox">
+			<form name="pumpForm<%=@submission.id%>" id="pumpForm<%=@submission.id%>" class="verticalForm">
+			<label>Embed a link to this entry on your own website or blog. It's easy!<br />
+			<span style="font:normal .90em sans-serif;color:#002f87;">Use the code below on your website to invite your site's visitors to Pop this entry higher!</span><br/><br/>
+			</label>
+					<table cellspacing="4" width="100%" class="entrydescription" style="color:#002f87;">
+						<tr>
+							<td width= "65%">
+								<strong>1. Promote this entry on your MySpace page.</strong> 
+								&nbsp;Cut and paste this HTML snippet into your MySpace profile. <i>(This is a permalink back to your entry.)</i> 
+							</td>
+							<td>
+								<form name="profileForm<%=@submission.id%>" id="profileForm<%=@submission.id%>">
+									<input name="entry_url" type="text" value='<a href="http://popcurrent.com/entries/<%=@submission.urlname%>"/><img src="http://popcurrent.com/images/large-button_green.jpg" alt="Pop It At popcurrent.com"/></a>' onClick="javascript:document.profileForm<%=@submission.id%>.entry_url.focus();document.profileForm<%=@submission.id%>.entry_url.select();" readonly="true">
+								</form>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<strong>2. Send a MySpace Bulletin.</strong> 
+								&nbsp;Cut and paste this HTML snippet into a bulletin to tell your fans and friends to Pop your entry. 
+							</td>
+							<td>
+								<form name="bulletinForm<%=@submission.id%>" id="bulletinForm<%=@submission.id%>">
+									<input name="entry_url" type="text" value='If you like this then please <a href="http://popcurrent.com/entries/<%=@submission.urlname %>">Pop it at popcurrent.com!</a>' onClick="javascript:document.bulletinForm<%=@submission.id%>.entry_url.focus();document.bulletinForm<%=@submission.id%>.entry_url.select();" readonly="true">
+								</form>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<strong>3. Put a PopBox directly on your website.</strong> 
+								&nbsp;Cut and paste this javascript snippet into your site's HTML code. <br />
+								<span style="font: 8pt san-serif;color:#80b439;">Note: This does not work on MySpace pages. (Javascript is not allowed.)
+							</td>
+							<td>
+								<form name="embedForm<%=@submission.id%>" id="embedForm<%=@submission.id%>">
+									<br />Large:
+									<input name="entry_embed" type="text" value='<script language="JavaScript" src="<%=url_for(:only_path => false, :controller => 'api', :action => 'entrypromo', :urlname =>  @submission.urlname)%>" type="text/javascript"></script>' onClick="javascript:document.embedForm<%=@submission.id%>.entry_embed.focus();document.embedForm<%=@submission.id%>.entry_embed.select();" readonly="true">					</form>
+								</form>
+							</td>
+							<td>
+								<form name="embedFormSmall<%=@submission.id%>" id="embedFormSmall<%=@submission.id%>">
+									<br />Small:
+									<input name="entry_embed_small" type="text" value='<script language="JavaScript" src="<%=url_for(:only_path => false, :controller => 'api', :action => 'entrypromo', :urlname =>  @submission.urlname, :size => "small")%>" type="text/javascript"></script>' onClick="javascript:document.embedFormSmall<%=@submission.id%>.entry_embed_small.focus();document.embedFormSmall<%=@submission.id%>.entry_embed_small.select();" readonly="true">					</form>
+								</form>
+							</td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td style="vertical-align:top;">
+								Preview of Large Size:<br /><br />
+								<script language="JavaScript" src="<%=url_for(:only_path => false, :controller => 'api', :action => 'entrypromo', :urlname =>  @submission.urlname)%>" type="text/javascript"></script>
+							</td>
+							<td style="vertical-align:top;">
+								Preview of Small Size:<br /><br />
+								<script language="JavaScript" src="<%=url_for(:only_path => false, :controller => 'api', :action => 'entrypromo', :urlname =>  @submission.urlname, :size => "small")%>" type="text/javascript"></script>
+							</td>
+						</tr>
+					</table>
+			</form>
+		</div>
+	  </div>
+	</div>
+	<div id="email<%=@submission.id%>" style="width:95%; display: none;border:1px solid #757575;background:#FFFFFF;">
+			<%= form_remote_tag(:update => 'email' + String(@submission.id),
+								:url => { :action => "send_email", :id => @submission}, 
+								:html => { :id => 'email' + String(@submission.id), :class => 'verticalForm', :style => 'padding: 12px 20px 12px 20px;' }) %>
+
+			<%if(flash[:warning])%>
+				<%= "<div style=\"font:bold 14pt sans-serif;color:red;letter-spacing: -0.05em;text-align:center;width:100%;\" id=\"#{:warning}\">#{flash[:warning]}</div>" %>					
+				<br />
+				<% flash[:warning] = nil%>
+			<%end%>
+			<%if(flash[:notice])%>
+				<%= "<div style=\"font:bold 14pt sans-serif;color:#757575;letter-spacing: -0.05em;text-align:center;width:100%;\" id=\"#{:notice}\">#{flash[:notice]}</div>" %>					
+				<br />
+				<% flash[:notice] = nil%>
+			<%end%>
+
+			<%= render(:partial => "application/mailer")%>
+
+			<div style="text-align:center;width:100%;">
+				<%= submit_tag('Send',{:style => "width:120px;"}) %>
+			</div>
+			<%=end_form_tag%>
+	</div>
+	<br />
+  <div class="subbar" id='bar<%= @submission.id %>'>
+	<%= render( :partial => "subbar", :object => @submission, :locals => {:bShowFullDescription => bShowFullDescription})%>
+  </div>
+
+	<% if(bShowFullDescription == false) %>
+		<br />
+	<% end %>

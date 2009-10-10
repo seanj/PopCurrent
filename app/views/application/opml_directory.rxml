@@ -1,0 +1,44 @@
+xml.instruct! :xml, :version=>"1.0",:encoding=>"UTF-8"
+
+xml.opml "version" => "2.0" do
+  xml.head do
+    xml.title("PopCurrent OPML Directory")
+  end
+  xml.body do
+    xml.outline(:text => "PopCurrent - Hot",
+      :type => "link",
+      :url => url_for(:only_path => false, :controller => "/"))
+    xml.outline(:text => "PopCurrent - Newest",
+      :type => "link",
+      :url => url_for(:only_path => false, :controller => "/newest"))
+    xml.outline(:text => "PopCurrent - Best",
+      :type => "link",
+      :url => url_for(:only_path => false, :controller => "/best"))
+    xml.outline(:text => "PopCurrent - Worst",
+      :type => "link",
+      :url => url_for(:only_path => false, :controller => "/worst"))
+      
+    xml.outline(:text => RSS) do
+      xml.outline(:text => "PopCurrent - Hot",
+        :type => "rss",
+        :xmlUrl => url_for(:only_path => false, :controller => "/rss"))
+      xml.outline(:text => "PopCurrent - Newest",
+        :type => "rss",
+        :xmlUrl => url_for(:only_path => false, :controller => "/rss/newest"))
+      xml.outline(:text => "PopCurrent - Best",
+        :type => "rss",
+        :xmlUrl => url_for(:only_path => false, :controller => "/rss/best"))
+      xml.outline(:text => "PopCurrent - Worst",
+        :type => "rss",
+        :xmlUrl => url_for(:only_path => false, :controller => "/rss/worst"))
+    end
+
+    xml.outline(:text => "PopCurrent MediaRivers",
+      :type => "link",
+      :url => url_for(:only_path => false, :controller => "/river/rivers.opml"))
+      
+    xml.outline(:text => "PopCurrent Critics",
+      :type => "link",
+      :url => url_for(:only_path => false, :controller => "/critics.opml"))
+  end
+end

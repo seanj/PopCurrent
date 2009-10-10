@@ -1,0 +1,28 @@
+<%	counter = 0
+for @comment in @submission.comments%>
+	<div class="rbroundlistbox" style="width:99%;margin-bottom:6px;overflow:hidden;">
+		<div class="rbtop">
+			<div></div></div>
+			<div class="rbcontent" style="background:#ebebeb;">
+				<div class="comments" id="comments">
+					<table cellspacing="0"><tr><td class="commentheader">
+						<span class=""><%= counter+=1%>.&nbsp;<%= h(@comment.subject) %></span>
+						<span class="commentfrom">Posted By: <%= link_to(@comment.user_name, :controller => 'user', :action => 'profile', :user => @comment.user_name) %>,&nbsp;<%=time_ago_in_words(@comment.updated_at)%>&nbsp;ago&nbsp;</span>
+					</td></tr></table>
+					<div class="commenttext">
+						<% clean_comment = simple_format(h(@comment.body)) %>
+						<% clean_comment.gsub!(':)', '<img src="/images/smileys/smile.gif">')%>
+						<% clean_comment.gsub!(':(', '<img src="/images/smileys/sad.gif">')%>
+						<% clean_comment.gsub!(':|', '<img src="/images/smileys/mellow.gif">')%>
+						<% clean_comment.gsub!(':D', '<img src="/images/smileys/biggrin.gif">')%>
+						<% clean_comment.gsub!(':p', '<img src="/images/smileys/tongue.gif">')%>
+						<% clean_comment.gsub!(';)', '<img src="/images/smileys/wink.gif">')%>
+						<%= clean_comment %>
+					</div>
+					</table>
+				</div>
+			</div><!-- /rbcontent -->
+		<div class="rbbot"><div></div></div>
+	</div><!-- /rbroundbox -->
+	
+<% end %>

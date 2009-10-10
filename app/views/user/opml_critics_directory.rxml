@@ -1,0 +1,28 @@
+xml.instruct! :xml, :version=>"1.0",:encoding=>"UTF-8"
+
+xml.opml "version" => "2.0" do
+  xml.head do
+    xml.title("PopCurrent OPML Critics Directory")
+  end
+  xml.body do
+    for critic in @critics
+      xml.outline(:text => h(critic.login))
+    
+        xml.outline(:text => "Profile",
+          :type => "link",
+          :url => url_for(:only_path => false, :controller => "user", :action => "profile", :user => critic.login))
+          
+        xml.outline(:text => RSS) do
+          xml.outline(:text => "Popped",
+            :type => "rss",
+            :xmlUrl =>  url_for(:only_path => false, :controller => "user", :action => :rss, :user => critic.login, :type => "pop"))
+          xml.outline(:text => "Flopped",
+            :type => "rss",
+            :xmlUrl => url_for(:only_path => false, :controller => "user", :action => :rss, :user => critic.login, :type => "flop"))
+          xml.outline(:text => "Friends Feeds",
+            :type => "link",
+            :url => url_for(:only_path => false, :controller => "user", :action => "opml", :user => critic.login))
+        end
+    end
+  end
+end

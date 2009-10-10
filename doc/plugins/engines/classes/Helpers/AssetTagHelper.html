@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: ::Helpers::AssetTagHelper</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">::Helpers::AssetTagHelper</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/vendor/plugins/engines/lib/engines/action_view_extensions_rb.html">
+                vendor/plugins/engines/lib/engines/action_view_extensions.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000032">engine_image</a>&nbsp;&nbsp;
+      <a href="#M000034">engine_image_src</a>&nbsp;&nbsp;
+      <a href="#M000033">engine_image_tag</a>&nbsp;&nbsp;
+      <a href="#M000031">engine_javascript</a>&nbsp;&nbsp;
+      <a href="#M000030">engine_stylesheet</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000032" class="method-detail">
+        <a name="M000032"></a>
+
+        <div class="method-heading">
+          <a href="#M000032" class="method-signature">
+          <span class="method-name">engine_image</span><span class="method-args">(src, options = {})</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns a image tag based on the parameters passed to it Required option is
+option[:engine] in order to correctly idenfity the correct engine location
+</p>
+<pre>
+  engine_image 'rails-engines.png', :engine =&gt; 'my_engine', :alt =&gt; 'My Engine' =&gt;
+  &lt;img src=&quot;/engine_files/my_engine/images/rails-engines.png&quot; alt=&quot;My Engine /&gt;
+</pre>
+<p>
+Any options supplied as a Hash as the last argument will be processed as in
+image_tag.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000032-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000032-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/engines/lib/engines/action_view_extensions.rb, line 79</span>
+79:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">engine_image</span>(<span class="ruby-identifier">src</span>, <span class="ruby-identifier">options</span> = {})
+80:         <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">src</span>
+81: 
+82:         <span class="ruby-identifier">image_src</span> = <span class="ruby-identifier">engine_image_src</span>(<span class="ruby-identifier">src</span>, <span class="ruby-identifier">options</span>)
+83: 
+84:         <span class="ruby-identifier">options</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">:engine</span>)
+85: 
+86:         <span class="ruby-identifier">image_tag</span>(<span class="ruby-identifier">image_src</span>, <span class="ruby-identifier">options</span>)
+87:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000034" class="method-detail">
+        <a name="M000034"></a>
+
+        <div class="method-heading">
+          <a href="#M000034" class="method-signature">
+          <span class="method-name">engine_image_src</span><span class="method-args">(src, options = {})</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns a path to the image stored within the engine_files Required option
+is option[:engine] in order to correctly idenfity the correct engine
+location
+</p>
+<pre>
+  engine_image_src 'rails-engines.png', :engine =&gt; 'my_engine' =&gt;
+  &quot;/engine_files/my_engine/images/rails-engines.png&quot;
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000034-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000034-source">
+<pre>
+     <span class="ruby-comment cmt"># File vendor/plugins/engines/lib/engines/action_view_extensions.rb, line 100</span>
+100:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">engine_image_src</span>(<span class="ruby-identifier">src</span>, <span class="ruby-identifier">options</span> = {})
+101:         <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">Engines</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">options</span>[<span class="ruby-identifier">:engine</span>].<span class="ruby-identifier">to_sym</span>).<span class="ruby-identifier">public_dir</span>, <span class="ruby-value str">'images'</span>, <span class="ruby-identifier">src</span>)
+102:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000033" class="method-detail">
+        <a name="M000033"></a>
+
+        <div class="method-heading">
+          <a href="#M000033" class="method-signature">
+          <span class="method-name">engine_image_tag</span><span class="method-args">(src, options = {})</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Alias for <a href="AssetTagHelper.html#M000032">engine_image</a>
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000033-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000033-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/engines/lib/engines/action_view_extensions.rb, line 90</span>
+90:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">engine_image_tag</span>(<span class="ruby-identifier">src</span>, <span class="ruby-identifier">options</span> = {})
+91:         <span class="ruby-identifier">engine_image</span>(<span class="ruby-identifier">src</span>, <span class="ruby-identifier">options</span>)
+92:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000031" class="method-detail">
+        <a name="M000031"></a>
+
+        <div class="method-heading">
+          <a href="#M000031" class="method-signature">
+          <span class="method-name">engine_javascript</span><span class="method-args">(engine_name, *sources)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns a javascript link tag to the named stylesheet(s) for the given
+engine. A javascript file with the same name as the engine is included
+automatically. If other names are supplied, those javascript from within
+the same engine will be linked too.
+</p>
+<pre>
+  engine_javascript &quot;my_engine&quot; =&gt;
+  &lt;script type=&quot;text/javascript&quot; src=&quot;/engine_files/my_engine/javascripts/my_engine.js&quot;&gt;&lt;/script&gt;
+
+  engine_javascript &quot;my_engine&quot;, &quot;another_file&quot;, &quot;one_more&quot; =&gt;
+  &lt;script type=&quot;text/javascript&quot; src=&quot;/engine_files/my_engine/javascripts/my_engine.js&quot;&gt;&lt;/script&gt;
+  &lt;script type=&quot;text/javascript&quot; src=&quot;/engine_files/my_engine/javascripts/another_file.js&quot;&gt;&lt;/script&gt;
+  &lt;script type=&quot;text/javascript&quot; src=&quot;/engine_files/my_engine/javascripts/one_more.js&quot;&gt;&lt;/script&gt;
+</pre>
+<p>
+Any options supplied as a Hash as the last argument will be processed as in
+javascript_include_tag.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000031-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000031-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/engines/lib/engines/action_view_extensions.rb, line 66</span>
+66:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">engine_javascript</span>(<span class="ruby-identifier">engine_name</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">sources</span>)
+67:         <span class="ruby-identifier">javascript_include_tag</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">convert_public_sources</span>(<span class="ruby-identifier">engine_name</span>, <span class="ruby-identifier">:javascript</span>, <span class="ruby-identifier">sources</span>))       
+68:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000030" class="method-detail">
+        <a name="M000030"></a>
+
+        <div class="method-heading">
+          <a href="#M000030" class="method-signature">
+          <span class="method-name">engine_stylesheet</span><span class="method-args">(engine_name, *sources)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns a stylesheet link tag to the named stylesheet(s) for the given
+engine. A stylesheet with the same name as the engine is included
+automatically. If other names are supplied, those stylesheets from within
+the same engine will be linked too.
+</p>
+<pre>
+  engine_stylesheet &quot;my_engine&quot; =&gt;
+  &lt;link href=&quot;/engine_files/my_engine/stylesheets/my_engine.css&quot; media=&quot;screen&quot; rel=&quot;Stylesheet&quot; type=&quot;text/css&quot; /&gt;
+
+  engine_stylesheet &quot;my_engine&quot;, &quot;another_file&quot;, &quot;one_more&quot; =&gt;
+  &lt;link href=&quot;/engine_files/my_engine/stylesheets/my_engine.css&quot; media=&quot;screen&quot; rel=&quot;Stylesheet&quot; type=&quot;text/css&quot; /&gt;
+  &lt;link href=&quot;/engine_files/my_engine/stylesheets/another_file.css&quot; media=&quot;screen&quot; rel=&quot;Stylesheet&quot; type=&quot;text/css&quot; /&gt;
+  &lt;link href=&quot;/engine_files/my_engine/stylesheets/one_more.css&quot; media=&quot;screen&quot; rel=&quot;Stylesheet&quot; type=&quot;text/css&quot; /&gt;
+</pre>
+<p>
+Any options supplied as a Hash as the last argument will be processed as in
+stylesheet_link_tag.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000030-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000030-source">
+<pre>
+    <span class="ruby-comment cmt"># File vendor/plugins/engines/lib/engines/action_view_extensions.rb, line 46</span>
+46:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">engine_stylesheet</span>(<span class="ruby-identifier">engine_name</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">sources</span>)
+47:         <span class="ruby-identifier">stylesheet_link_tag</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">convert_public_sources</span>(<span class="ruby-identifier">engine_name</span>, <span class="ruby-identifier">:stylesheet</span>, <span class="ruby-identifier">sources</span>))
+48:       <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

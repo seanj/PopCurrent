@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: README</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>README</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>vendor/plugins/user_engine/README
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Thu Apr 20 15:51:17 EDT 2006</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h1><a href="../../../../classes/UserEngine.html">UserEngine</a>: Login + Roles</h1>
+<p>
+The <a href="../../../../classes/UserEngine.html">UserEngine</a> extends
+the LoginEngine with a very, <b>very</b> simple implementation of RBAC -
+role based access control. As well as the &#8216;User&#8217; object, the <a
+href="../../../../classes/UserEngine.html">UserEngine</a> provides
+Permission objects, and Role objects. Each User can have many Roles, and
+each Role is associated with many Permissions. A Permission is simple a
+controller/action pair. A Role which is associated with some permission has
+access to that specific controller/action, i.e. any Role associated with
+the Permission object &quot;user/home&quot; will be allowed to call that
+action.
+</p>
+<h3>Not the One True RBAC system</h3>
+<p>
+I&#8217;ll make this point at the beginning, so there can be no doubt -
+this is <b>not</b> a full permission system. The <a
+href="../../../../classes/UserEngine.html">UserEngine</a> only controls
+which users have the right to hit which controller/action pairs. It will
+not control access to data at all, so for instance you cannot use it to
+give users the ability to edit only a subset of your data object (unless
+that subset is controlled via different controller actions).
+</p>
+<h1>Installing</h1>
+<ol>
+<li>Create your Rails application, set up your databases, grab the Engines
+plugin and the LoginEngine, and install them.
+
+</li>
+<li>Install the <a href="../../../../classes/UserEngine.html">UserEngine</a>
+into your vendor/plugins directory
+
+</li>
+<li>Modify your Engines.start call in config/environment.rb - if you have
+specifically specified which Engines to start, ensure that you add :user
+(or :user_engine). The important point here is to note that the <a
+href="../../../../classes/UserEngine.html">UserEngine</a> must be started
+<b>after</b> the LoginEngine, since it will override a small amount of the
+behaviour in the latter. The end of your environment.rb file should look
+something like this:
+
+<pre>
+ Engines.start :login, :user
+
+  or
+
+    Engines.start :login
+    Engines.start :user
+
+  or simply:
+
+    Engines.start # note that this use assumes that you haven't renamed the user_engine
+                  # to anything which would come before 'login_engine' alphabetically
+</pre>
+</li>
+<li>Edit your application.rb file so it looks something like the following
+(note the new <tt>include <a
+href="../../../../classes/UserEngine.html">UserEngine</a></tt> and the
+changed <tt>before_filter</tt>):
+
+<pre>
+ class ApplicationController &lt; ActionController::Base
+   include LoginEngine
+   include UserEngine
+
+   helper :user
+   model :user
+
+   before_filter :authorize_action
+ end
+</pre>
+</li>
+<li>Edit your application_helper.rb file:
+
+<pre>
+ module ApplicationHelper
+   include LoginEngine
+   include UserEngine
+ end
+</pre>
+</li>
+<li>Perform any configuration you might need. You&#8216;ll probably want to set
+these values in environment.rb (before the call to Engines.start):
+
+<pre>
+ module UserEngine
+   config :admin_login, &quot;the login name for your administrator user&quot;
+   config :admin_email, &quot;an email address for your administrator&quot;
+   config :admin_password, &quot;your initial admin password&quot;
+ end
+</pre>
+</li>
+<li>Initialize the database tables. You must ensure that the tables for the
+LoginEngine are present since this engine builds on top of them. You will
+probably get a warning if this is your first installation of the User
+Engine, indicating that you don&#8217;t have an Admin role - that&#8217;s
+fine, we&#8217;ll be creating it later. You can either use the engine
+migrations by calling:
+
+<pre>
+ rake engine_migrate
+
+  to move all engines to their latest versions, or
+
+    rake engine_migrate ENGINE=user
+
+  to migrate only this engine. Alternatively, if you just want to load the full schema information for the User and LoginEngines, run
+
+    rake import_user_engine_schema
+</pre>
+</li>
+<li>Run the rake task to install the default Roles and administrator user. This
+will also create a new user with the Admin role - the default login (if you
+didn&#8217;t set it in step 6) is &#8216;admin&#8217; and the password is
+&#8216;testing&#8217;. Make sure you change it!:
+
+<pre>
+ rake bootstrap
+</pre>
+</li>
+<li>The <a href="../../../../classes/UserEngine.html">UserEngine</a> includes a
+method to check whether or not the system roles created above are still
+intact. You should typically call this each time the server starts, by
+placing the following call at the bottom of your environment.rb:
+
+<pre>
+ UserEngine.check_system_roles
+</pre>
+</li>
+<li>The <a href="../../../../classes/UserEngine.html">UserEngine</a> provides a
+default stylesheet and a small javascript helper file (used in the
+Role#edit action), so you&#8217;ll probably want to include the former and
+almost certainly the latter in your application&#8217;s layout. Add the
+following lines:
+
+<pre>
+  &lt;%= engine_stylesheet &quot;user_engine&quot; %&gt;
+  &lt;%= engine_javascript &quot;user_engine&quot; %&gt;
+</pre>
+</li>
+<li>Remove any existing sessions (since they might interfere with the login
+process), and start the server and log using your administrator login and
+password (if you didn&#8217;t set one explicitly in your configuration, the
+defaults are &#8216;admin&#8217;/&#8217;testing&#8217; - make sure you
+change them!) and go to <a
+href="http://localhost:3000/user/list">localhost:3000/user/list</a> to see
+a list of all the users. From there you can create new users, view roles
+&amp; permissions, and play around&#8230;
+
+</li>
+<li>Since the <a href="../../../../classes/UserEngine.html">UserEngine</a>
+overrides some of the default behaviour in the LoginEngine, if you have
+made your own modifications within your app directory, you&#8217;ll
+probably want to examine these changes to make sure that your own
+customisations will still operate as expected. You&#8216;ll need to look at
+the following:
+
+</li>
+</ol>
+<ul>
+<li>The <a href="../../../../classes/UserEngine.html">UserEngine</a>&#8217;s
+models/user.rb model will override the default given in LoginEngine. If you
+have your own app/models/user.rb file, you&#8217;ll need to include <a
+href="../../../../classes/UserEngine/AuthorizedUser.html">UserEngine::AuthorizedUser</a>
+in your file.
+
+</li>
+<li>The UserController#edit action has been overriden to know about Roles. See
+user_engine/app/user_controller.rb for details.
+
+</li>
+<li>Many new methods for administrating users, roles and permissions have been
+provided - again, see user_engine/app/user_controller.rb.
+
+</li>
+<li>If you have overridden any User views, look at the corresponding views in
+the <a href="../../../../classes/UserEngine.html">UserEngine</a> to see if
+there are any changes you wish to include in your own versions.
+
+</li>
+</ul>
+<h1>Configuration</h1>
+<p>
+A number of configuration parameters are available to allow to you control
+how the data is stored, should you be unhappy with the defaults. These are
+outlined below. You should almost certainly customize the
+<tt>:admin_email</tt> value in your environment.rb file, i.e.:
+</p>
+<pre>
+  module LoginEngine
+    config :salt, 'your salt value'
+  end
+  module UserEngine
+    config :admin_email, 'admin@megacorp.com'
+  end
+  Engines.start :login, :user
+</pre>
+<h3>Configuration Options</h3>
+<table>
+<tr><td valign="top"><tt>role_table</tt>:</td><td>the name of the table to store Role objects in. Defaults to
+&quot;roles&quot; (or &quot;role&quot; if you have disabled pluralization.)
+
+</td></tr>
+<tr><td valign="top"><tt>permission_table</tt>:</td><td>the name of the table to store Permission objects in. Defaults to
+&quot;permissions&quot; (or &quot;permission&quot; if you have disabled
+pluralization.)
+
+</td></tr>
+<tr><td valign="top"><tt>user_role_table</tt>:</td><td>the join table for users and roles. Defaults to
+&lt;user_table&gt;_&lt;role_table&gt;. (User table is specified in the
+LoginEngine configuration).
+
+</td></tr>
+<tr><td valign="top"><tt>permission_role_table</tt>:</td><td>the join table for roles and permissions. Defaults to
+&lt;permission_table&gt;_&lt;role_table&gt;.
+
+</td></tr>
+<tr><td valign="top"><tt>guest_role_name</tt>:</td><td>the name for the Guest Role. Defaults to &quot;Guest&quot;.
+
+</td></tr>
+<tr><td valign="top"><tt>user_role_name</tt>:</td><td>the name for the User Role. Defaults to &quot;User&quot;.
+
+</td></tr>
+<tr><td valign="top"><tt>admin_role_name</tt>:</td><td>the name for the Admin Role. Defaults to &quot;Admin&quot;.
+
+</td></tr>
+<tr><td valign="top"><tt>admin_login</tt>:</td><td>the login ID for the initial Admin user. Defaults to &quot;admin&quot;.
+
+</td></tr>
+<tr><td valign="top"><tt>admin_email</tt>:</td><td>the email address of the site administrator. Defaults to
+&quot;admin@your.company&quot;.
+
+</td></tr>
+<tr><td valign="top"><tt>login_page</tt>:</td><td>a Hash describing where the login page. Defaults to {:controller =&gt;
+&#8216;user&#8217;, :action =&gt; &#8216;login&#8217;}
+
+</td></tr>
+<tr><td valign="top"><tt>steath</tt>:</td><td>a boolean flag to indicate whether or not the system should display helpful
+messages about authorized roles when they are denied access to an action,
+or if it should simply deny the user access without revealing which roles
+can access that action. Defaults to false (i.e. DO show helpful messages).
+
+</td></tr>
+</table>
+<h1>Usage</h1>
+<h3>Users</h3>
+<p>
+Once you have logged in as an administrator, you can go to /user/list to
+get a list of all users. Here you can also create new users (/user/new) and
+edit the details of the users in your system.
+</p>
+<p>
+If you edit a user (/user/edit_user/<tt>id</tt>), you can now not only
+change user details and passwords, but also specify which roles the user
+has.
+</p>
+<h3>Roles</h3>
+<p>
+Three distinct Role objects are initially created when you bootstrap the <a
+href="../../../../classes/UserEngine.html">UserEngine</a>
+</p>
+<ul>
+<li>Guest, with permissions to login, signup and retrieve forgotten passwords
+
+</li>
+<li>User, with permissions to logout, to to /user/home, change passwords and
+edit their own information
+
+</li>
+<li>Admin, with permissions to edit all users, list users, edit all roles, edit
+permissions, and so on.
+
+</li>
+</ul>
+<p>
+New roles can easily be created at /role/new, where you can select exactly
+which permissions this role should have. A similar interface is presented
+in /role/edit/<tt>id</tt>. For instance, if you have a ReportController
+with the actions <tt>view</tt> and <tt>edit</tt>, you might create two new
+Roles - &#8216;ReportViewer&#8217; and ReportEditor&#8217;. The only
+permissions the ReportViewer has will be report/view, and the only
+permission assigned to ReportEditor is similarly report/edit. You can now
+assign the ReportViewer role to as many users as will need to be able to
+view reports, but only give the ReportEditor to users who should also be
+able to edit reports.
+</p>
+<p>
+It&#8217;s worth noting that this point that if a user has the ability to
+edit other users (/user/edit_user), they will be able to assign Roles
+(including the Admin role) to anyone they please. Similarly, users who can
+edit roles (/role/edit) can add any permissions at all to any Role within
+the system. Therefore you (as the system administrator) must be <b>very</b>
+careful about allowing these permissions on any role other than Admin.
+</p>
+<p>
+In general, you should not give normal users <b>any</b> permissions other
+than the default ones, and permissions to any controllers specific to
+<b>your</b> application.
+</p>
+<h3>Permissions</h3>
+<p>
+While you can create permissions using the regular scaffold-style
+interface, it is better to avoid manually creating them if possible.
+Instead, a method is provided for automatically scanning your controllers
+and ensuring that there exists a Permission object for each
+controller-action pair. This method is
+<tt>Permission.sychronize_controllers</tt> (or just
+<tt>Permission.sync</tt> as a shorthand), and can be called either from the
+console, or as a rake task:
+</p>
+<pre>
+  rake sync_permissions
+</pre>
+<p>
+It may be worth noting that currently this method will deliberately
+<b>never</b> delete any permission objects from your system, even if the
+method is no longer present.
+</p>
+<h2>Helper methods</h2>
+<p>
+The <a href="../../../../classes/UserEngine.html">UserEngine</a> provides
+several helpers which understand permissions and roles, to be used in your
+views. The two most important are outlined below.
+</p>
+<h3>link_if_authorized(controller, action)</h3>
+<p>
+<tt>link_if_authorized</tt> will produce a link to an action <b>only</b> if
+the currently logged-in user has permission to perform the given action. It
+can be passed options to show the text (without a link) if the user is not
+authorized, or to wrap the text in another HTML element (i.e an li element)
+if a link is to be produced.
+</p>
+<h3>authorized?(controller, action)</h3>
+<p>
+<tt>authorized?</tt> will simply return true or false to reflect the
+current user&#8217;s authorization for the given action. This method can
+also take a block, which will only be performed if the user is authorized
+for the given action. In this manner you can control the display chunks of
+HTML or certain processing based on the permissions of the current user.
+</p>
+<h1>Notes</h1>
+<h3>Database Schemas &amp; Testing</h3>
+<p>
+Currently, since not all databases appear to support structure cloning, the
+tests will load the entire schema into your test database, potentially
+blowing away any other test structures you might have. If this presents an
+issue for your application, comment out the line in test/test_helper.rb
+</p>
+<h1>LICENSE</h1>
+<p>
+Copyright &#169; 2005 James Adam
+</p>
+<p>
+This is the MIT license, the license Ruby on Rails itself is licensed
+under.
+</p>
+<p>
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the
+&quot;Software&quot;), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to the
+following conditions:
+</p>
+<p>
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+</p>
+<p>
+THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+USE OR OTHER DEALINGS IN THE SOFTWARE.
+</p>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

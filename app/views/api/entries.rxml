@@ -1,0 +1,19 @@
+xml.instruct!
+
+xml.entries do
+  xml.title 'PopCurrent Entries'
+
+  @submissions.each do |@submission|
+    xml.entry do
+      xml.title(h(@submission.title))
+      xml.link(url_for(:only_path => false, :controller => 'submissions', :action => :urlname, :urlname => @submission.urlname))
+      xml.description(h(@submission.description))
+      xml.pubDate(CGI.rfc1123_date(@submission.created_at))
+      xml.category(h(@submission.category))
+      xml.media_link(h(@submission.url))
+      xml.author(h(@submission.user.login))
+      xml.tags(h(@submission.tags.collect{|tag| tag.name.downcase}.join(", ")))
+      xml.pop_total(@submission.vote_total)
+    end
+  end
+end

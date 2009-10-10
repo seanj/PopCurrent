@@ -1,0 +1,28 @@
+<div id="userbox">
+		<%if(@sub_users)%>
+			<ul>
+				<%for @sub_user in @sub_users%>
+				<%if @sub_user.profile.user%>
+				<li>
+					<%= image_tag(url_for_file_column(@sub_user.profile, "image_url", "thumb"), :alt => '') rescue '<img src="/images/noimage_16.gif" />'%>
+					<a href='/critics/<%= @sub_user.profile.user.login %>'><%= format_nobreak(truncate(h(@sub_user.profile.user.login),25)) %></a>
+				</li>
+				<%end%>
+				<%end%>
+			</ul>
+		<% end %>
+		<%if(@sub_user_pages)%>
+			<div class="subpage">
+				<span>Page <%=@sub_user_pages.current.number.to_s%> of <%=@sub_user_pages.page_count%></span>
+				<% if @sub_user_pages.current.previous %>
+					<%= link_to_remote(h('<< Previous'),  
+						{:update => "userbox", :url => {:action => :show_friends, :id => @user.id, :page => @sub_user_pages.current.previous, :subtype => params[:subtype] }}) %> 
+				<% end %>
+				<% if @sub_user_pages.current.next %>
+					<%= link_to_remote(h('Next >>'), 
+						{:update => "userbox", :url => {:action => :show_friends, :id => @user.id, :page => @sub_user_pages.current.next, :subtype => params[:subtype] }}) %> 
+				<% end%>
+			</div>
+		<% end %>
+</div>
+
